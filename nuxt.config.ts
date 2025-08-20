@@ -1,18 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-    compatibilityDate: '2025-07-15',
-    devtools: { enabled: true },
-
-    modules: [
-      '@nuxt/eslint',
-      '@nuxt/icon',
-      '@nuxt/image',
-      '@nuxt/test-utils',
-      '@nuxt/ui',
-      '@nuxtjs/apollo',
-      '@pinia/nuxt',
-    ],
-
     apollo: {
         clients: {
             default: {
@@ -20,7 +7,11 @@ export default defineNuxtConfig({
             }
         }
     },
-
+    compatibilityDate: '2025-07-15',
+    css: [
+        '~/assets/styles/app.scss'
+    ],
+    devtools: { enabled: true },
     icon: {
         customCollections: [
             {
@@ -29,8 +20,23 @@ export default defineNuxtConfig({
             }
         ]
     },
-
-    css: [
-        '~/assets/styles/app.scss'
-    ]
+    imports: {
+        dirs: ['types']
+    },
+    modules: [
+        '@nuxt/eslint',
+        '@nuxt/fonts',
+        '@nuxt/icon',
+        '@nuxt/image',
+        '@nuxt/test-utils',
+        '@nuxt/ui',
+        '@nuxtjs/apollo',
+        '@pinia/nuxt',
+    ],
+    runtimeConfig: {
+        apiUrl: 'http://localhost:8080',
+    },
+    typescript: {
+        strict: true
+    }
 })

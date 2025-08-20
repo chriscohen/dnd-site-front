@@ -7,7 +7,7 @@ await callOnce(store.getAll);
 
 <template>
     <ul>
-        <li v-for="item in store.magicSchools" :key="item.id">
+        <li v-for="item in store.contents" :key="item.id">
             <img :src="'/images/magic-schools/' + item.id + '.webp'" :alt="item.name + ' icon'">
             {{ item.name }}
         </li>

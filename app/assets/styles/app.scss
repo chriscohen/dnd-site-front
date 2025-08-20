@@ -1,3 +1,18 @@
-﻿.primary {
+﻿@use 'fonts';
+
+.primary {
     color: #ff0000;
+}
+
+body {
+    font-family: Bookmania, Roboto, sans-serif;
+    font-weight: 400;
+}
+
+strong, b {
+    font-weight: 700;
+}
+
+em, i {
+    font-style: italic;
 }

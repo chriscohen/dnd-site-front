@@ -1,21 +1,21 @@
 ﻿import { defineStore } from 'pinia';
 
-export const useMagicSchoolStore = defineStore('magicSchool', {
+export const useAttackTypeStore = defineStore('attackType', {
     state: () => ({
-        magicSchools: [],
+        contents: [] as IAttackType[],
     }),
     actions: {
         async getAll() {
             const query = gql`
                 query {
-                    magicSchools {
+                    attackTypes {
                         id
                         name
                     }
                 }`;
 
             const { data } = await useAsyncQuery(query);
-            this.magicSchools = data.value.magicSchools;
+            this.contents = data.value.attackTypes;
         }
     }
 });
