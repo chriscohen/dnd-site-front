@@ -1,0 +1,13 @@
+﻿<script setup lang="ts">
+import BadgeBase from "~/components/badges/BadgeBase.vue";
+
+const props = defineProps({
+    type: { type: String, required: true },
+});
+</script>
+
+<template>
+    <UTooltip arrow text="An official source" :delay-duration="0.25">
+        <BadgeBase :label="props.type"/>
+    </UTooltip>
+</template>
