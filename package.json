@@ -30,7 +30,7 @@
     "@iconify-json/lucide": "^1.2.63",
     "@nuxtjs/apollo": "^5.0.0-alpha.15",
     "@types/node": "^24.3.0",
-    "sass": "^1.90.0",
+    "sass": "^1.91.0",
     "typescript": "^5.9.2",
     "vue-tsc": "^3.0.5"
   }

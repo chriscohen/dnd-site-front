@@ -6,7 +6,7 @@ console.log(props.campaignSetting);
 </script>
 
 <template>
-    <div class="w-64">
+    <div class="w-64 teaser">
         <ULink :to="'/campaign-settings/' + props.campaignSetting.slug">
             <img
                 v-if="props.campaignSetting.logo"
@@ -20,3 +20,7 @@ console.log(props.campaignSetting);
         </ULink>
     </div>
 </template>
+
+<style lang="scss" scoped>
+@forward '~/assets/css/components/teasers';
+</style>

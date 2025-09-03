@@ -4,6 +4,7 @@ export interface IAttackType {
 }
 
 export interface ICampaignSetting {
+    __typename: "Campaign Setting"
     id: string
     slug: string
     name: string
@@ -23,6 +24,7 @@ export interface ICategory {
 }
 
 export interface ICompany {
+    __typename: "Company"
     id: string
     slug: string
     name: string
@@ -65,6 +67,7 @@ export interface IMedia {
 }
 
 export interface ISourcebook {
+    __typename: "Sourcebook",
     id: string
     slug: string
     name: string

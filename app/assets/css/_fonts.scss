@@ -1,0 +1,56 @@
+﻿@font-face {
+    font-family: 'Bookmania';
+    src: url('/fonts/bookmania-300.otf') format('opentype');
+    font-weight: 300;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Bookmania';
+    src: url('/fonts/bookmania-300-italic.otf') format('opentype');
+    font-weight: 300;
+    font-style: italic;
+}
+@font-face {
+    font-family: 'Bookmania';
+    src: url('/fonts/bookmania.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Bookmania';
+    src: url('/fonts/bookmania-italic.otf') format('opentype');
+    font-weight: 400;
+    font-style: italic;
+}
+@font-face {
+    font-family: 'Bookmania';
+    src: url('/fonts/bookmania-700.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Bookmania';
+    src: url('/fonts/bookmania-700-italic.otf') format('opentype');
+    font-weight: 700;
+    font-style: italic;
+}
+@font-face {
+    font-family: 'Mrs Eaves';
+    src: url('/fonts/mrs-eaves-small-caps-400.otf') format('opentype');
+    font-weight: 400;
+}
+@font-face {
+    font-family: 'Modesto Condensed';
+    src: url('/fonts/modesto-condensed.otf') format('opentype');
+    font-weight: 400;
+}
+
+@mixin mrs-eaves {
+    font-family: 'Mrs Eaves', serif;
+}
+@mixin bookmania {
+    font-family: 'Bookmania', serif;
+}
+@mixin modesto {
+    font-family: 'Modesto Condensed', sans-serif;
+}

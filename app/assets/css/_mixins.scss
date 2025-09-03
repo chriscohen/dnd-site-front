@@ -1,0 +1,23 @@
+﻿@use 'sass:color';
+@use 'colors' as c;
+
+@mixin text-shadow {
+    text-shadow: 2px 2px 0 c.$shadow;
+};
+@mixin drop-shadow {
+    box-shadow:
+        rgba(22, 31, 39, 0.42) 0 60px 123px -25px,
+        rgba(19, 26, 32, 0.08) 0 35px 75px -35px;
+};
+
+@mixin rotate-towards() {
+    transform: perspective(75rem) rotateX(10deg);
+    transition: 500ms ease-in-out;
+
+    &:hover {
+        transform: scale(105%);
+    }
+};
+@mixin outer-glow {
+    box-shadow: 0 0 1rem 0.25rem color.scale(c.$white, $lightness: -50%);
+}

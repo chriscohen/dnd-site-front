@@ -6,8 +6,12 @@ const props = defineProps({
 </script>
 
 <template>
-    <div class="sourcebook-teaser p-4 bg-gray-950/50 transition duration-500 ease-in-out hover:bg-gray-950/40">
+    <NuxtLink :to="'/sources/' + props.data.slug" class="shrink teaser">
         <MediaCoverImage :sourcebook="props.data" />
-        <h3 class="text-center text-lg mt-3 max-w-[256px]">{{ props.data.name }}</h3>
-    </div>
+        <h3>{{ props.data.name }}</h3>
+    </NuxtLink>
 </template>
+
+<style scoped lang="scss">
+@forward '~/assets/css/components/teasers';
+</style>

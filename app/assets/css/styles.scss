@@ -1,0 +1,30 @@
+﻿@use 'colors';
+@use 'fonts';
+@use 'tabs';
+@use 'typography';
+
+@use 'nuxt-ui/router';
+
+@forward 'fonts';
+@forward 'mixins';
+@forward 'typography';
+
+:root {
+    background: colors.$black;
+    color: colors.$gray-200;
+
+    font-size: 16px;
+
+    @include fonts.bookmania;
+}
+
+body,
+div#__nuxt {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+
+    background: radial-gradient(colors.$gray-800, colors.$gray-950);
+}

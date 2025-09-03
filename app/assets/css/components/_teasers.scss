@@ -1,0 +1,31 @@
+﻿@use 'sass:color';
+@use '../colors';
+@use '../fonts';
+@use '../mixins';
+
+.teaser {
+    @include fonts.modesto;
+
+    background: color.scale(colors.$gray-950, $alpha: -60%);
+    padding: 1.5rem;
+    flex-shrink: 1;
+    transition:
+        color 250ms ease-in-out,
+        background 500ms ease-in-out;
+
+    > img {
+        margin: auto;
+    }
+
+    > h3 {
+        margin-top: 1rem;
+        max-width: 16rem;
+        text-align: center;
+        @include mixins.text-shadow;
+    }
+
+    &:hover {
+        background: color.scale(colors.$gray-950, $alpha: -20%);
+        color: colors.$text-hover;
+    }
+}

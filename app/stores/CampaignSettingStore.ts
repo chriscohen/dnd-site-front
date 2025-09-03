@@ -1,5 +1,14 @@
 ﻿import { defineStore } from 'pinia';
 import type {ICampaignSetting} from "~/utils";
+import type {TypedQueryDocumentNode} from "graphql/utilities";
+
+type GetCampaignSettingQuery = {
+    campaignSetting: ICampaignSetting
+}
+type GetCampaignSettingsQuery = {
+    campaignSettings: ICampaignSetting[]
+};
+type GetCampaignSettingsQueryVariables = Record<string, never>;
 
 export const useCampaignSettingStore = defineStore('campaignSetting', {
     state: () => ({
@@ -15,12 +24,14 @@ export const useCampaignSettingStore = defineStore('campaignSetting', {
             });
             return false;
         },
-        getBySlug(slug: string): ICampaignSetting | undefined {
+        getBySlug(slug: string): Promise<ICampaignSetting | null> {
             const item = this.items.find((item) => item.slug === slug);
-            return item === undefined ? this.getBySlugFromApi(slug) : item;
+            return item === undefined ?
+                this.getBySlugFromApi(slug) :
+                new Promise<ICampaignSetting>((resolve) => resolve(item));
         },
-        async getBySlugFromApi(slug: string): Promise<ICampaignSetting> {
-            const query = gql`
+        async getBySlugFromApi(slug: string): Promise<ICampaignSetting | null> {
+            const query: TypedQueryDocumentNode<GetCampaignSettingQuery, GetCampaignSettingsQueryVariables> = gql`
                 query {
                     campaignSetting(slug: "${slug}") {
                         id
@@ -39,23 +50,28 @@ export const useCampaignSettingStore = defineStore('campaignSetting', {
                     }
                 }`;
 
-            const { data, error} = await useAsyncQuery(query, { slug: slug });
-            const item: (ICampaignSetting | undefined) = data.value.campaignSetting;
+            const { data, error } =
+                await useAsyncQuery<GetCampaignSettingsQuery, GetCampaignSettingsQueryVariables>(query, { slug: slug });
 
-            if (error.value === undefined && item !== undefined && !this.contains(item.slug)) {
+            if  (error.value) {
+                return null;
+            }
+            const item: (ICampaignSetting | null) = data.value?.campaignSetting ?? null;
+
+            if (item !== null && !this.contains(item?.slug)) {
                 this.$patch((state) => {
                     state.items.push(item);
                 });
             }
 
-            console.log('item', item);
-
-            return item as ICampaignSetting;
+            return item;
         },
-        getAll(): ICampaignSetting[] {
-            return this.allLoaded ? this.items : this.getAllFromApi();
+        async getAll(): Promise<ICampaignSetting[] | null> {
+            return this.allLoaded ?
+                new Promise<ICampaignSetting[]>((resolve) => resolve(this.items)) :
+                this.getAllFromApi();
         },
-        async getAllFromApi(): Promise<ICampaignSetting[]> {
+        async getAllFromApi(): Promise<ICampaignSetting[] | null> {
             const query = gql`
                 query {
                     campaignSettings {
@@ -75,7 +91,11 @@ export const useCampaignSettingStore = defineStore('campaignSetting', {
                     }
                 }`;
 
-            const { data } = await useAsyncQuery(query);
+            const { data, error } = await useAsyncQuery(query);
+
+            if (error.value) {
+                return null;
+            }
             this.items = [];
 
             data.value.campaignSettings.forEach((item: ICampaignSetting) => {
@@ -84,6 +104,7 @@ export const useCampaignSettingStore = defineStore('campaignSetting', {
                 });
             });
             this.allLoaded = true;
+            console.log('returning');
             return this.items;
         }
     }

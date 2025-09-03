@@ -1,5 +1,13 @@
 ﻿import { defineStore } from 'pinia';
 
+type GetSourceQuery = {
+    source: ISourcebook
+};
+type GetSourcesQuery = {
+    sources: ISourcebook[]
+};
+type GetSourcesQueryVariables = Record<string, never>;
+
 export const useSourcebookStore = defineStore('sourcebook', {
     state: () => ({
         items: [] as ISourcebook[],
@@ -14,13 +22,13 @@ export const useSourcebookStore = defineStore('sourcebook', {
             });
             return false;
         },
-        getBySlug(slug: string): Promise<ISourcebook> {
+        getBySlug(slug: string): Promise<ISourcebook | null> {
             const item = this.items.find((item) => item.slug === slug);
             return item === undefined ?
                 this.getBySlugFromApi(slug) :
-                new Promise<ISourcebook>(resolve => resolve(item));
+                new Promise<ISourcebook | null>(resolve => resolve(item));
         },
-        async getBySlugFromApi(slug: string): Promise<ISourcebook> {
+        async getBySlugFromApi(slug: string): Promise<ISourcebook | null> {
             const query = gql`
                 query {
                     source(slug: "${slug}") {
@@ -83,23 +91,28 @@ export const useSourcebookStore = defineStore('sourcebook', {
                     }
                 }`;
 
-            const { data, error} = await useAsyncQuery(query, { slug: slug });
-            const item: (ISourcebook | undefined) = data.value.source;
+            const { data, error } =
+                await useAsyncQuery<GetSourceQuery, GetSourcesQueryVariables>(query, { slug: slug });
 
-            if (error.value === undefined && item !== undefined && !this.contains(item.slug)) {
+            if  (error.value) {
+                return null;
+            }
+            const item: (ISourcebook | null) = data.value?.source ?? null;
+
+            if (item !== null && !this.contains(item?.slug)) {
                 this.$patch((state) => {
                     state.items.push(item);
                 });
             }
 
-            return item as ISourcebook;
+            return item;
         },
-        getAll(): Promise<ISourcebook[]> {
+        getAll(): Promise<ISourcebook[] | null> {
             return this.allLoaded ?
                 new Promise<ISourcebook[]>((resolve) => resolve(this.items))
                 : this.getAllFromApi();
         },
-        async getAllFromApi(): Promise<ISourcebook[]> {
+        async getAllFromApi(): Promise<ISourcebook[] | null> {
             const query = gql`
                 query {
                     sources {
@@ -162,10 +175,13 @@ export const useSourcebookStore = defineStore('sourcebook', {
                     }
                 }`;
 
-            const { data } = await useAsyncQuery(query);
+            const { data, error } = await useAsyncQuery<GetSourcesQuery, GetSourcesQueryVariables>(query);
 
+            if (error.value) {
+                return null;
+            }
             this.items = [];
-            data.value.sources.forEach((item: ISourcebook) => {
+            data.value?.sources.forEach((item: ISourcebook) => {
                 this.$patch((state) => {
                     state.items.push(item);
                 });
