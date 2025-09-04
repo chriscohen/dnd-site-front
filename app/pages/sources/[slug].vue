@@ -4,11 +4,16 @@ import PublicationTypeBadge from "~/components/badges/PublicationTypeBadge.vue";
 import SourcebookDetailsList from "~/components/lists/SourcebookDetailsList.vue";
 import ProseContainer from "~/components/text/ProseContainer.vue";
 import CoverArtLarge from "~/components/media/CoverArtLarge.vue";
+import ProductLinkButtonContainer from "~/components/containers/ProductLinkButtonContainer.vue";
 
 const route = useRoute();
 const store = useSourcebookStore();
 
 const item = await store.getBySlug(route.params.slug as string);
+
+useHead({
+    title: item ? item.name : 'Loading',
+});
 </script>
 
 <template>
@@ -35,7 +40,13 @@ const item = await store.getBySlug(route.params.slug as string);
                     <!-- Under Heading -->
                     <div class="grid grid-cols-3 gap-16 items-start">
                         <!-- Left of "Under Heading" -->
-                        <SourcebookDetailsList :sourcebook="item as ISourcebook"/>
+                        <div class="flex flex-col gap-2">
+                            <SourcebookDetailsList :sourcebook="item as ISourcebook"/>
+                            <ProductLinkButtonContainer
+                                v-show="(item as ISourcebook).product_ids.length > 1"
+                                :sourcebook="item as ISourcebook"
+                            />
+                        </div>
                         <!-- Left of "Under Heading" -->
 
                         <!-- Right of "Under Heading -->

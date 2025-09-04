@@ -31,3 +31,8 @@ a {
 .page-title {
     @include fonts.modesto;
 }
+
+.prose {
+    font-size: 1.5rem;
+    font-weight: 300;
+}

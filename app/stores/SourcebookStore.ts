@@ -37,6 +37,18 @@ export const useSourcebookStore = defineStore('sourcebook', {
                         name
                         description
                         product_code
+                        product_ids {
+                            origin {
+                                id
+                                slug
+                                name
+                                logo {
+                                    url
+                                }
+                            }
+                            product_id
+                            url
+                        }
                         source_type
                         game_edition
                         publication_type
@@ -121,6 +133,18 @@ export const useSourcebookStore = defineStore('sourcebook', {
                         name
                         description
                         product_code
+                        product_ids {
+                            origin {
+                                id
+                                slug
+                                name
+                                logo {
+                                    url
+                                }
+                            }
+                            product_id
+                            url
+                        }
                         source_type
                         game_edition
                         publication_type

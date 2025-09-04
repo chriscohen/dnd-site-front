@@ -2,6 +2,17 @@
 import tailwindcss from "@tailwindcss/vite";
 
 export default defineNuxtConfig({
+    app: {
+        head: {
+            charset: "utf-8",
+            htmlAttrs: {
+                lang: "en",
+            },
+            title: 'D&D Site',
+            viewport: 'width=device-width, initial-scale=1, maximum-scale=1',
+        }
+    },
+
     apollo: {
         clients: {
             default: {

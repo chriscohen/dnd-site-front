@@ -28,6 +28,8 @@ export interface ICompany {
     id: string
     slug: string
     name: string
+    logo?: IMedia
+    product_url: string
     short_name?: string
     website?: string
 }
@@ -52,11 +54,13 @@ export interface IItemEdition {
 }
 
 export interface IMagicSchool {
+    __typename: "Magic School"
     id: string
     name: string
 }
 
 export interface IMedia {
+    __typename: "Media"
     id: string
     url: string
     collection_name?: string
@@ -66,19 +70,29 @@ export interface IMedia {
     mime_type?: string
 }
 
+export interface IProductId {
+    __typename: "Product ID"
+    id: string
+    origin: ICompany
+    product_id: string
+    source: ISourcebook
+    url?: string
+}
+
 export interface ISourcebook {
     __typename: "Sourcebook",
     id: string
     slug: string
     name: string
-    description: string
-    product_code: string
-    source_type: string
-    game_edition: string
-    publication_type: string
-    cover_image: IMedia
     campaign_setting?: ICampaignSetting
+    cover_image: IMedia
+    description: string
     editions: ISourcebookEdition[]
+    game_edition: string
+    product_code: string
+    product_ids: IProductId[]
+    publication_type: string
+    source_type: string
 }
 
 export interface ISourcebookEdition {
@@ -86,6 +100,7 @@ export interface ISourcebookEdition {
     sourcebook_id: string
     name: string
     binding: string
+    formats: string[]
     isbn10: string
     isbn13: string
     pages: number

@@ -5,6 +5,7 @@
 
 @use 'nuxt-ui/router';
 
+@forward 'backgrounds';
 @forward 'fonts';
 @forward 'mixins';
 @forward 'typography';
@@ -27,4 +28,11 @@ div#__nuxt {
     overflow: hidden;
 
     background: radial-gradient(colors.$gray-800, colors.$gray-950);
+}
+
+/**
+ * Defaults
+ */
+.default-padding {
+    padding: 0.5rem 1rem;
 }

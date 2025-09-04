@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import SourcebookTeaser from "~/components/teasers/SourcebookTeaser.vue";
 
-useSeoMeta({
+useHead({
     title: 'Sources',
 });
 
