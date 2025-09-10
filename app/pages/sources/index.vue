@@ -10,17 +10,19 @@ await store.getAll();
 </script>
 
 <template>
-
-    <div class="flex gap-4">
+    <div class="teaser-container">
         <Suspense>
             <template v-for="item in store.items" :key="item.id">
                 <SourcebookTeaser :data="item"/>
-                <USkeleton class="skeleton"/>
             </template>
 
             <template #fallback>
-                <USkeleton></USkeleton>
+                LOADING
             </template>
         </Suspense>
     </div>
 </template>
+
+<style scoped lang="scss">
+@forward '~/assets/css/components/teasers';
+</style>

@@ -15,12 +15,20 @@ const props = defineProps({
 </template>
 
 <style scoped lang="scss">
-@use '~/assets/css/mixins';
+@use '~/assets/css/mixins/mixins';
+@use '~/assets/css/variables/variables';
 
 .cover-art-large {
+    border-radius: 0.5rem;
     max-width: 40rem;
+    scale: 100%;
+    transition: variables.$default-delay ease-in-out;
+
+    &:hover {
+        scale: 103%
+    }
 
     @include mixins.drop-shadow;
-    @include mixins.rotate-towards;
+    @include mixins.rotate-towards(5deg);
 }
 </style>

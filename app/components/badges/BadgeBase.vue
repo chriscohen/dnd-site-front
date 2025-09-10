@@ -1,12 +1,17 @@
 ﻿<script setup lang="ts">
 const props = defineProps({
+    class: { type: String, default: '' },
     label: { type: String, required: true },
     extraText: { type: String, required: false, default: '' }
 });
 </script>
 
 <template>
-    <div class="px-2 rounded-full flex gap-2 font-[Mrs_Eaves]">
+    <div :class="'badge ' + props.class">
         {{ props.label }}
     </div>
 </template>
+
+<style scoped lang="scss">
+@use '~/assets/css/badges';
+</style>

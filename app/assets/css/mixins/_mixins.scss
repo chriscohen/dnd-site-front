@@ -1,5 +1,5 @@
 ﻿@use 'sass:color';
-@use 'colors' as c;
+@use '../variables/colors' as c;
 
 @mixin text-shadow {
     text-shadow: 2px 2px 0 c.$shadow;
@@ -10,8 +10,8 @@
         rgba(19, 26, 32, 0.08) 0 35px 75px -35px;
 };
 
-@mixin rotate-towards() {
-    transform: perspective(75rem) rotateX(10deg);
+@mixin rotate-towards($amount) {
+    transform: perspective(75rem) rotateX($amount);
     transition: 500ms ease-in-out;
 
     &:hover {
@@ -22,9 +22,23 @@
     box-shadow: 0 0 1rem 0.25rem color.scale(c.$white, $lightness: -50%);
 }
 
+@mixin stripes($colorDark, $colorLight, $gap) {
+    background: repeating-linear-gradient(
+            -45deg,
+            $colorDark,
+            $colorDark $gap,
+            $colorLight $gap,
+            $colorLight calc($gap * 2)
+    );
+}
+
 @mixin backgroundBlack($opacity) {
     background-color: rgba(0, 0, 0, $opacity);
 }
 @mixin backgroundWhite($opacity) {
     background-color: rgba(255, 255, 255, $opacity);
+}
+
+@mixin backgroundHorizontalGradient($baseColor, $lightness) {
+    background-image: linear-gradient($baseColor, color.scale($baseColor, $lightness));
 }

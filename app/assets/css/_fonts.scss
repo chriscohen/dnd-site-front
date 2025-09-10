@@ -1,4 +1,7 @@
-﻿@font-face {
+﻿/**
+ * Bookmania
+ */
+@font-face {
     font-family: 'Bookmania';
     src: url('/fonts/bookmania-300.otf') format('opentype');
     font-weight: 300;
@@ -34,23 +37,51 @@
     font-weight: 700;
     font-style: italic;
 }
+
+/**
+ * Mrs Eaves
+ */
 @font-face {
     font-family: 'Mrs Eaves';
     src: url('/fonts/mrs-eaves-small-caps-400.otf') format('opentype');
     font-weight: 400;
 }
+
+/**
+ * Modesto
+ */
 @font-face {
     font-family: 'Modesto Condensed';
     src: url('/fonts/modesto-condensed.otf') format('opentype');
     font-weight: 400;
 }
 
-@mixin mrs-eaves {
-    font-family: 'Mrs Eaves', serif;
+/**
+ * Nunito
+ */
+@font-face {
+    font-family: 'Nunito';
+    src: url('/fonts/nunito-variable.ttf') format('truetype supports variations'),
+         url('/fonts/nunito-variable.ttf') format('truetype-variations');
+    font-weight: 100 1000;
 }
+@font-face {
+    font-family: 'Nunito';
+    src: url('/fonts/nunito-italic-variable.ttf') format('truetype supports variations'),
+    url('/fonts/nunito-italic-variable.ttf') format('truetype-variations');
+    font-weight: 100 1000;
+    font-style: italic;
+}
+
 @mixin bookmania {
     font-family: 'Bookmania', serif;
 }
 @mixin modesto {
     font-family: 'Modesto Condensed', sans-serif;
+}
+@mixin mrs-eaves {
+    font-family: 'Mrs Eaves', serif;
+}
+@mixin nunito {
+    font-family: 'Nunito', sans-serif;
 }

@@ -14,4 +14,9 @@ const props = defineProps({
 
 <style scoped lang="scss">
 @forward '~/assets/css/components/teasers';
+
+.teaser h3 {
+    bottom: 0;
+    width: 16rem;
+}
 </style>

@@ -11,18 +11,12 @@ const props = defineProps({
 </template>
 
 <style scoped lang="scss">
-@use '~/assets/css/mixins';
+@use '~/assets/css/mixins/mixins';
 
 .media-cover-image {
     max-height: 20rem;
-    max-width: 16rem;
+    width: 16rem;
     margin: 0 auto;
-    transition:
-        transform 250ms ease-in-out,
-        box-shadow 500ms ease-in-out;
-
-    &:hover {
-        transform: scale(1.05);
-    }
+    position: relative;
 }
 </style>

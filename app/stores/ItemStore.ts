@@ -29,22 +29,8 @@ export const useItemStore = defineStore('item', {
                             id
                             slug
                             name
-                            entity_type
-                            parent {
-                                id
-                                slug
-                                name
-                                parent {
-                                    id
-                                    slug
-                                    name
-                                }
-                            }
                             image {
                                 url
-                                name
-                                collection_name
-                                filename
                             }
                         }
                         editions {
@@ -55,10 +41,11 @@ export const useItemStore = defineStore('item', {
                             price
                             quantity
                             weight
-                            source {
-                                id
-                                slug
+                            references {
                                 name
+                                page_from
+                                page_to
+                                slug
                             }
                         }
                     }
@@ -102,10 +89,11 @@ export const useItemStore = defineStore('item', {
                             price
                             quantity
                             weight
-                            source {
-                                id
-                                slug
+                            references {
                                 name
+                                page_from
+                                page_to
+                                slug
                             }
                         }
                     }

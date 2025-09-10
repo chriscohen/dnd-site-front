@@ -17,7 +17,7 @@ const props = defineProps({
 </template>
 
 <style scoped lang="scss">
-@use '~/assets/css/mixins';
+@use '~/assets/css/mixins/mixins';
 
 .product-link-button-container {
     @include mixins.backgroundBlack(0.2);

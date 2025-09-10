@@ -6,15 +6,16 @@
     <nav role="navigation">
         <ul id="main-navigation" class="navigation-menu">
             <li><ULink to="/">Home</ULink></li>
+            <li><ULink to="/spells">Spells</ULink></li>
+            <li><ULink to="/items">Items</ULink></li>
             <li><ULink to="/sources">Sources</ULink></li>
             <li><ULink to="/campaign-settings">Campaign Settings</ULink></li>
         </ul>
     </nav>
-
 </template>
 
 <style scoped lang="scss">
-@use '~/assets/css/colors';
+@use '~/assets/css/variables/colors';
 @use '~/assets/css/fonts';
 
 .navigation-menu {

@@ -23,6 +23,11 @@ export interface ICategory {
     image?: IMedia
 }
 
+export interface ICharacterClass {
+    id: string
+    name: string
+}
+
 export interface ICompany {
     __typename: "Company"
     id: string
@@ -53,10 +58,17 @@ export interface IItemEdition {
     source: ISourcebook
 }
 
+export interface IMagicDomain {
+    __typename: "Magic Domain"
+    id: string
+    name: string
+}
+
 export interface IMagicSchool {
     __typename: "Magic School"
     id: string
     name: string
+    image: IMedia
 }
 
 export interface IMedia {
@@ -108,3 +120,31 @@ export interface ISourcebookEdition {
     release_date_month_only: boolean
 }
 
+export interface ISpell {
+    id: string
+    slug: string
+    name: string
+    editions: ISpellEdition[]
+}
+
+export interface ISpellEdition {
+    id: string
+    class_levels: ISpellEditionCharacterClassLevel[]
+    components: string
+    description: string
+    domains: string[]
+    game_edition: string
+    higher_level: string
+    is_default: boolean
+    lowest_level: number
+    range: string
+    school: string
+}
+
+export interface ISpellEditionCharacterClassLevel {
+    id: string
+    spell_edition: ISpellEdition,
+    character_class: string
+    character_class_raw: ICharacterClass
+    level: number
+}

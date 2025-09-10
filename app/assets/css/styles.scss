@@ -1,4 +1,4 @@
-﻿@use 'colors';
+﻿@use 'variables/colors';
 @use 'fonts';
 @use 'tabs';
 @use 'typography';
@@ -7,7 +7,7 @@
 
 @forward 'backgrounds';
 @forward 'fonts';
-@forward 'mixins';
+@forward 'mixins/mixins';
 @forward 'typography';
 
 :root {

@@ -34,8 +34,18 @@ useHead({
 <template>
     <UApp>
         <div class="bg-cover w-full h-full px-8">
-            <MainNavigation/>
+            <div id="header">
+                <MainNavigation/>
+                <EditionSelector/>
+            </div>
             <NuxtPage/>
         </div>
     </UApp>
 </template>
+
+<style scoped lang="scss">
+#header {
+    display: flex;
+    align-items: center;
+}
+</style>

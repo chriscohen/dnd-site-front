@@ -1,3 +1,19 @@
-﻿.bg-black20 {
+﻿@use 'variables/colors';
+@use 'variables/variables';
+@use 'mixins/mixins';
+
+.bg-default {
+    background-color: colors.$bg-default;
+    transition: background variables.$default-delay ease-in-out;
+
+    &.active {
+        background-color: colors.$bg-active;
+    }
+    &:hover {
+        background-color: colors.$bg-hover;
+    }
+}
+
+.bg-black20 {
     background-color: rgba(0, 0, 0, 0.2);
 }

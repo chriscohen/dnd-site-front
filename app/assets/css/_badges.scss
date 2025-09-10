@@ -1,0 +1,13 @@
+﻿@use 'variables/colors';
+@use 'fonts';
+
+.badge {
+    border-radius: 50vh;
+    @include fonts.nunito;
+    font-weight: 900;
+    padding: 0 0.5rem;
+
+    &.text-dark {
+        color: colors.$text-dark;
+    }
+}

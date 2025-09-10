@@ -96,6 +96,7 @@ export const useSourcebookStore = defineStore('sourcebook', {
                             binding
                             pages
                             isbn10
+
                             isbn13
                             release_date
                             release_date_month_only
@@ -104,7 +105,7 @@ export const useSourcebookStore = defineStore('sourcebook', {
                 }`;
 
             const { data, error } =
-                await useAsyncQuery<GetSourceQuery, GetSourcesQueryVariables>(query, { slug: slug });
+                await useAsyncQuery<GetSourceQuery, GetSourcesQueryVariables>(query, { "game_edition": ["2"] });
 
             if  (error.value) {
                 return null;
@@ -126,8 +127,10 @@ export const useSourcebookStore = defineStore('sourcebook', {
         },
         async getAllFromApi(): Promise<ISourcebook[] | null> {
             const query = gql`
-                query {
-                    sources {
+                query sources($game_edition: [String]) {
+                    sources(
+                        game_edition: $game_edition
+                    ) {
                         id
                         slug
                         name
@@ -197,7 +200,7 @@ export const useSourcebookStore = defineStore('sourcebook', {
                             release_date_month_only
                         }
                     }
-                }`;
+                },`;
 
             const { data, error } = await useAsyncQuery<GetSourcesQuery, GetSourcesQueryVariables>(query);
 

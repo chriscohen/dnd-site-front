@@ -5,6 +5,7 @@ import SourcebookDetailsList from "~/components/lists/SourcebookDetailsList.vue"
 import ProseContainer from "~/components/text/ProseContainer.vue";
 import CoverArtLarge from "~/components/media/CoverArtLarge.vue";
 import ProductLinkButtonContainer from "~/components/containers/ProductLinkButtonContainer.vue";
+import PageTitle from "~/components/labels/PageTitle.vue";
 
 const route = useRoute();
 const store = useSourcebookStore();
@@ -27,14 +28,10 @@ useHead({
                 <!-- Right Side -->
                 <div>
                     <!-- Heading -->
-                    <div class="flex items-end border-b-1 border-gray-400 mb-4">
-                        <NuxtLink to="/sources">
-                            <Icon name="lucide:chevron-left" class="text-gray-500 hover:text-gray-200 hover:animate-bounce-left" size="3rem" />
-                        </NuxtLink>
-                        <h1 class="font-[Modesto_Condensed] text-6xl mr-8">{{ item?.name}}</h1>
+                    <PageTitle :title="item.name" back-to="/sources">
                         <GameEditionBadge :edition="item?.game_edition as string"/>
                         <PublicationTypeBadge :type="item?.publication_type as string" />
-                    </div>
+                    </PageTitle>
                     <!-- /Heading -->
 
                     <!-- Under Heading -->
