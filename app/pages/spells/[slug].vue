@@ -1,6 +1,6 @@
 ﻿<script setup lang="ts">
-import PageTitle from "~/components/labels/PageTitle.vue";
-import Spellbook from "~/components/text/Spellbook.vue";
+import Spellbook from "~/components/spells/Spellbook.vue";
+import SpellbookImage from "~/components/spells/SpellbookImage.vue";
 
 const route = useRoute();
 const store = useSpellStore();
@@ -17,8 +17,7 @@ useHead({
 <template>
 
     <div class="spell">
-        <PageTitle :title="title"/>
-
+        <SpellbookImage v-if="item !== null" :spell="item"/>
         <Spellbook v-if="item !== null" :spell="item"/>
     </div>
 

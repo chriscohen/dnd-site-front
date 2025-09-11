@@ -8,15 +8,27 @@ const props = defineProps({
 
 <template>
     <div class="spellbook">
-        <h1>{{ props.spell.name }}</h1>
+        <div class="spellbook-header">
+            <h1>{{ props.spell.name }}</h1>
+            <img
+                :src="props.spell.editions[0]?.school.image.url"
+                :alt="props.spell.editions[0]?.school.name + ' school'"/>
+        </div>
+
         <div class="spellbook-upper">
             <div class="spell-attributes">
                 <span>Components</span>
-                <span>{{ props.spell.editions[0].components }}</span>
+                <span>{{ props.spell.editions[0]?.spell_components }}</span>
+
+                <span>Range</span>
+                <span>{{ props.spell.editions[0]?.range }}</span>
             </div>
-            <ClassesLevelsList :data="props.spell.editions[0].class_levels" />
+            <ClassesLevelsList :data="props.spell.editions[0]?.class_levels" />
         </div>
-        <div v-html="props.spell.editions[0].description"/>
+
+        <div v-html="props.spell.editions[0]?.description ?? ''"/>
+
+
     </div>
 </template>
 
@@ -30,20 +42,28 @@ const props = defineProps({
     background: radial-gradient(colors.$yellow-50, colors.$yellow-100);
     border-radius: 1rem;
     color: colors.$text-dark;
-    font-size: 1.5rem;
-    max-width: 48rem;
+    max-width: 38rem;
     padding: 1rem 2rem;
-    transform: perspective(variables.$default-perspective) rotateX(variables.$default-lean-away);
+    position: relative;
     width: 48rem;
+    @include mixins.heavyShadow;
 
-    > h1 {
+    > .spellbook-header {
         @include fonts.modesto;
         border-bottom: 0.1rem solid colors.$text-dark;
         margin-bottom: 2rem;
+        display: flex;
+
+        > img {
+            height: 5rem;
+            margin-left: auto;
+        }
     }
     > .spellbook-upper {
         display: flex;
         margin-bottom: 2rem;
+        align-items: start;
+        font-size: 1.25rem;
     }
 }
 
@@ -54,5 +74,12 @@ const props = defineProps({
 
 .spell-attributes {
     @include fonts.mrs-eaves;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 2rem;
+
+    > span:nth-of-type(even) {
+        font-weight: 700;
+    }
 }
 </style>

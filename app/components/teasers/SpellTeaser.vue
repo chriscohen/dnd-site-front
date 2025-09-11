@@ -10,7 +10,7 @@ const getSubtitle = computed(() => {
     return [
         toOrdinal(props.spell.editions[0]?.lowest_level.toString() ?? ''),
         'level',
-        props.spell.editions[0]?.school
+        props.spell.editions[0]?.school.name
     ].join(' ');
 });
 </script>

@@ -28,7 +28,7 @@ export const useMagicSchoolStore = defineStore('magicSchool', {
                 this.getBy :
                 new Promise<IMagicSchool>((resolve) => resolve(item));
         },
-        getBySlugFromApi(slug: string): Promise<IMagicSchool | null> {
+        async getBySlugFromApi(slug: string): Promise<IMagicSchool | null> {
             const query = gql`
                 query {
                     magicSchool(id: "${slug}") {
@@ -50,11 +50,11 @@ export const useMagicSchoolStore = defineStore('magicSchool', {
                 await useAsyncQuery<GetMagicSchoolQuery, GetMagicSchoolsQueryVariables>(query, { id: slug });
 
             if (error.value) {
-                return null;
+                return new Promise<IMagicSchool | null>((resolve) => resolve(null));
             }
             const item: (IMagicSchool | null) = data.value?.magicSchool ?? null;
 
-            if (item !== null && !this.contains(item?.id)) {
+            if (item !== null && !this.contains(item.id)) {
                 this.$patch((state) => {
                     state.items.push(item);
                 })
@@ -85,8 +85,18 @@ export const useMagicSchoolStore = defineStore('magicSchool', {
                     }
                 }`;
 
-            const { data } = await useAsyncQuery<GetMagicSchoolsQuery, GetMagicSchoolsQueryVariables>(query);
-            this.contents = data.value.magicSchools;
+            const { data, error } = await useAsyncQuery<GetMagicSchoolsQuery, GetMagicSchoolsQueryVariables>(query);
+
+            if (error.value) {
+                return null;
+            }
+
+            this.items = [];
+            data.value?.magicSchools.forEach((item: IMagicSchool) => {
+                this.$patch((state) => {
+                    state.items.push(item);
+                })
+            });
             this.allLoaded = true;
             return this.items;
         }

@@ -42,7 +42,6 @@ export const useSpellStore = defineStore('spell', {
                                 character_class
                                 level
                             }
-                            components
                             description
                             domains
                             game_edition
@@ -62,7 +61,13 @@ export const useSpellStore = defineStore('spell', {
                                 quantity
                             }
                             range
-                            school
+                            school {
+                                name
+                                image {
+                                    url
+                                }
+                            }
+                            spell_components
                         }
                     }
                 }`;
@@ -101,7 +106,6 @@ export const useSpellStore = defineStore('spell', {
                                 character_class
                                 level
                             }
-                            components
                             description
                             domains
                             game_edition
@@ -121,7 +125,13 @@ export const useSpellStore = defineStore('spell', {
                                 quantity
                             }
                             range
-                            school
+                            school {
+                                name
+                                image {
+                                    url
+                                }
+                            }
+                            spell_components
                         }
                     }
                 }`;

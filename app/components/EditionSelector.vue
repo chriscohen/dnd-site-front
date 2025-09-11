@@ -33,7 +33,7 @@ const selectedEditionStore = useSelectedEditionStore();
     > button {
         border-color: transparent;
         cursor: pointer;
-        font-size: 2rem;
+        font-size: 1.5rem;
         @include fonts.modesto;
         border-bottom-width: 0.25rem;
         border-bottom-style: solid;

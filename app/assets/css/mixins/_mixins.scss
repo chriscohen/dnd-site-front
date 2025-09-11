@@ -4,6 +4,9 @@
 @mixin text-shadow {
     text-shadow: 2px 2px 0 c.$shadow;
 };
+@mixin heavyShadow {
+    box-shadow: 5px 5px 15px 5px c.$shadow;
+}
 @mixin drop-shadow {
     box-shadow:
         rgba(22, 31, 39, 0.42) 0 60px 123px -25px,

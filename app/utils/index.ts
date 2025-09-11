@@ -130,7 +130,6 @@ export interface ISpell {
 export interface ISpellEdition {
     id: string
     class_levels: ISpellEditionCharacterClassLevel[]
-    components: string
     description: string
     domains: string[]
     game_edition: string
@@ -138,7 +137,8 @@ export interface ISpellEdition {
     is_default: boolean
     lowest_level: number
     range: string
-    school: string
+    school: IMagicSchool
+    spell_components: string
 }
 
 export interface ISpellEditionCharacterClassLevel {

@@ -25,7 +25,7 @@ const props = defineProps({
     @include mixins.backgroundBlack(0.75);
 
     h3 {
-        font-size: 2rem;
+        font-size: 1.5rem;
         line-height: 1.75rem;
         padding: 0.5rem;
         text-align: center;
@@ -35,8 +35,7 @@ const props = defineProps({
         display: block;
         text-align: center;
         @include fonts.mrs-eaves;
-        font-size: 125%;
-        margin-top: -0.75rem;
+        margin-top: -1rem;
     }
 }
 </style>
