@@ -1,7 +1,6 @@
-﻿import { createConfigForNuxt } from '@nuxt/eslint-config';
+// @ts-check
+import withNuxt from './.nuxt/eslint.config.mjs'
 
-export default createConfigForNuxt({
-    rules: {
-        'no-undef': 0
-    }
-});
+export default withNuxt(
+  // Your custom configs here
+)

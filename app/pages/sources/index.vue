@@ -1,10 +1,6 @@
 <script setup lang="ts">
 import SourcebookTeaser from "~/components/teasers/SourcebookTeaser.vue";
 
-useHead({
-    title: 'Sources',
-});
-
 const store = useSourcebookStore();
 await store.getAll();
 </script>

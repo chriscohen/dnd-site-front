@@ -12,18 +12,9 @@ export default defineNuxtConfig({
             viewport: 'width=device-width, initial-scale=1, maximum-scale=1',
         }
     },
-
-    apollo: {
-        clients: {
-            default: {
-                httpEndpoint: 'http://localhost:8080/graphql'
-            }
-        }
-    },
     compatibilityDate: '2025-07-15',
     css: [
-        '~/assets/css/main.css',
-        '~/assets/css/styles.scss',
+        '~/assets/css/styles.scss'
     ],
     devtools: { enabled: true },
     fonts: {
@@ -55,9 +46,7 @@ export default defineNuxtConfig({
       '@nuxt/fonts',
       '@nuxt/icon',
       '@nuxt/image',
-      '@nuxt/test-utils',
       '@nuxt/ui',
-      '@nuxtjs/apollo',
       '@pinia/nuxt',
     ],
     runtimeConfig: {

@@ -1,25 +1,4 @@
-﻿@import 'tailwindcss';
-@import '@nuxt/ui';
-
-
-@theme {
-    --text-base: 20px;
-
-    --animate-bounce-left: bounce-left 1s infinite;
-
-    --ui-border: #fff;
-
-    @keyframes bounce-left {
-        0%, 100% {
-            transform: none;
-            animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
-        }
-        50% {
-            transform: translateX(-25%);
-            animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
-        }
-    }
-}
+﻿
 
 html {
     margin: 0;

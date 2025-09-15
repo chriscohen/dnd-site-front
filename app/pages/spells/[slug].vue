@@ -9,9 +9,7 @@ const item = await store.getBySlug(route.params.slug as string);
 console.log(item);
 const title = item !== null ? item.name : 'Loading';
 
-useHead({
-    title: title
-});
+
 </script>
 
 <template>

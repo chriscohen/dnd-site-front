@@ -12,9 +12,7 @@ const store = useSourcebookStore();
 
 const item = await store.getBySlug(route.params.slug as string);
 
-useHead({
-    title: item ? item.name : 'Loading',
-});
+
 </script>
 
 <template>

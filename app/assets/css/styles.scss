@@ -2,6 +2,8 @@
 @use 'fonts';
 @use 'tabs';
 @use 'typography';
+@use 'tailwindcss';
+@use '@nuxt/ui';
 
 @use 'nuxt-ui/router';
 
@@ -17,6 +19,13 @@
     font-size: 20px;
 
     @include fonts.bookmania;
+}
+
+html {
+    margin: 0;
+    height: 100vh;
+    overflow: hidden;
+    font-size: 16px;
 }
 
 body,
@@ -35,4 +44,20 @@ div#__nuxt {
  */
 .default-padding {
     padding: 0.5rem 1rem;
+}
+
+.transform-perspective {
+    transform:
+        perspective(75em)
+        rotateX(10deg);
+}
+
+
+.transform-perspective:hover {
+    transform:
+        rotateX(0deg);
+}
+
+.markdown a {
+    text-decoration: underline;
 }
