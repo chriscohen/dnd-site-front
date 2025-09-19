@@ -1,14 +1,17 @@
 <script setup>
 import MainNavigation from "~/components/navigation/MainNavigation.vue";
+
+const magicSchoolStore = useMagicSchoolStore();
+magicSchoolStore.getAll();
 </script>
 
 <template>
     <UApp>
-        <div class="bg-cover w-full h-full px-8">
-            <div id="header">
-                <MainNavigation/>
-                <EditionSelector/>
-            </div>
+        <div id="header">
+            <MainNavigation/>
+            <EditionSelector/>
+        </div>
+        <div id="content">
             <NuxtPage/>
         </div>
     </UApp>

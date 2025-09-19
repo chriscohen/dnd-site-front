@@ -15,7 +15,7 @@
 </template>
 
 <style scoped lang="scss">
-@use '~/assets/css/variables/colors';
+@use '../../assets/css/colors';
 @use '~/assets/css/fonts';
 
 .navigation-menu {

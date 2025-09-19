@@ -1,22 +1,23 @@
 ﻿<script lang="ts" setup>
 
-const props = defineProps({
-    data: { type: Object as () => ISourcebook, required: true },
-})
+import TeaserTitle from "~/components/teasers/TeaserTitle.vue";
+
+const props = defineProps<{
+    loading: boolean,
+    data?: ISourcebook
+}>();
 </script>
 
 <template>
-    <NuxtLink :to="'/sources/' + props.data.slug" class="shrink teaser">
+    <div v-if="loading" class="shrink teaser loading"/>
+
+    <NuxtLink v-if="!loading" :to="'/sources/' + data?.slug" class="shrink teaser">
         <MediaCoverImage :sourcebook="props.data" />
-        <h3>{{ props.data.name }}</h3>
+        <TeaserTitle :title="data?.name"/>
     </NuxtLink>
 </template>
 
 <style scoped lang="scss">
-@forward '~/assets/css/components/teasers';
-
-.teaser h3 {
-    bottom: 0;
-    width: 16rem;
-}
+@use '~/assets/css/colors';
+@use '~/assets/css/components/teasers';
 </style>

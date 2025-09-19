@@ -1,0 +1,20 @@
+﻿@use '../colors';
+@use '../fonts';
+
+.popover {
+    background-color: colors.$bg-dark;
+    border-radius: 1rem;
+    padding: 0.5rem 1rem;
+    width: 30rem;
+    max-width: 30rem;
+
+    h1, h2, h3, h4, h5, h6 {
+        @include fonts.modesto;
+        border-bottom: 0.1rem solid colors.$text;
+        margin-bottom: 1rem;
+    }
+
+    p {
+        font-size: 1.25rem;
+    }
+}

@@ -6,17 +6,19 @@ const route = useRoute();
 const store = useSpellStore();
 
 const item = await store.getBySlug(route.params.slug as string);
-console.log(item);
-const title = item !== null ? item.name : 'Loading';
-
-
 </script>
 
 <template>
 
     <div class="spell">
-        <SpellbookImage v-if="item !== null" :spell="item"/>
-        <Spellbook v-if="item !== null" :spell="item"/>
+            <SpellbookImage :loading="!item" :spell="item"/>
+            <Spellbook :loading="!item" :spell="item"/>
     </div>
 
 </template>
+
+<style scoped lang="scss">
+.spell {
+    height: 100%;
+}
+</style>

@@ -1,11 +1,11 @@
 ﻿<script setup lang="ts">
 const props = defineProps<{
-    data: ISpellEditionCharacterClassLevel[]
+    data?: ISpellEditionCharacterClassLevel[]
 }>();
 </script>
 
 <template>
-    <aside class="classes-levels-list">
+    <aside v-if="data" class="classes-levels-list">
         <template v-for="item in props.data" :key="item.id">
             <span>{{ item.character_class }}</span>
             <span>{{ item.level }}</span>

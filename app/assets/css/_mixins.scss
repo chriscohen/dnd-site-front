@@ -1,5 +1,5 @@
 ﻿@use 'sass:color';
-@use '../variables/colors' as c;
+@use 'colors' as c;
 
 @mixin text-shadow {
     text-shadow: 2px 2px 0 c.$shadow;
@@ -44,4 +44,23 @@
 
 @mixin backgroundHorizontalGradient($baseColor, $lightness) {
     background-image: linear-gradient($baseColor, color.scale($baseColor, $lightness));
+}
+
+@mixin loading {
+    animation: skeleton 2s infinite linear;
+    background-color: c.$gray-500;
+}
+
+@keyframes skeleton {
+    0%,
+    100% {
+        opacity: 50%;
+    }
+    50% {
+        opacity: 10%;
+    }
+}
+
+@mixin defaultPadding {
+    padding: 0.5rem 1rem;
 }

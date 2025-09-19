@@ -20,8 +20,8 @@ const selectedEditionsStore = useSelectedEditionStore();
 </template>
 
 <style scoped lang="scss">
-@use '~/assets/css/variables/colors';
-@use '~/assets/css/variables/variables';
+@use '../../assets/css/colors';
+@use '../../assets/css/variables';
 
 .edition-button {
     transition: border variables.$default-delay ease-in-out;

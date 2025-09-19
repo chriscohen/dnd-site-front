@@ -3,6 +3,11 @@
         colors: {
             primary: 'white'
         },
+        popover: {
+            slots: {
+                content: 'bg-none'
+            }
+        },
         tabs: {
             slots: {
                 label: 'uppercase',

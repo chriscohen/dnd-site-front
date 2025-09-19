@@ -1,28 +1,19 @@
 ﻿<script setup lang="ts">
-import {useCompanyStore} from "~/stores/CompanyStore";
 
 const props = defineProps({
     productId: { type: Object as () => IProductId, required: true },
 });
 
-const companyStore = useCompanyStore();
-const company = await companyStore.getBySlug(props.productId.origin.slug);
 </script>
 
 <template>
-    <Suspense>
-        <ULink :to="props.productId.url">
-            <NuxtImg
-                :src="company?.logo?.url"
-                :alt="company?.name + ' logo'"
-                class="website-logo"
-            />
-        </ULink>
-
-        <template #fallback>
-            LOADING
-        </template>
-    </Suspense>
+    <ULink v-if="props.productId.url" :to="props.productId.url">
+        <NuxtImg
+            :src="productId.origin?.logo?.url"
+            :alt="productId.origin?.name + ' logo'"
+            class="website-logo"
+        />
+    </ULink>
 </template>
 
 <style scoped lang="scss">

@@ -18,10 +18,10 @@ const selectedEditionStore = useSelectedEditionStore();
 </template>
 
 <style scoped lang="scss">
-@use '~/assets/css/variables/colors';
+@use '../assets/css/colors';
 @use '~/assets/css/backgrounds';
 @use '~/assets/css/forms';
-@use '~/assets/css/mixins/mixins';
+@use '../assets/css/mixins';
 @use '~/assets/css/fonts';
 
 .edition-selector {

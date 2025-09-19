@@ -1,6 +1,6 @@
-﻿@use 'variables/colors';
-@use 'variables/variables';
-@use 'mixins/mixins';
+﻿@use 'colors';
+@use 'variables';
+@use 'mixins';
 
 .bg-default {
     background-color: colors.$bg-default;

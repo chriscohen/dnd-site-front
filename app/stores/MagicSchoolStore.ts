@@ -1,15 +1,8 @@
 ﻿import { defineStore } from 'pinia';
 
-type GetMagicSchoolQuery = {
-    magicSchool: IMagicSchool
-};
-type GetMagicSchoolsQuery = {
-    magicSchools: IMagicSchool[]
-};
-type GetMagicSchoolsQueryVariables = Record<string, never>;
-
 export const useMagicSchoolStore = defineStore('magicSchool', {
     state: () => ({
+        loading: false,
         items: [] as IMagicSchool[],
         allLoaded: false,
     }),
@@ -25,42 +18,30 @@ export const useMagicSchoolStore = defineStore('magicSchool', {
         getBySlug: (slug: string): Promise<IMagicSchool | null> => {
             const item = this.items.find((item) => item.id === slug);
             return item === undefined ?
-                this.getBy :
+                this.getBySlugFromApi(slug) :
                 new Promise<IMagicSchool>((resolve) => resolve(item));
         },
         async getBySlugFromApi(slug: string): Promise<IMagicSchool | null> {
-            const query = gql`
-                query {
-                    magicSchool(id: "${slug}") {
-                        id
-                        name
-                        image {
-                            id
-                            collection_name
-                            filename
-                            mime_type
-                            name
-                            size
-                            url
-                        }
+            const runtimeConfig = useRuntimeConfig();
+            this.loading = true;
+
+            fetch(runtimeConfig.public.apiUrl + '/school/' + slug + '?mode=full', {
+                method: 'GET',
+                headers: {
+                    "Access-Control-Allow-Origin": "*"
+                },
+            })
+                .then((response: Response) => response.json())
+                .then((data: IMagicSchool) => {
+                    if (!this.contains(data.id)) {
+                        this.$patch((state) => state.items.push(data))
                     }
-                }`;
-
-            const { data, error } =
-                await useAsyncQuery<GetMagicSchoolQuery, GetMagicSchoolsQueryVariables>(query, { id: slug });
-
-            if (error.value) {
-                return new Promise<IMagicSchool | null>((resolve) => resolve(null));
-            }
-            const item: (IMagicSchool | null) = data.value?.magicSchool ?? null;
-
-            if (item !== null && !this.contains(item.id)) {
-                this.$patch((state) => {
-                    state.items.push(item);
                 })
-            }
-
-            return item;
+                .catch((e) => {
+                    console.error(e);
+                    return null;
+                })
+                .finally(() => this.loading = false);
         },
         getAll(): Promise<IMagicSchool[] | null> {
             return this.allLoaded ?
@@ -68,37 +49,26 @@ export const useMagicSchoolStore = defineStore('magicSchool', {
                 this.getAllFromApi();
         },
         async getAllFromApi(): Promise<IMagicSchool[] | null> {
-            const query = gql`
-                query {
-                    magicSchools {
-                        id
-                        name
-                        image {
-                            id
-                            collection_name
-                            filename
-                            mime_type
-                            name
-                            size
-                            url
-                        }
-                    }
-                }`;
+            const runtimeConfig = useRuntimeConfig();
+            this.loading = true;
 
-            const { data, error } = await useAsyncQuery<GetMagicSchoolsQuery, GetMagicSchoolsQueryVariables>(query);
-
-            if (error.value) {
-                return null;
-            }
-
-            this.items = [];
-            data.value?.magicSchools.forEach((item: IMagicSchool) => {
-                this.$patch((state) => {
-                    state.items.push(item);
+            fetch(runtimeConfig.public.apiUrl + '/schools?mode=full', {
+                method: 'GET',
+                headers: {
+                    "Access-Control-Allow-Origin": "*"
+                },
+            })
+                .then((response: Response) => response.json())
+                .then((data: IMagicSchool[]) => {
+                    this.items = [];
+                    data.forEach((item: IMagicSchool) => this.$patch((state) => state.items.push(item)))
                 })
-            });
-            this.allLoaded = true;
-            return this.items;
+                .then(() => this.allLoaded = true)
+                .catch((e) => {
+                    console.error(e);
+                    return null;
+                })
+                .finally(() => this.loading = false);
         }
     }
 });

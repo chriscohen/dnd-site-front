@@ -1,21 +1,18 @@
 <script setup lang="ts">
 import SourcebookTeaser from "~/components/teasers/SourcebookTeaser.vue";
+import ConjuringScreen from "~/components/loading/ConjuringScreen.vue";
 
-const store = useSourcebookStore();
+const store = useSourceStore();
 await store.getAll();
 </script>
 
 <template>
-    <div class="teaser-container">
-        <Suspense>
-            <template v-for="item in store.items" :key="item.id">
-                <SourcebookTeaser :data="item"/>
-            </template>
+    <div>
+        <ConjuringScreen v-if="store.loading"/>
 
-            <template #fallback>
-                LOADING
-            </template>
-        </Suspense>
+        <div v-if="!store.loading" class="teaser-container">
+            <SourcebookTeaser v-for="item in store.items" :key="item.id" :loading="false" :data="item"/>
+        </div>
     </div>
 </template>
 

@@ -1,73 +1,77 @@
 ﻿import { defineStore } from 'pinia';
 
-export const useCompanyStore = defineStore('company', {
+export const useSourceStore = defineStore('source', {
     state: () => ({
         loading: false,
-        items: [] as ICompany[],
+        items: [] as ISourcebook[],
         allLoaded: false,
     }),
     actions: {
         contains(slug: string): boolean {
-            this.items.map((item: ICompany) => {
+            this.items.map((item: ISourcebook) => {
                 if (item.slug === slug) {
                     return true;
                 }
             });
             return false;
         },
-        getBySlug(slug: string): Promise<ICompany | null> {
+        getBySlug(slug: string): Promise<ISourcebook | null> {
             const item = this.items.find((item) => item.slug === slug);
             return item === undefined ?
                 this.getBySlugFromApi(slug) :
-                new Promise<ICompany | null>(resolve => resolve(item));
+                new Promise<ISourcebook | null>(resolve => resolve(item));
         },
-        async getBySlugFromApi(slug: string): Promise<ICompany | null> {
+        async getBySlugFromApi(slug: string): Promise<ISourcebook | null> {
             const runtimeConfig = useRuntimeConfig();
             this.loading = true;
 
-            return fetch(runtimeConfig.public.apiUrl + '/company/' + slug + '?mode=full', {
+            return fetch(runtimeConfig.public.apiUrl + /source/ + slug + '?mode=full', {
                 method: 'GET',
                 headers: {
                     "Access-Control-Allow-Origin": "*"
                 },
             })
                 .then((response: Response) => response.json())
-                .then((data: ICompany) => {
+                .then((data: ISourcebook) => {
                     if (!this.contains(data.slug)) {
                         this.$patch((state) => state.items.push(data));
                     }
                     return data;
                 })
-                .catch((e) => console.error(e))
+                .catch((e) => {
+                    console.error(e);
+                    return null;
+                })
                 .finally(() => {
                     this.loading = false;
                     return null;
                 });
         },
-        getAll(): Promise<ICompany[] | null> {
+        getAll(): Promise<ISourcebook[] | null> {
             return this.allLoaded ?
-                new Promise<ICompany[]>((resolve) => resolve(this.items))
+                new Promise<ISourcebook[]>((resolve) => resolve(this.items))
                 : this.getAllFromApi();
         },
-        async getAllFromApi(): Promise<ICompany[] | null> {
+        async getAllFromApi(): Promise<ISourcebook[] | null> {
             const runtimeConfig = useRuntimeConfig();
             this.loading = true;
 
-            fetch(runtimeConfig.public.apiUrl + '/companies?mode=full', {
+            fetch(runtimeConfig.public.apiUrl + '/sources?mode=full', {
                 method: 'GET',
                 headers: {
                     "Access-Control-Allow-Origin": "*"
                 },
             })
-                .then((response: Response) => response.json())
-                .then((data: ICompany) => {
+                .then((response) => response.json())
+                .then((data: ISourcebook[]) => {
                     this.items = [];
-                    data.forEach((item: ICompany) => { this.$patch((state) => state.items.push(item) )})
+                    data.forEach((item: ISourcebook) => this.$patch((state) => state.items.push(item)))
                 })
+                .then(() => this.allLoaded = true)
                 .catch((e) => console.error(e))
                 .finally(() => this.loading = false);
 
-            return this.items
+            return this.items;
         }
     }
 });

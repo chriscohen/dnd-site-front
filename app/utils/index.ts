@@ -68,7 +68,9 @@ export interface IMagicSchool {
     __typename: "Magic School"
     id: string
     name: string
+    description?: string
     image: IMedia
+    parent?: IMagicSchool
 }
 
 export interface IMedia {
@@ -91,6 +93,17 @@ export interface IProductId {
     url?: string
 }
 
+export interface IRange {
+    __typename: "Range"
+    id: string,
+    string: string
+    is_self: boolean
+    is_touch: boolean
+    number?: number
+    per_level?: string
+    unit: string
+}
+
 export interface ISourcebook {
     __typename: "Sourcebook",
     id: string
@@ -105,6 +118,7 @@ export interface ISourcebook {
     product_ids: IProductId[]
     publication_type: string
     source_type: string
+    sourcebook_types?: string[]
 }
 
 export interface ISourcebookEdition {

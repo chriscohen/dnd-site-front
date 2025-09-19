@@ -7,5 +7,5 @@ const props = defineProps({
 </script>
 
 <template>
-    <div :class="'prose bg-gray-950/80 p-4 font-light text-' + props.textSize + ' ' + props.class" v-html="props.text"/>
+    <div class="prose" v-html="props.text"/>
 </template>

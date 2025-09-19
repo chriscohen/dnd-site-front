@@ -1,14 +1,17 @@
 ﻿@use 'sass:color';
-@use '../variables/colors';
+@use '../colors';
 @use '../fonts';
-@use '../mixins/mixins';
+@use '../mixins';
+@use '../variables';
 
 .teaser {
     @include fonts.modesto;
 
-    background: color.scale(colors.$gray-950, $alpha: -60%);
+    background: colors.$black-20;
     flex-shrink: 1;
     position: relative;
+    width: variables.$teaser-width;
+    height: variables.$teaser-height;
     transition:
         color 250ms ease-in-out,
         background 500ms ease-in-out,
@@ -17,6 +20,12 @@
 
     > img {
         margin: auto;
+    }
+
+    &.loading {
+        @include mixins.loading;
+        width: 20rem;
+        height: 20rem;
     }
 
     &:hover {
@@ -29,5 +38,5 @@
 
 .teaser-container {
     display: flex;
-    gap: 0;
+    gap: 0.5rem;
 }

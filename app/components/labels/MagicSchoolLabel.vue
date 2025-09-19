@@ -1,0 +1,48 @@
+﻿<script setup lang="ts">
+import PopoverContentBase from "~/components/popovers/PopoverContentBase.vue";
+
+const props = defineProps<{
+    classes?: string
+    size: string,
+    school?: IMagicSchool
+}>();
+
+</script>
+
+<template>
+    <div v-if="!props.school" class="skeleton magic-school-label" :style="{ width: size, height: size }"/>
+
+    <UPopover v-if="props.school" mode="hover">
+        <img
+            class="magic-school-label"
+            :class="props.classes"
+            :src="school?.image.url"
+            :alt="school?.name + ' magic school'"
+            :style="{ width: size, height: size }"
+        >
+
+        <template #content>
+            <PopoverContentBase>
+                <h3>{{ school?.name }}</h3>
+                <p>{{ school?.description }}</p>
+            </PopoverContentBase>
+        </template>
+    </UPopover>
+</template>
+
+<style lang="scss" scoped>
+@use '~/assets/css/colors';
+
+img.magic-school-label {
+    filter: invert(1) brightness(0.25) drop-shadow(2px 2px 1px colors.$red-500-50);
+}
+
+div[data='reka-popper-content-wrapper'] {
+    border-radius: 2rem;
+
+    > div {
+        background: none !important;
+        display: none;
+    }
+}
+</style>

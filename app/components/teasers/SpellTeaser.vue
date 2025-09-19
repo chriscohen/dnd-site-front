@@ -2,26 +2,27 @@
 import { toOrdinal } from '~/utils/utils';
 import TeaserTitle from "~/components/teasers/TeaserTitle.vue";
 
-const props = defineProps({
-    spell: { type: Object as () => ISpell, required: true },
-});
+const props = defineProps<{
+    loading: boolean,
+    data?: ISpell
+}>();
 
 const getSubtitle = computed(() => {
-    return [
-        toOrdinal(props.spell.editions[0]?.lowest_level.toString() ?? ''),
+    return props.loading ? [] : [
+        toOrdinal(props.data.editions[0]?.lowest_level.toString() ?? ''),
         'level',
-        props.spell.editions[0]?.school.name
+        props.data.editions[0]?.school.name
     ].join(' ');
 });
 </script>
 
 <template>
-    <NuxtLink :to="'/spells/' + props.spell.slug" class="shrink teaser spell-teaser">
-        <NuxtImg :src="'https://dnd001.s3.eu-west-2.amazonaws.com/spells/' + props.spell.slug + '.webp'"/>
-        <TeaserTitle :title="spell.name" :subtitle="getSubtitle"/>
+    <NuxtLink v-if="data" :to="'/spells/' + data?.slug" class="shrink teaser spell-teaser">
+        <NuxtImg :src="'https://dnd001.s3.eu-west-2.amazonaws.com/spells/' + data?.slug + '.webp'"/>
+        <TeaserTitle :title="data?.name" :subtitle="getSubtitle"/>
         <BadgesBadgeContainer>
             <BadgesGameEditionBadge
-                v-for="edition in spell.editions"
+                v-for="edition in data?.editions"
                 :key="edition.id"
                 :edition="edition.game_edition"
             />
@@ -32,7 +33,7 @@ const getSubtitle = computed(() => {
 <style scoped lang="scss">
 @use '~/assets/css/fonts';
 @use '~/assets/css/components/teasers';
-@use '~/assets/css/variables/variables';
+@use '../../assets/css/variables';
 
 .spell-teaser {
     display: inline-block;

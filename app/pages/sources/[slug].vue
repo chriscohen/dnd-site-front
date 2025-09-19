@@ -8,54 +8,74 @@ import ProductLinkButtonContainer from "~/components/containers/ProductLinkButto
 import PageTitle from "~/components/labels/PageTitle.vue";
 
 const route = useRoute();
-const store = useSourcebookStore();
+const store = useSourceStore();
 
 const item = await store.getBySlug(route.params.slug as string);
-
-
 </script>
 
 <template>
-    <Suspense fallback="loading">
-        <div class="source">
-            <div class="flex items-start gap-16">
-                <!-- Left: Cover Art -->
-                <CoverArtLarge :name="item.name ?? ''" :cover-image="item.cover_image" />
-                <!-- /Left: Cover Art -->
+    <div class="sourcebook">
+        <!-- Left: Cover Art -->
+        <CoverArtLarge :loading="!item" :name="item?.name" :cover-image="item?.cover_image" />
+        <!-- /Left: Cover Art -->
 
-                <!-- Right Side -->
-                <div>
-                    <!-- Heading -->
-                    <PageTitle :title="item.name" back-to="/sources">
-                        <GameEditionBadge :edition="item?.game_edition as string"/>
-                        <PublicationTypeBadge :type="item?.publication_type as string" />
-                    </PageTitle>
-                    <!-- /Heading -->
+        <!-- Right Side -->
+        <div>
+            <!-- Heading -->
+            <PageTitle
+                :loading="!item"
+                :title="item?.name ?? ''"
+                back-to="/sources"
+                :subtitle="item?.sourcebook_types?.join(' • ')"
+            >
+                <GameEditionBadge :edition="item?.game_edition as string"/>
+                <PublicationTypeBadge :type="item?.publication_type as string" />
+            </PageTitle>
+            <!-- /Heading -->
 
-                    <!-- Under Heading -->
-                    <div class="grid grid-cols-3 gap-16 items-start">
-                        <!-- Left of "Under Heading" -->
-                        <div class="flex flex-col gap-2">
-                            <SourcebookDetailsList :sourcebook="item as ISourcebook"/>
-                            <ProductLinkButtonContainer
-                                v-show="(item as ISourcebook).product_ids.length > 1"
-                                :sourcebook="item as ISourcebook"
-                            />
-                        </div>
-                        <!-- Left of "Under Heading" -->
-
-                        <!-- Right of "Under Heading -->
-                        <ProseContainer v-if="item" class="col-span-2" :text="item.description"/>
-                        <!-- Right of "Under Heading -->
-                    </div>
-                    <!-- /Under Heading -->
+            <!-- Under Heading -->
+            <div class="sourcebook-content">
+                <!-- Left of "Under Heading" -->
+                <div class="sourcebook-details">
+                    <SourcebookDetailsList
+                        :loading="!item"
+                        :sourcebook="item as ISourcebook"
+                    />
+                    <ProductLinkButtonContainer
+                        v-if="item?.product_ids?.length > 1"
+                        :loading="!item"
+                        :sourcebook="item as ISourcebook"
+                    />
                 </div>
-                <!-- /Right Side -->
-            </div>
-        </div>
+                <!-- Left of "Under Heading" -->
 
-        <template #loading>
-            LOADING
-        </template>
-    </Suspense>
+                <!-- Right of "Under Heading -->
+                <ProseContainer v-if="item" :text="item.description"/>
+                <!-- Right of "Under Heading -->
+            </div>
+            <!-- /Under Heading -->
+        </div>
+        <!-- /Right Side -->
+    </div>
 </template>
+
+<style scoped lang="scss">
+.sourcebook {
+    display: flex;
+    gap: 4rem;
+
+    .prose {
+        column-span: 2;
+    }
+}
+
+.sourcebook-content {
+    display: grid;
+    column-count: 3;
+    gap: 4rem;
+}
+
+.prose {
+    grid-column: 2 / span 2;
+}
+</style>

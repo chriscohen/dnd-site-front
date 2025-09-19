@@ -1,18 +1,22 @@
 ﻿<script setup lang="ts">
 import SpellTeaser from "~/components/teasers/SpellTeaser.vue";
+import ConjuringScreen from "~/components/loading/ConjuringScreen.vue";
 
-const spellStore = useSpellStore();
-const items = await spellStore.getAll();
+const store = useSpellStore();
+await store.getAll();
 </script>
 
 <template>
-    <Suspense>
-        <div class="teaser-container">
-            <SpellTeaser v-for="spell in items" :key="spell.id" :spell="spell" />
-        </div>
+    <div>
+        <ConjuringScreen v-if="store.loading"/>
 
-        <template #fallback>
-            LOADING
-        </template>
-    </Suspense>
+        <div v-if="!store.loading" class="teaser-container">
+            <SpellTeaser v-for="item in store.items" :key="item.id" :loading="false" :data="item" />
+        </div>
+    </div>
+
 </template>
+
+<style scoped lang="scss">
+@use '~/assets/css/components/teasers';
+</style>
