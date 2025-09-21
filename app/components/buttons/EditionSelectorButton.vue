@@ -1,5 +1,5 @@
 ﻿<script setup lang="ts">
-import {useSourceStore} from "#imports";
+import {useSourceStore, useSpellStore} from "#imports";
 
 const props = defineProps({
     editionId: { type: String, required: true },
@@ -10,10 +10,12 @@ const props = defineProps({
 
 const persistedStore = usePersistedStore();
 const sourceStore = useSourceStore();
+const spellStore = useSpellStore();
 
 function clicked(e: MouseEvent) {
     persistedStore.toggle(props.editionId);
     sourceStore.getAll(true);
+    spellStore.getAll(true);
 }
 </script>
 

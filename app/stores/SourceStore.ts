@@ -1,5 +1,5 @@
 ﻿import {defineStore} from 'pinia';
-import {usePersistedStore} from "#imports";
+import { usePersistedStore } from "#imports";
 
 export const useSourceStore = defineStore('source', () => {
     const loading = ref(false);
