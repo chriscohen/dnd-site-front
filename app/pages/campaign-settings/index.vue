@@ -1,20 +1,19 @@
 ﻿<script setup lang="ts">
 
 import CampaignSettingTeaser from "~/components/teasers/CampaignSettingTeaser.vue";
+import ConjuringScreen from "~/components/loading/ConjuringScreen.vue";
 
 const store = useCampaignSettingStore();
-const items = await store.getAll();
+store.getAll();
 
 </script>
 
 <template>
-    <Suspense>
-        <div class="flex flex-wrap gap-4 items-center">
-            <CampaignSettingTeaser v-for="item in items" :key="item.id" :campaign-setting="item"/>
-        </div>
+    <div>
+        <ConjuringScreen v-if="store.isLoading()" />
 
-        <template #fallback>
-            LOADING
-        </template>
-    </Suspense>
+        <div v-if="!store.isLoading()" class="flex flex-wrap gap-4 items-center">
+            <CampaignSettingTeaser v-for="item in store.items" :key="item.id" :campaign-setting="item"/>
+        </div>
+    </div>
 </template>

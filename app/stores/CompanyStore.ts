@@ -1,73 +1,7 @@
-﻿import { defineStore } from 'pinia';
+﻿import { createTypedStore } from '~/stores/BaseStore';
 
-export const useCompanyStore = defineStore('company', {
-    state: () => ({
-        loading: false,
-        items: [] as ICompany[],
-        allLoaded: false,
-    }),
-    actions: {
-        contains(slug: string): boolean {
-            this.items.map((item: ICompany) => {
-                if (item.slug === slug) {
-                    return true;
-                }
-            });
-            return false;
-        },
-        getBySlug(slug: string): Promise<ICompany | null> {
-            const item = this.items.find((item) => item.slug === slug);
-            return item === undefined ?
-                this.getBySlugFromApi(slug) :
-                new Promise<ICompany | null>(resolve => resolve(item));
-        },
-        async getBySlugFromApi(slug: string): Promise<ICompany | null> {
-            const runtimeConfig = useRuntimeConfig();
-            this.loading = true;
-
-            return fetch(runtimeConfig.public.apiUrl + '/company/' + slug + '?mode=full', {
-                method: 'GET',
-                headers: {
-                    "Access-Control-Allow-Origin": "*"
-                },
-            })
-                .then((response: Response) => response.json())
-                .then((data: ICompany) => {
-                    if (!this.contains(data.slug)) {
-                        this.$patch((state) => state.items.push(data));
-                    }
-                    return data;
-                })
-                .catch((e) => console.error(e))
-                .finally(() => {
-                    this.loading = false;
-                    return null;
-                });
-        },
-        getAll(): Promise<ICompany[] | null> {
-            return this.allLoaded ?
-                new Promise<ICompany[]>((resolve) => resolve(this.items))
-                : this.getAllFromApi();
-        },
-        async getAllFromApi(): Promise<ICompany[] | null> {
-            const runtimeConfig = useRuntimeConfig();
-            this.loading = true;
-
-            fetch(runtimeConfig.public.apiUrl + '/companies?mode=full', {
-                method: 'GET',
-                headers: {
-                    "Access-Control-Allow-Origin": "*"
-                },
-            })
-                .then((response: Response) => response.json())
-                .then((data: ICompany) => {
-                    this.items = [];
-                    data.forEach((item: ICompany) => { this.$patch((state) => state.items.push(item) )})
-                })
-                .catch((e) => console.error(e))
-                .finally(() => this.loading = false);
-
-            return this.items
-        }
-    }
+export const useCompanyStore = createTypedStore<ICompany>({
+    storeName: 'company',
+    getEndpoint: 'company',
+    listEndpoint: 'companies'
 });

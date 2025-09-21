@@ -108,7 +108,7 @@ export const usePersistedStore = defineStore('persisted', {
                 }
             });
 
-            return 'editions=' + enabled.join(',');
+            return enabled.join(',');
         }
     },
     actions: {

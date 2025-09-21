@@ -93,6 +93,11 @@ export interface IProductId {
     url?: string
 }
 
+export interface IQueryString {
+    editions?: string
+    mode?: string
+}
+
 export interface IRange {
     __typename: "Range"
     id: string,

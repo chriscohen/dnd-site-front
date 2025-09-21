@@ -2,7 +2,7 @@
 import type { TableColumn } from "@nuxt/ui";
 
 const store = useItemStore();
-await store.getAll();
+store.getAll();
 
 const data = ref<IItem[]>(store.items);
 
@@ -37,8 +37,8 @@ const columns: TableColumn<IItem>[] = [
 
 <template>
     <div>
-        <LoadingConjuringScreen v-if="store.loading"/>
-        <div v-if="!store.loading" class="flex gap-4" >
+        <LoadingConjuringScreen v-if="store.isLoading()"/>
+        <div v-if="!store.isLoading()" class="flex gap-4" >
             <UTable :columns="columns" :data="store.items" class="flex-1"/>
         </div>
     </div>
