@@ -5,7 +5,7 @@
 @use '../variables';
 
 .teaser {
-    @include fonts.modesto;
+    @include mixins.heavyShadow;
 
     background: colors.$black-20;
     flex-shrink: 1;
@@ -17,6 +17,7 @@
         background 500ms ease-in-out,
         transform 500ms ease-in-out,
         box-shadow 500ms ease-in-out;
+    transform-origin: top left;
 
     > img {
         margin: auto;
@@ -39,4 +40,37 @@
 .teaser-container {
     display: flex;
     gap: 0.5rem;
+}
+
+.teaser-title {
+    @include fonts.mrs-eaves;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: colors.$black-80;
+    height: 3.5rem;
+    display: flex;
+    flex-direction: column;
+
+    h3 {
+        font-size: 1.25rem;
+        line-height: 1rem;
+        padding: 0.5rem;
+        text-align: center;
+        @include mixins.text-shadow;
+    }
+    span.subtitle {
+        display: block;
+        font-size: 1.2rem;
+        text-align: center;
+        @include fonts.mrs-eaves;
+        margin-top: -1rem;
+    }
+    .edition-strip {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+    }
 }

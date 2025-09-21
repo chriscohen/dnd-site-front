@@ -1,9 +1,9 @@
 ﻿<script setup lang="ts">
-const props = defineProps({
-    class: { type: String, default: '' },
-    label: { type: String, required: true },
-    extraText: { type: String, required: false, default: '' }
-});
+const props = defineProps<{
+    class: string
+    label?: string
+    extraText?: string
+}>();
 </script>
 
 <template>

@@ -11,7 +11,7 @@ const linkStyle = {
 </script>
 
 <template>
-    <NuxtLink to="/" class="back-button" :style="linkStyle">
+    <NuxtLink :to="to" class="back-button" :style="linkStyle">
         <Icon
             name="lucide:chevron-left"
             class="text-gray-500 hover:text-gray-200 hover:animate-bounce-left" :size="size" />

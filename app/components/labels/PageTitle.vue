@@ -15,7 +15,7 @@ console.log('page title loading is ' + (props.loading ? 'true' : 'false'));
 
     <div v-if="!loading" class="page-title">
         <div class="buttons">
-            <BackButton :to="backTo" size="3rem"/>
+            <BackButton :to="backTo ?? '/'" size="3rem"/>
         </div>
 
         <div class="page-title-main">

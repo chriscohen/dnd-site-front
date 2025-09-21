@@ -33,7 +33,8 @@ const getSubtitle = computed(() => {
 <style scoped lang="scss">
 @use '~/assets/css/fonts';
 @use '~/assets/css/components/teasers';
-@use '../../assets/css/variables';
+@use '~/assets/css/variables';
+@use '~/assets/css/badges';
 
 .spell-teaser {
     display: inline-block;
@@ -41,11 +42,6 @@ const getSubtitle = computed(() => {
     width: variables.$teaser-width;
     height: variables.$teaser-width;
 
-    > .badge-container {
-        position: absolute;
-        top: 1rem;
-        right: 1.5rem;
-    }
     > img {
         position: absolute;
         top: 0;

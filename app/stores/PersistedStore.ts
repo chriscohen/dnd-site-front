@@ -37,7 +37,7 @@ export const usePersistedStore = defineStore('persisted', {
             },
             {
                 id: 'e3',
-                name: '3e',
+                name: '3.5',
                 text: '3',
                 sup: 'rd',
                 bgClass: 'edition-3',
@@ -103,7 +103,7 @@ export const usePersistedStore = defineStore('persisted', {
             const enabled: string[] = [];
 
             state.editions.forEach((item: IEditionButton) => {
-                if (item.active) {
+                if (item.active && item.id !== 'all') {
                     enabled.push(item.name);
                 }
             });

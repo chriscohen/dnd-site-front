@@ -1,9 +1,9 @@
 ﻿<script setup lang="ts">
 import BadgeBase from "~/components/badges/BadgeBase.vue";
 
-const props = defineProps({
-    edition: { type: String, required: true }
-});
+const props = defineProps<{
+    edition?: string
+}>();
 
 const classMap = [
     {name: '1e', class: 'edition-1'},
@@ -15,12 +15,15 @@ const classMap = [
     {name: '5e (2024)', class: 'edition-2024'},
 ];
 // Eg: bg-edition-2024
-const className = 'bg-' + (classMap.find((item) => item.name === props.edition)?.class ?? '');
+const className = [
+    'text-active',
+    'bg-' + (classMap.find((item) => item.name === props.edition)?.class ?? '')
+].join(' ');
 
 </script>
 
 <template>
-    <BadgeBase :label="props.edition" :class="'text-dark ' + className"/>
+    <BadgeBase :label="props.edition" :class="className"/>
 </template>
 
 <style scoped lang="scss">

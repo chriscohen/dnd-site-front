@@ -11,6 +11,47 @@
     }
 }
 
+export function editionToClass(input: string): string {
+    switch (input) {
+        case '1e':
+            return 'edition-1';
+        case '2e':
+            return 'edition-2';
+        case '3e':
+        case '3.5':
+            return 'edition-3';
+        case '4e':
+            return 'edition-4';
+        case '5e (2014)':
+            return 'edition-5';
+        case '5e (2024)':
+            return 'edition-2024';
+        default:
+            return '1e';
+    }
+}
+
+export function formatEdition(input: string) {
+    switch (input) {
+        case '1e':
+            return '1st Edition';
+        case '2e':
+            return '2nd Edition';
+        case '3e':
+            return '3rd Edition';
+        case '3.5':
+            return '3.5 Edition';
+        case '4e':
+            return '4th Edition';
+        case '5e (2014)':
+            return '5th Edition (2014)';
+        case '5e (2024)':
+            return '5th Edition (2024)';
+        default:
+            return 'unknown edition';
+    }
+}
+
 export function formatIsbn(input: string): string {
     if (input.length == 10) {
         return [

@@ -13,7 +13,7 @@ const props = defineProps<{
 
     <NuxtLink v-if="!loading" :to="'/sources/' + data?.slug" class="shrink teaser">
         <MediaCoverImage :sourcebook="props.data" />
-        <TeaserTitle :title="data?.name"/>
+        <TeaserTitle :title="data?.name" :edition="data?.game_edition"/>
     </NuxtLink>
 </template>
 
