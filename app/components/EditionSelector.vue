@@ -1,13 +1,13 @@
 ﻿<script setup lang="ts">
 import EditionSelectorButton from "~/components/buttons/EditionSelectorButton.vue";
 
-const selectedEditionStore = useSelectedEditionStore();
+const persistedStore = usePersistedStore();
 </script>
 
 <template>
     <UButtonGroup class="edition-selector">
         <EditionSelectorButton
-            v-for="edition in selectedEditionStore.editions"
+            v-for="edition in persistedStore.editions"
             :key="edition.id"
             :edition-id="edition.id"
             :text="edition.text"

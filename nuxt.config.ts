@@ -42,12 +42,13 @@ export default defineNuxtConfig({
         dirs: ['types']
     },
     modules: [
-      '@nuxt/eslint',
-      '@nuxt/fonts',
-      '@nuxt/icon',
-      '@nuxt/image',
-      '@nuxt/ui',
-      '@pinia/nuxt',
+        '@nuxt/eslint',
+        '@nuxt/fonts',
+        '@nuxt/icon',
+        '@nuxt/image',
+        '@nuxt/ui',
+        '@pinia/nuxt',
+        'pinia-plugin-persistedstate'
     ],
     runtimeConfig: {
         public: {

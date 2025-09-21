@@ -1,7 +1,8 @@
 ﻿import { defineStore } from 'pinia';
-
+import {useRuntimeConfig} from "#app";
 export const useItemStore = defineStore('item', {
     state: () => ({
+        loading: false,
         items: [] as IItem[],
         allLoaded: false,
     }),
@@ -14,100 +15,58 @@ export const useItemStore = defineStore('item', {
             });
             return false;
         },
-        getBySlug(slug: string): IItem | undefined {
+        getBySlug(slug: string): Promise<IItem | null> {
             const item = this.items.find((item) => item.slug === slug);
-            return item === undefined ? this.getBySlugFromApi(slug) : item;
+            return item === undefined ?
+                this.getBySlugFromApi(slug) :
+                new Promise<IItem | null>((resolve) => resolve(item));
         },
-        async getBySlugFromApi(slug: string): Promise<IItem> {
-            const query = gql`
-                query {
-                    item(slug: "${slug}") {
-                        id
-                        slug
-                        name
-                        category {
-                            id
-                            slug
-                            name
-                            image {
-                                url
-                            }
-                        }
-                        editions {
-                            id
-                            item_id
-                            game_edition
-                            description
-                            price
-                            quantity
-                            weight
-                            references {
-                                name
-                                page_from
-                                page_to
-                                slug
-                            }
-                        }
-                    }
-                }`;
+        async getBySlugFromApi(slug: string): Promise<IItem | null> {
+            const runtimeConfig = useRuntimeConfig();
+            this.loading = true
 
-            const { data, error} = await useAsyncQuery(query, { slug: slug });
-            const item: (IItem | undefined) = data.value.item;
-
-            if (error.value === undefined && item !== undefined && !this.contains(item.slug)) {
-                this.$patch((state) => {
-                    console.log('item: ', item);
-                    state.items.push(item);
+            return fetch(runtimeConfig.public.apiUrl + '/item/' + slug + '?mode=full', {
+                method: 'GET',
+                headers: {
+                    "Access-Control-Allow-Origin": "*"
+                },
+            })
+                .then((response) => response.json())
+                .then((data: IItem) => this.$patch((state) => state.items.push(data)))
+                .catch((e) => {
+                    console.error(e);
+                    return null;
+                })
+                .finally(() => {
+                    this.loading = false;
+                    return null;
                 });
-            }
-
-            return item as IItem;
         },
-        getAll(): IItem[] {
-            return this.allLoaded ? this.items : this.getAllFromApi();
+        getAll(): Promise<IItem[] | null> {
+            return this.allLoaded ?
+                new Promise<IItem[]>((resolve) => resolve(this.items)) :
+                this.getAllFromApi();
         },
-        async getAllFromApi(): Promise<IItem[]> {
-            const query = gql`
-                query {
-                    items {
-                        id
-                        slug
-                        name
-                        category {
-                            id
-                            slug
-                            name
-                            image {
-                                url
-                            }
-                        }
-                        editions {
-                            id
-                            item_id
-                            game_edition
-                            description
-                            price
-                            quantity
-                            weight
-                            references {
-                                name
-                                page_from
-                                page_to
-                                slug
-                            }
-                        }
-                    }
-                }`;
+        async getAllFromApi(): Promise<IItem[] | null> {
+            console.log('getting all items');
+            const runtimeConfig = useRuntimeConfig();
+            this.loading = true;
 
-            const { data } = await useAsyncQuery(query);
+            fetch(runtimeConfig.public.apiUrl + '/items?mode=full', {
+                method: 'GET',
+                headers: {
+                    "Access-Control-Allow-Origin": "*"
+                },
+            })
+                .then((response) => response.json())
+                .then((data: IItem[]) => {
+                    this.items = []
+                    data.forEach((item: IItem) => this.$patch((state) => state.items.push(item)));
+                })
+                .then(() => this.allLoaded = true)
+                .catch((e) => console.error(e))
+                .finally(() => this.loading = false);
 
-            this.items = [];
-            data.value.items.forEach((item: IItem) => {
-                this.$patch((state) => {
-                    this.items.push(item);
-                });
-            });
-            this.allLoaded = true;
             return this.items;
         }
     }

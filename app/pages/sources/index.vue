@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import SourcebookTeaser from "~/components/teasers/SourcebookTeaser.vue";
 import ConjuringScreen from "~/components/loading/ConjuringScreen.vue";
+import {usePersistedStore} from "#imports";
+
+const persistedStore = usePersistedStore();
 
 const store = useSourceStore();
-await store.getAll();
+await store.getAll(persistedStore);
 </script>
 
 <template>

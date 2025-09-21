@@ -1,4 +1,6 @@
 ﻿<script setup lang="ts">
+import {useSourceStore} from "#imports";
+
 const props = defineProps({
     editionId: { type: String, required: true },
     text: { type: String, required: true },
@@ -6,13 +8,19 @@ const props = defineProps({
     bgClass: { type: String, required: true },
 });
 
-const selectedEditionsStore = useSelectedEditionStore();
+const persistedStore = usePersistedStore();
+const sourceStore = useSourceStore();
+
+function clicked(e: MouseEvent) {
+    persistedStore.toggle(props.editionId);
+    sourceStore.getAll(true);
+}
 </script>
 
 <template>
     <button
-        :class="[props.bgClass, 'text-default', selectedEditionsStore.get(props.editionId)?.active ? 'active' : ''].join(' ')"
-        @click="selectedEditionsStore.toggle(props.editionId)"
+        :class="[props.bgClass, 'text-default', persistedStore.get(props.editionId)?.active ? 'active' : ''].join(' ')"
+        @click="clicked"
     >
         {{props.text}}
         <sup v-if="props.sup !== null">{{props.sup}}</sup>
@@ -20,8 +28,8 @@ const selectedEditionsStore = useSelectedEditionStore();
 </template>
 
 <style scoped lang="scss">
-@use '../../assets/css/colors';
-@use '../../assets/css/variables';
+@use '~/assets/css/colors';
+@use '~/assets/css/variables';
 
 .edition-button {
     transition: border variables.$default-delay ease-in-out;

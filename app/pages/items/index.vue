@@ -2,9 +2,9 @@
 import type { TableColumn } from "@nuxt/ui";
 
 const store = useItemStore();
-await callOnce(store.getAll);
+await store.getAll();
 
-const data = ref<IItem[]>(store.getAll());
+const data = ref<IItem[]>(store.items);
 
 const columns: TableColumn<IItem>[] = [
     {
@@ -22,21 +22,24 @@ const columns: TableColumn<IItem>[] = [
         }, row.getValue('name'))
     },
     {
-        accessorKey: 'editions[0].game_edition',
-        header: 'Game Edition',
+        accessorKey: 'category.name',
+        header: 'Category',
         meta: {
             class: {
                 td: 'text-gray-200',
                 th: 'text-white',
             }
         },
-        cell: ({row}) => row.original.editions[0].game_edition
+        cell: ({row}) => row.original.category.name,
     }
 ];
 </script>
 
 <template>
-    <div class="flex gap-4">
-        <UTable :columns="columns" :data="data" class="flex-1"/>
+    <div>
+        <LoadingConjuringScreen v-if="store.loading"/>
+        <div v-if="!store.loading" class="flex gap-4" >
+            <UTable :columns="columns" :data="store.items" class="flex-1"/>
+        </div>
     </div>
 </template>
