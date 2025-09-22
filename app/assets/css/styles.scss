@@ -48,6 +48,19 @@ body {
     overflow: hidden;
 }
 
+dl {
+    display: flex;
+    flex-wrap: wrap;
+
+    > dd {
+        flex-basis: 50%;
+    }
+    > dt {
+        flex-basis: 50%;
+        text-align: right;
+    }
+}
+
 /**
  * Defaults
  */

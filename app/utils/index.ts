@@ -3,6 +3,16 @@ export interface IAttackType {
     name: string
 }
 
+export interface IBoxedSetItem {
+    id: string
+    slug: string
+    name: string
+    content_type: string
+    pages: number
+    parent: ISourcebookEdition
+    quantity: number
+}
+
 export interface ICampaignSetting {
     __typename: "Campaign Setting"
     id: string
@@ -131,6 +141,7 @@ export interface ISourcebookEdition {
     sourcebook_id: string
     name: string
     binding: string
+    box_set_items: IBoxedSetItem[]
     formats: string[]
     isbn10: string
     isbn13: string

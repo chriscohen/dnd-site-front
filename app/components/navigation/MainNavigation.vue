@@ -24,7 +24,7 @@
     color: colors.$gray-400;
 
     padding-top: 1rem;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
 
     @include fonts.mrs-eaves;
 

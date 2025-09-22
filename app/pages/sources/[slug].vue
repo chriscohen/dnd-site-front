@@ -6,6 +6,7 @@ import ProseContainer from "~/components/text/ProseContainer.vue";
 import CoverArtLarge from "~/components/media/CoverArtLarge.vue";
 import ProductLinkButtonContainer from "~/components/containers/ProductLinkButtonContainer.vue";
 import PageTitle from "~/components/labels/PageTitle.vue";
+import SourcebookInTheBox from "~/components/sourcebooks/SourcebookInTheBox.vue";
 
 const route = useRoute();
 const store = useSourceStore();
@@ -41,6 +42,10 @@ const item = await store.getBySlug(route.params.slug as string);
                         :loading="!item"
                         :sourcebook="item as ISourcebook"
                     />
+                    <SourcebookInTheBox
+                        v-if="item?.editions[0]?.boxed_set_items?.length > 0"
+                        :items="item?.editions[0]?.boxed_set_items"
+                    />
                     <ProductLinkButtonContainer
                         v-if="item?.product_ids?.length > 1"
                         :loading="!item"
@@ -67,6 +72,12 @@ const item = await store.getBySlug(route.params.slug as string);
     .prose {
         column-span: 2;
     }
+}
+
+.sourcebook-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 }
 
 .sourcebook-content {
