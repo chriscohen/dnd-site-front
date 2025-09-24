@@ -11,7 +11,7 @@ import SourcebookInTheBox from "~/components/sourcebooks/SourcebookInTheBox.vue"
 const route = useRoute();
 const store = useSourceStore();
 
-const item = await store.getBySlug(route.params.slug as string);
+const item = await store.getBySlug(route.params.slug as string, RenderMode.FULL);
 </script>
 
 <template>

@@ -9,14 +9,37 @@ type TypedStoreProps = {
 };
 
 export function createTypedStore<T>(props: TypedStoreProps): StoreDefinition {
+    // For cache entries, we will store what query string was used, and what the result was.
+    type CacheEntry = {
+        query: string
+        result: T[]
+    }
+
     return defineStore(props.storeName, () => {
-        const items = ref<T[]>([]);
+        const short = ref<T[]>([]);
+        const teaser = ref<T[]>([]);
+        const full = ref<T[]>([]);
         const loading = ref<boolean>(false);
         const error = ref<Error | null>(null);
+        const cache = ref<CacheEntry[]>([]);
         const persisted = usePersistedStore();
 
-        function contains(slug: string): boolean {
-            items.value.map((item: T) => {
+        function getStore(mode: RenderMode) {
+            switch (mode) {
+                default:
+                case RenderMode.SHORT:
+                    return short;
+                case RenderMode.TEASER:
+                    return teaser;
+                case RenderMode.FULL:
+                    return full;
+            }
+        }
+
+        function contains(slug: string, mode: RenderMode): boolean {
+            const store = getStore(mode);
+
+            store.value.map((item: T) => {
                 if (item.slug === slug) {
                     return true;
                 }
@@ -36,7 +59,6 @@ export function createTypedStore<T>(props: TypedStoreProps): StoreDefinition {
                 url = url + '/' + slug;
             }
 
-            qs.mode = 'full';
             const mapped = Object.entries(qs).map(
                 ([key, value]) => encodeURIComponent(key) + '=' + encodeURIComponent(value)
             );
@@ -44,19 +66,24 @@ export function createTypedStore<T>(props: TypedStoreProps): StoreDefinition {
             return url + '?' + mapped.join('&');
         }
 
-        async function getBySlug(slug: string): Promise<T | null> {
-            const item = items.value.find((item: T) => item.slug === slug);
+        async function getBySlug(slug: string, mode: RenderMode = RenderMode.SHORT): Promise<T | null> {
+            const store = getStore(mode);
+            const item = store.value.find((item: T) => item.slug === slug);
             return item === undefined ?
-                getBySlugFromApi(slug) :
+                getBySlugFromApi(slug, mode) :
                 new Promise<T | null>(resolve => resolve(item));
         }
 
-        async function getBySlugFromApi(slug: string): Promise<T | null> {
+        async function getBySlugFromApi(slug: string, mode: RenderMode = RenderMode.SHORT): Promise<T | null> {
             loading.value = true;
+            const store = getStore(mode);
             const url = getUrl(
                 props.getEndpoint,
                 slug,
-                { editions: persisted.getEditionsQueryString },
+                {
+                    editions: persisted.getEditionsQueryString,
+                    mode: mode
+                },
             );
 
             return fetch(url, {
@@ -67,8 +94,8 @@ export function createTypedStore<T>(props: TypedStoreProps): StoreDefinition {
             })
                 .then((response: Response) => response.json())
                 .then((data: T) => {
-                    if (!contains(data.slug)) {
-                        items.value.push(data);
+                    if (!contains(data.slug, mode)) {
+                        store.value.push(data);
                     }
                     return data;
                 })
@@ -83,16 +110,20 @@ export function createTypedStore<T>(props: TypedStoreProps): StoreDefinition {
                 });
         }
 
-        async function getAll(noCache: boolean = false): Promise<T[] | null> {
-            return getAllFromApi();
+        async function getAll(mode: RenderMode): Promise<T[] | null> {
+            return getAllFromApi(mode);
         }
 
-        async function getAllFromApi(): Promise<T[] | null> {
+        async function getAllFromApi(mode: RenderMode): Promise<T[] | null> {
             loading.value = true;
+            const store = getStore(mode);
             const url = getUrl(
                 props.listEndpoint,
                 null,
-                { editions: persisted.getEditionsQueryString },
+                {
+                    mode: mode,
+                    editions: persisted.getEditionsQueryString
+                },
             )
 
             return fetch(url, {
@@ -103,9 +134,9 @@ export function createTypedStore<T>(props: TypedStoreProps): StoreDefinition {
             })
                 .then((response) => response.json())
                 .then((data: T[]) => {
-                    items.value = [];
-                    data.forEach((item: T) => items.value.push(item))
-                    return items;
+                    store.value = [];
+                    data.forEach((item: T) => store.value.push(item))
+                    return store;
                 })
                 .catch((e) => {
                     console.error(e);
@@ -115,8 +146,53 @@ export function createTypedStore<T>(props: TypedStoreProps): StoreDefinition {
                 .finally(() => loading.value = false);
         }
 
+        function fromCache(query: string): T | null {
+            cache.forEach((item: CacheEntry) => {
+                if (item.query === query) return item;
+            });
+
+            return null;
+        }
+
+        function removeFromCache(query: string): boolean {
+            const cachedItem = fromCache(query);
+
+            if (!cachedItem) {
+                // It's not already in the cache.
+                return false;
+            } else {
+                const index = cache.indexOf(cachedItem);
+
+                // If found in the cache, splice to remove it.
+                if (index !== -1) {
+                    cache.splice(index, 1);
+                }
+            }
+        }
+
+        function toCache(query: string, result: T[]) {
+            const cachedItem = fromCache(query);
+
+            if (!cachedItem) {
+                // Add a new item.
+                cache.push({
+                    query: query,
+                    result: result
+                });
+            } else {
+                // Replace the existing item.
+                const index = cache.indexOf(cachedItem);
+                cache[index] = {
+                    query: query,
+                    result: result
+                };
+            }
+        }
+
         return {
-            items,
+            short,
+            teaser,
+            full,
             isLoading,
             contains,
             getAll,

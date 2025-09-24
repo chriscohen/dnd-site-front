@@ -21,6 +21,7 @@ function clicked(e: MouseEvent) {
 
 <template>
     <button
+        class="border-stripe"
         :class="[props.bgClass, 'text-default', persistedStore.get(props.editionId)?.active ? 'active' : ''].join(' ')"
         @click="clicked"
     >
@@ -30,6 +31,7 @@ function clicked(e: MouseEvent) {
 </template>
 
 <style scoped lang="scss">
+@use '~/assets/css/borders';
 @use '~/assets/css/colors';
 @use '~/assets/css/variables';
 

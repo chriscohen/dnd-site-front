@@ -4,7 +4,7 @@ import ConjuringScreen from "~/components/loading/ConjuringScreen.vue";
 import {useSourceStore} from "~/stores/SourceStore";
 
 const store = useSourceStore();
-store.getAll();
+store.getAll(RenderMode.TEASER);
 </script>
 
 <template>
@@ -12,7 +12,7 @@ store.getAll();
         <ConjuringScreen v-if="store.isLoading()" />
 
         <div v-if="!store.isLoading()" class="teaser-container">
-            <SourcebookTeaser v-for="item in store.items" :key="item.id" :loading="false" :data="item"/>
+            <SourcebookTeaser v-for="item in store.teaser" :key="item.id" :loading="false" :data="item"/>
         </div>
     </div>
 </template>

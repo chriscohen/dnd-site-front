@@ -5,15 +5,18 @@ import MagicSchoolLabel from "~/components/labels/MagicSchoolLabel.vue";
 const props = defineProps<{
     loading: boolean
     spell?: ISpell
+    edition?: string
 }>();
 </script>
 
 <template>
-    <div v-if="!loading && spell" class="spellbook scrollbar">
+    <LoadingConjuringScreen v-if="loading"/>
+
+    <div v-if="!loading && spell && edition" class="spellbook scrollbar">
         <div class="spellbook-header">
             <h1>{{ spell?.name }}</h1>
             <MagicSchoolLabel
-                :school="spell?.editions[0]?.school"
+                :school="edition.school"
                 size="4rem"
                 classes="ml-auto"
             />
@@ -22,15 +25,20 @@ const props = defineProps<{
         <div class="spellbook-upper">
             <div class="spell-attributes">
                 <span>Components</span>
-                <span>{{ spell?.editions[0]?.spell_components }}</span>
+                <span>{{ edition.spell_components }}</span>
 
                 <span>Range</span>
-                <span>{{ spell?.editions[0]?.range.string }}</span>
+                <span>{{ edition.range.string }}</span>
+
+                <template v-if="edition?.area?.string">
+                <span>Area</span>
+                <span>{{ edition?.area?.string }}</span>
+                </template>
             </div>
-            <ClassesLevelsList :data="spell?.editions[0]?.class_levels" />
+            <ClassesLevelsList :data="edition.class_levels" />
         </div>
 
-        <div v-html="spell.editions[0]?.description ?? ''" class="spellbook-description"/>
+        <div v-html="edition.description ?? ''" class="spellbook-description"/>
     </div>
 </template>
 
@@ -52,6 +60,7 @@ const props = defineProps<{
     width: 48rem;
     @include mixins.heavyShadow;
     @include animations.animate(fadeIn);
+    z-index: 10;
 
     > .spellbook-header {
         @include fonts.modesto;

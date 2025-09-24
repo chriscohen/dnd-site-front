@@ -27,5 +27,5 @@ const className = [
 </template>
 
 <style scoped lang="scss">
-@use '~/assets/css/editions';
+@use '~/assets/css/backgrounds';
 </style>

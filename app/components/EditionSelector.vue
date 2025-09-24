@@ -35,8 +35,6 @@ const persistedStore = usePersistedStore();
         cursor: pointer;
         font-size: 1.5rem;
         @include fonts.modesto;
-        border-bottom-width: 0.25rem;
-        border-bottom-style: solid;
 
         > sup {
             font-size: 1.25rem;

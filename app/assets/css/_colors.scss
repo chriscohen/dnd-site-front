@@ -106,27 +106,27 @@ $sky-950: oklch(39.1% 0.09 240.876);
  * Edition colors
  */
 $edition-1-hover: $sky-400;
-$edition-1-active: $sky-700;
+$edition-1-active: $sky-600;
 $edition-1: $sky-900;
 
 $edition-2-hover: $green-400;
-$edition-2-active: $green-700;
+$edition-2-active: $green-600;
 $edition-2: $green-900;
 
 $edition-3-hover: $yellow-400;
-$edition-3-active: $yellow-700;
+$edition-3-active: $yellow-600;
 $edition-3: $yellow-900;
 
 $edition-4-hover: $amber-400;
-$edition-4-active: $amber-700;
+$edition-4-active: $amber-600;
 $edition-4: $amber-900;
 
 $edition-5-hover: $orange-400;
-$edition-5-active: $orange-700;
+$edition-5-active: $orange-600;
 $edition-5: $orange-900;
 
 $edition-2024-hover: $red-400;
-$edition-2024-active: $red-700;
+$edition-2024-active: $red-600;
 $edition-2024: $red-900;
 
 /*
@@ -135,6 +135,7 @@ $edition-2024: $red-900;
 $text: rgb(200, 200, 200);
 $text-active: rgb(240, 240, 240);
 $text-hover: color.adjust($text, $lightness: 25%);
+$text-disabled: $gray-500;
 
 $text-dark: $gray-700;
 $text-dark-active: $gray-800;

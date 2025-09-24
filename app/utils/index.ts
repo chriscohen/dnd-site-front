@@ -1,3 +1,15 @@
+export interface IArea {
+    string: string
+    id: string
+    height?: number
+    length?: number
+    per_level?: number
+    quantity: number
+    radius: number
+    width?: number
+    type: string
+}
+
 export interface IAttackType {
     id: string
     name: string
@@ -94,6 +106,11 @@ export interface IMedia {
     mime_type?: string
 }
 
+export interface IMediaTeaser {
+    id: string
+    url: string
+}
+
 export interface IProductId {
     __typename: "Product ID"
     id: string
@@ -117,6 +134,12 @@ export interface IRange {
     number?: number
     per_level?: string
     unit: string
+}
+
+export enum RenderMode {
+    SHORT = 'short',
+    TEASER = 'teaser',
+    FULL = 'full',
 }
 
 export interface ISourcebook {
@@ -154,11 +177,23 @@ export interface ISpell {
     id: string
     slug: string
     name: string
+    image: IMedia
     editions: ISpellEdition[]
+}
+
+export interface ISpellTeaser {
+    id: string
+    slug: string
+    name: string
+    editions: ISpellEditionTeaser[]
+    image: IMediaTeaser
+    lowest_level: number
+    school: string
 }
 
 export interface ISpellEdition {
     id: string
+    area?: IArea
     class_levels: ISpellEditionCharacterClassLevel[]
     description: string
     domains: string[]
@@ -169,6 +204,12 @@ export interface ISpellEdition {
     range: string
     school: IMagicSchool
     spell_components: string
+}
+
+export interface ISpellEditionTeaser {
+    id: string
+    spell_id: string
+    game_edition: string
 }
 
 export interface ISpellEditionCharacterClassLevel {

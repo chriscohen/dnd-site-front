@@ -4,21 +4,21 @@ import TeaserTitle from "~/components/teasers/TeaserTitle.vue";
 
 const props = defineProps<{
     loading: boolean,
-    data?: ISpell
+    data?: ISpellTeaser
 }>();
 
 const getSubtitle = computed(() => {
     return props.loading ? [] : [
-        toOrdinal(props.data.editions[0]?.lowest_level.toString() ?? ''),
+        toOrdinal(props.data.lowest_level ?? ''),
         'level',
-        props.data.editions[0]?.school.name
+        props.data.school
     ].join(' ');
 });
 </script>
 
 <template>
     <NuxtLink v-if="data" :to="'/spells/' + data?.slug" class="shrink teaser spell-teaser">
-        <NuxtImg :src="'https://dnd001.s3.eu-west-2.amazonaws.com/spells/' + data?.slug + '.webp'"/>
+        <NuxtImg :src="data.image.url"/>
         <TeaserTitle :title="data?.name" :subtitle="getSubtitle"/>
         <BadgesBadgeContainer>
             <BadgesGameEditionBadge

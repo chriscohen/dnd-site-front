@@ -9,7 +9,7 @@ const props = defineProps<{
     <img
         v-if="!loading"
         class="spellbook-image"
-        :src="'https://dnd001.s3.eu-west-2.amazonaws.com/spells/' + props.spell.slug + '.webp'"
+        :src="spell.image.url"
         :alt="props.spell.name + ' preview image'"
     >
 </template>

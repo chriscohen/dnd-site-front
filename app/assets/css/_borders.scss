@@ -1,0 +1,12 @@
+﻿@use 'variables';
+
+.border-stripe {
+    border-bottom-style: solid;
+    border-bottom-width: 0.25rem;
+}
+
+@each $edition, $base, $active, $hover in variables.$editions {
+    .border-#{$edition} {
+        border-bottom-color: $active;
+    }
+}

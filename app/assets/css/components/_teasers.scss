@@ -39,23 +39,23 @@
 
 .teaser-container {
     display: flex;
+    flex-wrap: wrap;
     gap: 0.5rem;
 }
 
 .teaser-title {
-    @include fonts.mrs-eaves;
+    @include fonts.modesto;
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
     background-color: colors.$black-80;
-    height: 3.5rem;
     display: flex;
     flex-direction: column;
 
     h3 {
-        font-size: 1.25rem;
-        line-height: 1rem;
+        font-size: 1.75rem;
+        line-height: 1.5rem;
         padding: 0.5rem;
         text-align: center;
         @include mixins.text-shadow;
@@ -65,7 +65,7 @@
         font-size: 1.2rem;
         text-align: center;
         @include fonts.mrs-eaves;
-        margin-top: -1rem;
+        margin-top: -0.5rem;
     }
     .edition-strip {
         position: absolute;

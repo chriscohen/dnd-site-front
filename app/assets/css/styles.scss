@@ -125,3 +125,7 @@ dl {
 ::-webkit-scrollbar-thumb:hover {
     background: colors.$gray-700;
 }
+
+button:disabled {
+    cursor: not-allowed;
+}
