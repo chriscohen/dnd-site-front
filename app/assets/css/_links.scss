@@ -1,0 +1,13 @@
+﻿@use 'colors';
+@use 'variables';
+
+.yellowed {
+    a {
+        background-color: transparent;
+        transition: background-color variables.$default-delay ease-in-out;
+
+        &:hover {
+            background-color: colors.$yellow-300-50;
+        }
+    }
+}

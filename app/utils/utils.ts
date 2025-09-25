@@ -70,3 +70,7 @@ export function formatIsbn(input: string): string {
         ].join('-');
     }
 }
+
+export function formatPages(from: number, to?: number): string {
+    return 'pp. ' + from + (to ? '—' + to : '');
+}

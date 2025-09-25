@@ -5,5 +5,20 @@ const props = defineProps({
 </script>
 
 <template>
-    <div :class="'h-[1px] bg-linear-to-r from-gray-300/0 from-20% via-gray-300/100 to-gray-300/0 to-80% ' + props.class"/>
+    <div class="horizontal-divider"/>
 </template>
+
+<style lang="scss">
+@use '~/assets/css/colors';
+
+div.horizontal-divider {
+    height: 1px;
+    background-image: linear-gradient(
+        to right,
+        transparent,
+        colors.$gray-400 30%,
+        colors.$gray-400 70%,
+        transparent 100%
+    );
+}
+</style>

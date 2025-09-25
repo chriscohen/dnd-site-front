@@ -136,10 +136,14 @@ export interface IRange {
     unit: string
 }
 
-export enum RenderMode {
-    SHORT = 'short',
-    TEASER = 'teaser',
-    FULL = 'full',
+export interface IReferenceTeaser {
+    id: string
+    page_from: number
+    page_to?: number
+    source: string
+    slug: string
+    image: IMedia
+
 }
 
 export interface ISourcebook {
@@ -202,6 +206,7 @@ export interface ISpellEdition {
     is_default: boolean
     lowest_level: number
     range: string
+    references: IReferenceTeaser[]
     school: IMagicSchool
     spell_components: string
 }
@@ -218,4 +223,10 @@ export interface ISpellEditionCharacterClassLevel {
     character_class: string
     character_class_raw: ICharacterClass
     level: number
+}
+
+export enum RenderMode {
+    SHORT = 'short',
+    TEASER = 'teaser',
+    FULL = 'full',
 }

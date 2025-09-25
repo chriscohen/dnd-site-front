@@ -1,18 +1,19 @@
 ﻿<script setup lang="ts">
 import ClassesLevelsList from "~/components/lists/ClassesLevelsList.vue";
 import MagicSchoolLabel from "~/components/labels/MagicSchoolLabel.vue";
+import ReferenceList from "~/components/references/ReferenceList.vue";
 
 const props = defineProps<{
     loading: boolean
     spell?: ISpell
-    edition?: string
+    edition?: ISpellEdition
 }>();
 </script>
 
 <template>
     <LoadingConjuringScreen v-if="loading"/>
 
-    <div v-if="!loading && spell && edition" class="spellbook scrollbar">
+    <div v-if="!loading && spell && edition" class="spellbook scrollbar yellowed">
         <div class="spellbook-header">
             <h1>{{ spell?.name }}</h1>
             <MagicSchoolLabel
@@ -39,6 +40,12 @@ const props = defineProps<{
         </div>
 
         <div v-html="edition.description ?? ''" class="spellbook-description"/>
+        <DividersHorizontalDivider/>
+
+        <div class="spellbook-lower">
+            <h3>References</h3>
+            <ReferenceList :references="edition.references" />
+        </div>
     </div>
 </template>
 
@@ -74,6 +81,12 @@ const props = defineProps<{
         margin-bottom: 2rem;
         align-items: start;
         font-size: 1.25rem;
+    }
+    > .spellbook-lower {
+        > h3 {
+            @include fonts.mrs-eaves;
+            text-align: center;
+        }
     }
 }
 
