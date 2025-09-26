@@ -73,16 +73,16 @@ function getActive(item: RouteData): boolean {
         > a {
             padding: 0 1rem;
             border-bottom: 1px solid colors.$gray-600;
+            border-top-left-radius: 0.5rem;
+            border-top-right-radius: 0.5rem;
 
             transition: 250ms ease-in-out;
 
             &.active {
-                background-color: colors.$bg-active;
-                color: colors.$text-dark;
+                background-color: colors.$white-50;
 
                 &:hover {
                     background-color: colors.$bg-hover;
-                    color: colors.$text-dark-hover;
                 }
             }
 

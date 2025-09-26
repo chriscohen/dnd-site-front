@@ -1,28 +1,28 @@
 ﻿<script setup lang="ts">
 import {useSourceStore, useSpellStore} from "#imports";
 
-const props = defineProps({
-    editionId: { type: String, required: true },
-    text: { type: String, required: true },
-    sup: { type: String, default: null },
-    bgClass: { type: String, required: true },
-});
+const props = defineProps<{
+    editionId: string
+    text: string
+    sup?: string
+    bgClass: string
+}>();
 
 const persistedStore = usePersistedStore();
-const sourceStore = useSourceStore();
-const spellStore = useSpellStore();
 
 function clicked(e: MouseEvent) {
     persistedStore.toggle(props.editionId);
-    sourceStore.getAll(true);
-    spellStore.getAll(true);
+}
+
+function isActive(id: string): boolean {
+    return (persistedStore.get(id)?.active || persistedStore.get('all').active) ?? false;
 }
 </script>
 
 <template>
     <button
         class="border-stripe"
-        :class="[props.bgClass, 'text-default', persistedStore.get(props.editionId)?.active ? 'active' : ''].join(' ')"
+        :class="[props.bgClass, 'text-default', isActive(editionId) ? 'active' : ''].join(' ')"
         @click="clicked"
     >
         {{props.text}}

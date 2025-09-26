@@ -11,12 +11,12 @@ interface IEditionButton {
 
 export const usePersistedStore = defineStore('persisted', {
     state: () => ({
-        editions: [
+        editions: <IEditionButton[]>[
             {
                 id: 'all',
                 name: 'all',
                 text: '∞',
-                bgClass: 'default',
+                bgClass: 'edition-all',
                 active: true
             },
             {
@@ -96,10 +96,10 @@ export const usePersistedStore = defineStore('persisted', {
             });
             return ret;
         },
-        get: (state) => {
+        get: (state): IEditionButton => {
             return (id: string) => state.editions.find((item: IEditionButton) => item.id === id);
         },
-        getEditionsQueryString: (state) => {
+        getEditionsQueryString: (state): string => {
             const enabled: string[] = [];
 
             state.editions.forEach((item: IEditionButton) => {
@@ -121,26 +121,32 @@ export const usePersistedStore = defineStore('persisted', {
             });
         },
         setAll(onOrOff: boolean) {
-            const editionsClone = this.editions.slice();
-            editionsClone.forEach((item: IEditionButton) => {
+            this.editions.forEach((item: IEditionButton) => {
                 item.active = onOrOff;
             });
-            this.$patch({editions: editionsClone});
         },
         toggle(id: string) {
-            if (id === 'all') {
-                this.setAll(false);
-            }
+            const currentlyActive = this.get(id)?.active ?? false;
 
             const editionsClone = this.editions.slice();
+
+            if (id === 'all') {
+                editionsClone.forEach((item: IEditionButton) => item.active = !currentlyActive);
+            } else {
+                editionsClone.find((item: IEditionButton) => item.id === id).active = !currentlyActive;
+            }
+
+            // If all the editions have been selected, toggle the "all" button on or off too.
+            let allSelected = true;
+
             editionsClone.forEach((item: IEditionButton) => {
-                if (item.id === 'all') {
-                    // If ANY editions are selected, set the "ALL" button to off.
-                    item.active = !this.any;
-                } else if (item.id === id) {
-                    item.active = !item.active;
+                if (item.id !== 'all' && !item.active) {
+                    allSelected = false;
                 }
             });
+
+            editionsClone.find((item: IEditionButton) => item.id === 'all').active = allSelected;
+
             this.$patch({editions: editionsClone});
         }
     }
