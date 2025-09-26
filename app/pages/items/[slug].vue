@@ -1,15 +1,7 @@
 ﻿<script setup lang="ts">
 const route = useRoute();
 const itemStore = useItemStore();
-const backgroundImageStore = useBackgroundImageStore();
 
-await callOnce(() => itemStore.getBySlug(route.params.slug as string))
-    .then((data) => {
-        const item = itemStore.getBySlug(route.params.slug as string);
-        if (item?.category.image) {
-            backgroundImageStore.setImage(item.category.image);
-        }
-    });
 const item = itemStore.getBySlug(route.params.slug as string);
 </script>
 
@@ -18,7 +10,7 @@ const item = itemStore.getBySlug(route.params.slug as string);
         <div class="flex items-start gap-16">
             <!-- Left: Cover Art -->
             <div class="d-effect max-w-[30%]">
-                <img v-if="item.category && item.category.image" :src="item.category.image.url" alt="sdfsklj"/>
+                <img v-if="item.category && item.category.image" :src="item.category.image.url" alt="sdfsklj">
             </div>
             <!-- /Left: Cover Art -->
 

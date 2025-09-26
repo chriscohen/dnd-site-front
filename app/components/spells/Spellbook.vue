@@ -2,12 +2,19 @@
 import ClassesLevelsList from "~/components/lists/ClassesLevelsList.vue";
 import MagicSchoolLabel from "~/components/labels/MagicSchoolLabel.vue";
 import ReferenceList from "~/components/references/ReferenceList.vue";
+import SavingThrowLabel from "~/components/labels/SavingThrowLabel.vue";
 
 const props = defineProps<{
     loading: boolean
     spell?: ISpell
     edition?: ISpellEdition
 }>();
+
+const editionsWithSavingThrow = [
+    '2e',
+    '3e',
+    '3.5'
+];
 </script>
 
 <template>
@@ -32,8 +39,16 @@ const props = defineProps<{
                 <span>{{ edition.range.string }}</span>
 
                 <template v-if="edition?.area?.string">
-                <span>Area</span>
-                <span>{{ edition?.area?.string }}</span>
+                    <span>Area</span>
+                    <span>{{ edition?.area?.string }}</span>
+                </template>
+
+                <span>Casting Time</span>
+                <span>{{ edition.casting_time }}</span>
+
+                <template v-if="editionsWithSavingThrow.includes(edition.game_edition)">
+                    <span>Saving Throw</span>
+                    <SavingThrowLabel :edition="edition"/>
                 </template>
             </div>
             <ClassesLevelsList :data="edition.class_levels" />
@@ -43,8 +58,7 @@ const props = defineProps<{
         <DividersHorizontalDivider/>
 
         <div class="spellbook-lower">
-            <h3>References</h3>
-            <ReferenceList :references="edition.references" />
+            <ReferenceList :references="edition.references" :show-title="true"/>
         </div>
     </div>
 </template>
@@ -60,14 +74,13 @@ const props = defineProps<{
     background: radial-gradient(colors.$yellow-50, colors.$yellow-100);
     border-radius: 1rem;
     color: colors.$text-dark;
-    max-width: 38rem;
+    max-width: 48rem;
     max-height: 100%;
     padding: 1rem 2rem;
     position: relative;
     width: 48rem;
     @include mixins.heavyShadow;
     @include animations.animate(fadeIn);
-    z-index: 10;
 
     > .spellbook-header {
         @include fonts.modesto;
@@ -81,12 +94,6 @@ const props = defineProps<{
         margin-bottom: 2rem;
         align-items: start;
         font-size: 1.25rem;
-    }
-    > .spellbook-lower {
-        > h3 {
-            @include fonts.mrs-eaves;
-            text-align: center;
-        }
     }
 }
 

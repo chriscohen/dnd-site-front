@@ -202,11 +202,15 @@ export interface ISpellEdition {
     description: string
     domains: string[]
     game_edition: string
+    has_saving_throw?: boolean
+    has_spell_resistance?: boolean
     higher_level: string
     is_default: boolean
     lowest_level: number
     range: string
     references: IReferenceTeaser[]
+    saving_throw_multipler?: number
+    saving_throw_type?: string
     school: IMagicSchool
     spell_components: string
 }

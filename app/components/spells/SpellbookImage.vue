@@ -22,7 +22,7 @@ const props = defineProps<{
     opacity: 1;
     position: absolute;
     top: 8rem;
-    left: 37rem;
+    left: 55rem;
     width: 24rem;
     height: 24rem;
     transform: rotate(3deg);
@@ -35,7 +35,7 @@ const props = defineProps<{
 
 @keyframes spellbookImage {
     0% {
-        left: 14rem;
+        left: 25rem;
         opacity: 0;
     }
     50% {

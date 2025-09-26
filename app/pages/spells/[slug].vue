@@ -43,6 +43,7 @@ function setActive(id: string): ISpellEdition | null {
 <style scoped lang="scss">
 .spell-container {
     display: flex;
+    height: 100%;
 
     > .edition-tabs {
         margin-top: 2rem;

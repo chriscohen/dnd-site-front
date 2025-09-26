@@ -33,10 +33,6 @@ const props = defineProps<{
 <style lang="scss" scoped>
 @use '~/assets/css/colors';
 
-img.magic-school-label {
-    filter: invert(1) brightness(0.25) drop-shadow(2px 2px 1px colors.$red-500-50);
-}
-
 div[data='reka-popper-content-wrapper'] {
     border-radius: 2rem;
 
