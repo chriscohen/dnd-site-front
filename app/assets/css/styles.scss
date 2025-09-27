@@ -6,7 +6,6 @@
 @use 'tailwindcss';
 @use '@nuxt/ui';
 @use 'mixins';
-@use 'nuxt-ui/router';
 
 @forward 'backgrounds';
 @forward 'fonts';
@@ -130,4 +129,9 @@ dl {
 
 button:disabled {
     cursor: not-allowed;
+}
+
+.page-container {
+    overflow: auto;
+    width: 100%;
 }

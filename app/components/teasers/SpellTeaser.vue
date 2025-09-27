@@ -35,6 +35,7 @@ const getSubtitle = computed(() => {
 @use '~/assets/css/components/teasers';
 @use '~/assets/css/variables';
 @use '~/assets/css/badges';
+@use '~/assets/css/animations';
 
 .spell-teaser {
     display: inline-block;

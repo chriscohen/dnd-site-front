@@ -12,7 +12,7 @@ export function createTypedStore<T>(props: TypedStoreProps): StoreDefinition {
     // For cache entries, we will store what query string was used, and what the result was.
     type CacheEntry = {
         query: string
-        result: T[]
+        result: T|T[]
     }
 
     return defineStore(props.storeName, () => {
@@ -66,17 +66,9 @@ export function createTypedStore<T>(props: TypedStoreProps): StoreDefinition {
             return url + '?' + mapped.join('&');
         }
 
-        async function getBySlug(slug: string, mode: RenderMode = RenderMode.SHORT): Promise<T | null> {
+        function getBySlug(slug: string, mode: RenderMode = RenderMode.SHORT): T | null {
             const store = getStore(mode);
-            const item = store.value.find((item: T) => item.slug === slug);
-            return item === undefined ?
-                getBySlugFromApi(slug, mode) :
-                new Promise<T | null>(resolve => resolve(item));
-        }
 
-        async function getBySlugFromApi(slug: string, mode: RenderMode = RenderMode.SHORT): Promise<T | null> {
-            loading.value = true;
-            const store = getStore(mode);
             const url = getUrl(
                 props.getEndpoint,
                 slug,
@@ -86,7 +78,20 @@ export function createTypedStore<T>(props: TypedStoreProps): StoreDefinition {
                 },
             );
 
-            return fetch(url, {
+            return fromCache(url) ??
+                store.value.find((item: T) => item.slug === slug) ??
+                getBySlugFromApi(url, slug, mode);
+        }
+
+        async function getBySlugFromApi(
+            url: string,
+            slug: string,
+            mode: RenderMode = RenderMode.SHORT
+        ): Promise<T | null> {
+            loading.value = true;
+            const store = getStore(mode);
+
+            await fetch(url, {
                 method: 'GET',
                 headers: {
                     "Access-Control-Allow-Origin": "*"
@@ -99,6 +104,7 @@ export function createTypedStore<T>(props: TypedStoreProps): StoreDefinition {
                     }
                     return data;
                 })
+                .then((data: T) => toCache(url, data))
                 .catch((e) => {
                     console.error(e);
                     error.value = e;
@@ -110,13 +116,7 @@ export function createTypedStore<T>(props: TypedStoreProps): StoreDefinition {
                 });
         }
 
-        async function getAll(mode: RenderMode): Promise<T[] | null> {
-            return getAllFromApi(mode);
-        }
-
-        async function getAllFromApi(mode: RenderMode): Promise<T[] | null> {
-            loading.value = true;
-            const store = getStore(mode);
+        function getAll(mode: RenderMode) {
             const url = getUrl(
                 props.listEndpoint,
                 null,
@@ -124,9 +124,16 @@ export function createTypedStore<T>(props: TypedStoreProps): StoreDefinition {
                     mode: mode,
                     editions: persisted.getEditionsQueryString
                 },
-            )
+            );
 
-            return fetch(url, {
+            return fromCache(url) ?? getAllFromApi(url, mode);
+        }
+
+        async function getAllFromApi(url: string, mode: RenderMode) {
+            loading.value = true;
+            const store = getStore(mode);
+
+            await fetch(url, {
                 method: 'GET',
                 headers: {
                     "Access-Control-Allow-Origin": "*"
@@ -136,8 +143,9 @@ export function createTypedStore<T>(props: TypedStoreProps): StoreDefinition {
                 .then((data: T[]) => {
                     store.value = [];
                     data.forEach((item: T) => store.value.push(item))
-                    return store;
+                    return data;
                 })
+                .then((data: T[]) => toCache(url, data))
                 .catch((e) => {
                     console.error(e);
                     error.value = e;
@@ -147,10 +155,14 @@ export function createTypedStore<T>(props: TypedStoreProps): StoreDefinition {
         }
 
         function fromCache(query: string): T | null {
-            cache.forEach((item: CacheEntry) => {
-                if (item.query === query) return item;
+            cache.value.forEach((item: CacheEntry) => {
+                if (item.query === query) {
+                    console.log('[CACHE] hit: ' + query);
+                    return item;
+                }
             });
 
+            console.log('[CACHE] miss: ' + query);
             return null;
         }
 
@@ -161,13 +173,16 @@ export function createTypedStore<T>(props: TypedStoreProps): StoreDefinition {
                 // It's not already in the cache.
                 return false;
             } else {
-                const index = cache.indexOf(cachedItem);
+                const index = cache.value.indexOf(cachedItem);
 
                 // If found in the cache, splice to remove it.
                 if (index !== -1) {
-                    cache.splice(index, 1);
+                    cache.value.splice(index, 1);
+                    return true;
                 }
             }
+
+            return false;
         }
 
         function toCache(query: string, result: T[]) {
@@ -175,14 +190,14 @@ export function createTypedStore<T>(props: TypedStoreProps): StoreDefinition {
 
             if (!cachedItem) {
                 // Add a new item.
-                cache.push({
+                cache.value.push({
                     query: query,
                     result: result
                 });
             } else {
                 // Replace the existing item.
-                const index = cache.indexOf(cachedItem);
-                cache[index] = {
+                const index = cache.value.indexOf(cachedItem);
+                cache.value[index] = {
                     query: query,
                     result: result
                 };
@@ -193,6 +208,7 @@ export function createTypedStore<T>(props: TypedStoreProps): StoreDefinition {
             short,
             teaser,
             full,
+            cache,
             isLoading,
             contains,
             getAll,

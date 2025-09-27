@@ -3,11 +3,11 @@ import SpellTeaser from "~/components/teasers/SpellTeaser.vue";
 import ConjuringScreen from "~/components/loading/ConjuringScreen.vue";
 
 const store = useSpellStore();
-store.getAll(RenderMode.TEASER);
+callOnce(() => store.getAll(RenderMode.TEASER));
 </script>
 
 <template>
-    <div>
+    <div class="page-container">
         <ConjuringScreen v-if="store.isLoading()"/>
 
         <div v-if="!store.isLoading()" class="teaser-container">

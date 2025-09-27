@@ -28,34 +28,34 @@ const tabData = ref<TabData[]>([
         class: "edition-2",
         name: "2",
         sup: "nd",
-        disabled: !props.spell.editions.find((item: ISpellEdition) => item.game_edition === '2e'),
+        disabled: !props.spell?.editions.find((item: ISpellEdition) => item.game_edition === '2e'),
     },
     {
         id: "3e",
         class: "edition-3",
         name: "3",
         sup: "rd",
-        disabled: !props.spell.editions.find((item: ISpellEdition) => item.game_edition === '3e'),
+        disabled: !props.spell?.editions.find((item: ISpellEdition) => item.game_edition === '3e'),
     },
     {
         id: "3.5",
         class: "edition-3",
         name: "3.5",
-        disabled: !props.spell.editions.find((item: ISpellEdition) => item.game_edition === '3.5'),
+        disabled: !props.spell?.editions.find((item: ISpellEdition) => item.game_edition === '3.5'),
     },
     {
         id: "4e",
         class: "edition-4",
         name: "4",
         sup: "th",
-        disabled: !props.spell.editions.find((item: ISpellEdition) => item.game_edition === '4e'),
+        disabled: !props.spell?.editions.find((item: ISpellEdition) => item.game_edition === '4e'),
     },
     {
         id: "5e (2014)",
         class: "edition-5",
         name: "5",
         sup: "th",
-        disabled: !props.spell.editions.find((item: ISpellEdition) => item.game_edition === '5e (2014)'),
+        disabled: !props.spell?.editions.find((item: ISpellEdition) => item.game_edition === '5e (2014)'),
     },
     {
         id: "5e (2024)",
@@ -63,7 +63,7 @@ const tabData = ref<TabData[]>([
         name: "5",
         sup: "th",
         suffix: "2024",
-        disabled: !props.spell.editions.find((item: ISpellEdition) => item.game_edition === '5e (2024)'),
+        disabled: !props.spell?.editions.find((item: ISpellEdition) => item.game_edition === '5e (2024)'),
     }
 ]);
 </script>

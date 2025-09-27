@@ -1,6 +1,15 @@
 ﻿@use 'colors';
 @use 'variables';
 
+a.link {
+    text-decoration: dotted underline;
+
+    &:hover {
+        color: colors.$text-hover;
+        text-decoration: underline;
+    }
+}
+
 .yellowed {
     a {
         background-color: transparent;

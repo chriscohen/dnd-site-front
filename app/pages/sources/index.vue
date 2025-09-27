@@ -4,11 +4,11 @@ import ConjuringScreen from "~/components/loading/ConjuringScreen.vue";
 import {useSourceStore} from "~/stores/SourceStore";
 
 const store = useSourceStore();
-store.getAll(RenderMode.TEASER);
+callOnce(() => store.getAll(RenderMode.TEASER));
 </script>
 
 <template>
-    <div>
+    <div class="page-container">
         <ConjuringScreen v-if="store.isLoading()" />
 
         <div v-if="!store.isLoading()" class="teaser-container">

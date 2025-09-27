@@ -12,26 +12,26 @@ const props = defineProps({
         v-if="!props.loading"
         :src="props.coverImage.url"
         :alt="props.name + ' cover image'"
-        :class="'cover-art-large hover:scale-105 transition-all duration-500' + props.class"
+        :class="'media-large hover:scale-105 transition-all duration-500' + props.class"
     >
-    <div v-else class="cover-art-large"/>
+    <div v-else class="media-large loading"/>
 </template>
 
 <style scoped lang="scss">
-@use '../../assets/css/mixins';
-@use '../../assets/css/variables';
+@use '~/assets/css/mixins';
+@use '~/assets/css/variables';
 
-.cover-art-large {
+.media-large {
     border-radius: 0.5rem;
     width: 40rem;
     max-width: 50%;
 }
 
-div.cover-art-large {
+div.media-large {
     @include mixins.loading;
     height: 60rem;
 }
-img.cover-art-large {
+img.media-large {
     scale: 100%;
     transition: variables.$default-delay ease-in-out;
 

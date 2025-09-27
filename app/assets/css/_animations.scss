@@ -1,6 +1,6 @@
 ﻿@use 'variables';
 
-@mixin animate($name) {
+@mixin animate($name, $duration: variables.$default-delay) {
     animation-name: $name;
     animation-duration: variables.$animation-duration;
     animation-timing-function: ease-in-out;

@@ -1,11 +1,12 @@
 ﻿@use 'colors';
-@use 'fonts';
+@use 'variables';
 
 .badge {
     border-radius: 50vh;
-    @include fonts.nunito;
-    font-weight: 900;
+    font-size: 80%;
     padding: 0 0.5rem;
+    margin: 0 0.25rem;
+    text-transform: uppercase;
 
     &.text-dark {
         color: colors.$text-dark;
@@ -16,4 +17,23 @@
     position: absolute;
     top: 1rem;
     right: 1.5rem;
+}
+
+$badgeColors: (
+    'green' colors.$green-800 colors.$green-500,
+    'red' colors.$red-800 colors.$red-500,
+    'white' colors.$gray-800 colors.$gray-500
+);
+
+@each $name, $normal, $hover in $badgeColors {
+    .badge-#{$name} {
+        background-color: $normal;
+        border: 0.1rem solid $hover;
+        color: colors.$gray-100;
+        transition: background-color variables.$default-delay ease-in-out;
+
+        &:hover {
+            background-color: $hover;
+        }
+    }
 }

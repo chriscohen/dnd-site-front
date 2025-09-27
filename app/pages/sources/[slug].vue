@@ -3,7 +3,7 @@ import GameEditionBadge from "~/components/badges/GameEditionBadge.vue";
 import PublicationTypeBadge from "~/components/badges/PublicationTypeBadge.vue";
 import SourcebookDetailsList from "~/components/lists/SourcebookDetailsList.vue";
 import ProseContainer from "~/components/text/ProseContainer.vue";
-import CoverArtLarge from "~/components/media/CoverArtLarge.vue";
+import MediaLarge from "~/components/media/MediaLarge.vue";
 import ProductLinkButtonContainer from "~/components/containers/ProductLinkButtonContainer.vue";
 import PageTitle from "~/components/labels/PageTitle.vue";
 import SourcebookInTheBox from "~/components/sourcebooks/SourcebookInTheBox.vue";
@@ -17,7 +17,7 @@ const item = await store.getBySlug(route.params.slug as string, RenderMode.FULL)
 <template>
     <div class="sourcebook">
         <!-- Left: Cover Art -->
-        <CoverArtLarge :loading="!item" :name="item?.name" :cover-image="item?.cover_image" />
+        <MediaLarge :loading="!item" :name="item?.name" :cover-image="item?.cover_image" />
         <!-- /Left: Cover Art -->
 
         <!-- Right Side -->

@@ -1,4 +1,5 @@
-﻿@use 'sass:color';
+﻿@use '../animations';
+@use 'sass:color';
 @use '../colors';
 @use '../fonts';
 @use '../mixins';
@@ -18,6 +19,7 @@
         transform 500ms ease-in-out,
         box-shadow 500ms ease-in-out;
     transform-origin: top left;
+    @include animations.animate(fadeIn, calc(2 * #{variables.$default-delay}));
 
     > img {
         margin: auto;
