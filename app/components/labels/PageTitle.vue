@@ -2,28 +2,26 @@
 import BackButton from "~/components/buttons/BackButton.vue";
 
 const props = defineProps<{
-    loading: boolean,
     title: string
-    subtitle?: string
     backTo?: string
+    underline?: boolean
 }>();
-console.log('page title loading is ' + (props.loading ? 'true' : 'false'));
+const style = props.underline ? { borderBottom: '1px solid colors.$gray-400' } : {};
 </script>
 
 <template>
-    <div v-if="loading" class="loading"/>
 
-    <div v-if="!loading" class="page-title">
+    <div class="page-title" :style="style">
         <div class="buttons">
             <BackButton :to="backTo ?? '/'" size="3rem"/>
         </div>
 
         <div class="page-title-main">
             <h1>{{ title }}</h1>
-            <h3 v-if="subtitle">{{ subtitle }}</h3>
+            <h3 v-if="$slots.subtitle"><slot name="subtitle"/></h3>
         </div>
         <div class="page-title-labels">
-            <slot/>
+            <slot name="labels"/>
         </div>
     </div>
 </template>
@@ -36,7 +34,6 @@ console.log('page title loading is ' + (props.loading ? 'true' : 'false'));
 .page-title {
     display: flex;
     align-items: center;
-    border-bottom: 1px solid colors.$gray-400;
     margin-bottom: 1rem;
     gap: 2rem;
 

@@ -10,9 +10,9 @@ const props = defineProps({
 <template>
     <img
         v-if="!props.loading"
-        :src="props.coverImage.url"
-        :alt="props.name + ' cover image'"
-        :class="'media-large hover:scale-105 transition-all duration-500' + props.class"
+        :src="props?.coverImage?.url"
+        :alt="props?.name + ' cover image'"
+        :class="'media-large hover:scale-105 transition-all duration-500' + props?.class"
     >
     <div v-else class="media-large loading"/>
 </template>

@@ -8,6 +8,11 @@ a.link {
         color: colors.$text-hover;
         text-decoration: underline;
     }
+    &.text-dark {
+        &:hover {
+            color: colors.$text-dark-hover;
+        }
+    }
 }
 
 .yellowed {

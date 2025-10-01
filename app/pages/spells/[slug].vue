@@ -2,42 +2,55 @@
 import Spellbook from "~/components/spells/Spellbook.vue";
 import SpellbookImage from "~/components/spells/SpellbookImage.vue";
 import EditionTabs from "~/components/navigation/EditionTabs.vue";
+import {useRuntimeConfig} from "#app";
 
 const route = useRoute();
-const store = useSpellStore();
+const store = useSourceStore();
+const runtimeConfig = useRuntimeConfig();
 
-const item = await store.getBySlug(route.params.slug as string, RenderMode.FULL);
+const { data, error, status } = await useAsyncData('spell', () => $fetch(
+    runtimeConfig.public.apiUrl + '/spell/' + route.params.slug + '?mode=full',
+    {
+        method: 'GET',
+        headers: {
+            "Access-Control-Allow-Origin": "*"
+        }
+    }
+));
+watch (data, (newValue) => setActive());
 
 function findActive(): ISpellEdition | null {
-    if (!item) {
+    if (status === 'pending' || !data.value || !data.value?.editions) {
         return null;
     }
 
-    const active = item.editions.find((edition: ISpellEdition) => edition.is_default);
-    return active ? active : item.editions[0];
+    const active = data.value.editions?.find((edition: ISpellEdition) => edition.is_default);
+    return active ?? data?.value.editions[0];
 }
 
 const activeEdition = ref<ISpellEdition>(findActive());
 
-function setActive(id: string): ISpellEdition | null {
-    if (!item) {
+function setActive(id?: string): ISpellEdition | null {
+    if (!data) {
         return null;
+    } else if (!id) {
+        activeEdition.value = data.value.editions.find((edition: ISpellEdition) => edition.is_default);
+    } else {
+        activeEdition.value = data.value.editions.find((edition: ISpellEdition) => edition?.game_edition === id);
     }
-    activeEdition.value = item.editions.find((edition: ISpellEdition) => edition?.game_edition === id);
 }
 </script>
 
 <template>
 
     <div class="spell-container">
-        <EditionTabs :active="activeEdition" :spell="item" @edition-selected="(id: string) => setActive(id)"/>
+        <EditionTabs :active="activeEdition" :spell="data" @edition-selected="(id: string) => setActive(id)"/>
 
         <div class="spell">
-            <SpellbookImage :loading="!item" :spell="item"/>
-            <Spellbook :loading="!item" :spell="item" :edition="activeEdition"/>
+            <SpellbookImage :loading="status === 'pending'" :spell="data"/>
+            <Spellbook :loading="status === 'pending'" :spell="data" :edition="activeEdition"/>
         </div>
     </div>
-
 </template>
 
 <style scoped lang="scss">

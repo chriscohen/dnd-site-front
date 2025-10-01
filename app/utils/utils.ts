@@ -11,6 +11,14 @@
     }
 }
 
+export function primaryEdition(item: ISourcebook | ISpell): null | ISourcebookEdition | ISpellEdition {
+    if (!item || item.editions != Array) {
+        return null;
+    }
+
+    return item.editions[0];
+}
+
 export function editionToClass(input: string): string {
     switch (input) {
         case '1e':

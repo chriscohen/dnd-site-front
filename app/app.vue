@@ -14,6 +14,7 @@ magicSchoolStore.getAll();
         </div>
         <div id="page">
             <SidebarNavigation/>
+            <NuxtLoadingIndicator/>
             <NuxtPage/>
         </div>
     </UApp>

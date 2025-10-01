@@ -61,6 +61,25 @@ export interface ICompany {
     website?: string
 }
 
+export interface IFeat {
+    __typename: "Feat"
+    id: string
+    slug: string
+    name: string
+    editions: IFeatEdition[]
+}
+
+export interface IFeatEdition {
+    __typename: "FeatEdition"
+    id: string
+    slug: string
+    name: string
+    description: string
+    game_edition: string
+    prerequisites: IPrerequisite[]
+    references: IReferenceTeaser[]
+}
+
 export interface IItem {
     id: string
     slug: string
@@ -111,6 +130,19 @@ export interface IMediaTeaser {
     url: string
 }
 
+export interface IPrerequisite {
+    __typename: "Prerequisite"
+    id: string
+    type: string
+    values: IPrerequisiteValue[]
+}
+
+export interface IPrerequisiteValue {
+    __typename: "PrerequisiteValue"
+    id: string
+    value: string
+}
+
 export interface IProductId {
     __typename: "Product ID"
     id: string
@@ -144,6 +176,13 @@ export interface IReferenceTeaser {
     slug: string
     image: IMedia
 
+}
+
+export interface ISavingThrow {
+    id: string
+    type: string
+    fail_status?: string
+    multiplier?: string
 }
 
 export interface ISourcebook {
@@ -195,24 +234,29 @@ export interface ISpellTeaser {
     school: string
 }
 
+export interface ISpellLevel {
+    name: string
+    level: number
+}
+
 export interface ISpellEdition {
     id: string
     area?: IArea
+    casting_time: string
     class_levels: ISpellEditionCharacterClassLevel[]
     description: string
     domains: string[]
     game_edition: string
-    has_saving_throw?: boolean
     has_spell_resistance?: boolean
     higher_level: string
     is_default: boolean
+    levels: ISpellLevel[]
     lowest_level: number
     range: string
     references: IReferenceTeaser[]
-    saving_throw_multipler?: number
-    saving_throw_type?: string
-    school: IMagicSchool
-    spell_components: string
+    saving_throw?: ISavingThrow
+    school?: IMagicSchool
+    spell_components?: string
 }
 
 export interface ISpellEditionTeaser {

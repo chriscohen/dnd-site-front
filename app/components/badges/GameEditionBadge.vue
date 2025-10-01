@@ -15,15 +15,12 @@ const classMap = [
     {name: '5e (2024)', class: 'edition-2024'},
 ];
 // Eg: bg-edition-2024
-const className = [
-    'text-active',
-    'bg-' + (classMap.find((item) => item.name === props.edition)?.class ?? '')
-].join(' ');
+const className = classMap.find((item) => item.name === props.edition)?.class ?? '';
 
 </script>
 
 <template>
-    <BadgeBase :label="props.edition" :class="className"/>
+    <BadgeBase type="edition" :label="props.edition" :bg-color="className"/>
 </template>
 
 <style scoped lang="scss">

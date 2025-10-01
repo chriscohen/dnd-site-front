@@ -3,7 +3,7 @@
 
 .badge {
     border-radius: 50vh;
-    font-size: 80%;
+    font-size: 60%;
     padding: 0 0.5rem;
     margin: 0 0.25rem;
     text-transform: uppercase;
@@ -12,11 +12,11 @@
         color: colors.$text-dark;
     }
 }
-
-.badge-container {
-    position: absolute;
-    top: 1rem;
-    right: 1.5rem;
+.category-badge {
+    font-size: 60%;
+}
+.edition-badge {
+    font-size: 80%;
 }
 
 $badgeColors: (

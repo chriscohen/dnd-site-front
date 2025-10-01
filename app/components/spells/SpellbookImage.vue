@@ -9,8 +9,8 @@ const props = defineProps<{
     <img
         v-if="!loading"
         class="spellbook-image"
-        :src="spell.image.url"
-        :alt="props.spell.name + ' preview image'"
+        :src="spell?.image?.url"
+        :alt="spell?.name + ' preview image'"
     >
 </template>
 
@@ -22,7 +22,7 @@ const props = defineProps<{
     opacity: 1;
     position: absolute;
     top: 8rem;
-    left: 55rem;
+    left: 61rem;
     width: 24rem;
     height: 24rem;
     transform: rotate(3deg);

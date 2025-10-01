@@ -2,18 +2,39 @@
 import SourcebookTeaser from "~/components/teasers/SourcebookTeaser.vue";
 import ConjuringScreen from "~/components/loading/ConjuringScreen.vue";
 import {useSourceStore} from "~/stores/SourceStore";
+import {useRuntimeConfig} from "#app";
+import {useCacheStore} from "#build/imports";
 
 const store = useSourceStore();
-callOnce(() => store.getAll(RenderMode.TEASER));
+const cache = useCacheStore();
+const runtimeConfig = useRuntimeConfig();
+
+const url = runtimeConfig.public.apiUrl + '/sources?mode=teaser';
+
+const { data, error, status } = await useAsyncData('sources', () => $fetch(
+    url, {
+        method: 'GET',
+        headers: {
+            "Access-Control-Allow-Origin": "*"
+        }
+    }
+));
+watch(data, (newValue) => {
+    cache.setItem(url, newValue);
+});
 </script>
 
 <template>
     <div class="page-container">
-        <ConjuringScreen v-if="store.isLoading()" />
+        <Suspense>
+            <template #fallback>
+                <ConjuringScreen />
+            </template>
 
-        <div v-if="!store.isLoading()" class="teaser-container">
-            <SourcebookTeaser v-for="item in store.teaser" :key="item.id" :loading="false" :data="item"/>
+        <div class="teaser-container">
+            <SourcebookTeaser v-for="item in data" :key="item.id" :loading="false" :data="item"/>
         </div>
+        </Suspense>
     </div>
 </template>
 

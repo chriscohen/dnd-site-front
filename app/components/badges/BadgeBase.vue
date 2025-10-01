@@ -1,14 +1,22 @@
 ﻿<script setup lang="ts">
 const props = defineProps<{
+    type?: string
     class?: string
+    bgColor?: string
     label?: string
     extraText?: string
 }>();
+
+const classes = [
+    'badge',
+    props.type ? props.type + '-badge' : null,
+    props.bgColor ? 'bg-' + props.bgColor : null,
+];
 </script>
 
 <template>
-    <div :class="'badge ' + props.class">
-        {{ props.label }}
+    <div :class="classes">
+        {{ label }}
     </div>
 </template>
 

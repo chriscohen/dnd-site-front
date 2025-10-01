@@ -50,4 +50,10 @@ const getSubtitle = computed(() => {
     }
 }
 
+.badge-container {
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+}
+
 </style>

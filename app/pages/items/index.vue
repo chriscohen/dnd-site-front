@@ -1,9 +1,24 @@
 <script setup lang="ts">
 import type {TableColumn} from "#ui/components/Table.vue";
 import CategoryBadge from "~/components/badges/CategoryBadge.vue";
+import {useRuntimeConfig} from "#app";
+import GameEditionBadge from "~/components/badges/GameEditionBadge.vue";
+import BadgeContainer from "~/components/badges/BadgeContainer.vue";
 
 const store = useItemStore();
-store.getAll(RenderMode.FULL);
+const cache = useCacheStore();
+const runtimeConfig = useRuntimeConfig();
+
+const url = runtimeConfig.public.apiUrl + '/items?mode=full';
+
+const { data, error, status } = await useAsyncData('items', () => $fetch(
+    url, {
+        method: 'GET',
+        headers: {
+            "Access-Control-Allow-Origin": "*"
+        }
+    }
+));
 
 const columns: TableColumn<IItem>[] = [
     {
@@ -21,6 +36,10 @@ const columns: TableColumn<IItem>[] = [
     {
         accessorKey: 'categories',
         header: 'Categories'
+    },
+    {
+        accessorKey: 'editions',
+        header: 'Editions'
     }
 ];
 
@@ -29,15 +48,14 @@ const columnVisibility = ref({ slug: false });
 
 <template>
     <div>
-        <LoadingConjuringScreen v-if="store.isLoading()"/>
-        <div v-if="!store.isLoading()" class="flex gap-4" >
+        <div class="flex gap-4" >
             <UTable
                 v-model:column-visibility="columnVisibility"
                 :columns="columns"
-                :data="store.full"
+                :data="data"
             >
                 <template #image-cell="{ row }">
-                    <NuxtLink :to="'/categories/' + row.getValue('slug')">
+                    <NuxtLink :to="'/items/' + row.getValue('slug')">
                         <NuxtImg
                             v-if="row.getValue('image')"
                             :src="row.getValue('image').url"
@@ -58,6 +76,15 @@ const columnVisibility = ref({ slug: false });
                         :category="category"
                     />
                 </template>
+                <template #editions-cell="{ row }">
+                    <BadgeContainer>
+                        <GameEditionBadge
+                            v-for="edition in row.getValue('editions')"
+                            :key="edition.game_edition"
+                            :edition="edition.game_edition"
+                        />
+                    </BadgeContainer>
+                </template>
             </UTable>
         </div>
     </div>
@@ -67,4 +94,12 @@ const columnVisibility = ref({ slug: false });
 @use '~/assets/css/links';
 @use '~/assets/css/media';
 @use '~/assets/css/tables';
+</style>
+
+<style scoped lang="scss">
+@use '~/assets/css/fonts';
+
+.link {
+    @include fonts.mrs-eaves;
+}
 </style>

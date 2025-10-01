@@ -7,30 +7,45 @@ import MediaLarge from "~/components/media/MediaLarge.vue";
 import ProductLinkButtonContainer from "~/components/containers/ProductLinkButtonContainer.vue";
 import PageTitle from "~/components/labels/PageTitle.vue";
 import SourcebookInTheBox from "~/components/sourcebooks/SourcebookInTheBox.vue";
+import {useRuntimeConfig} from "#app";
 
 const route = useRoute();
 const store = useSourceStore();
+const runtimeConfig = useRuntimeConfig();
 
-const item = await store.getBySlug(route.params.slug as string, RenderMode.FULL);
+const { data, error, status } = await useAsyncData('source', () => $fetch(
+    runtimeConfig.public.apiUrl + '/source/' + route.params.slug + '?mode=full',
+    {
+        method: 'GET',
+        headers: {
+            "Access-Control-Allow-Origin": "*"
+        }
+    }
+));
 </script>
 
 <template>
+
     <div class="sourcebook">
         <!-- Left: Cover Art -->
-        <MediaLarge :loading="!item" :name="item?.name" :cover-image="item?.cover_image" />
+        <MediaLarge :loading="status === 'pending'" :name="data?.name" :cover-image="data?.cover_image" />
         <!-- /Left: Cover Art -->
 
         <!-- Right Side -->
         <div>
             <!-- Heading -->
             <PageTitle
-                :loading="!item"
-                :title="item?.name ?? ''"
+                :title="data?.name ?? ''"
                 back-to="/sources"
-                :subtitle="item?.sourcebook_types?.join(' • ')"
+                :underline="true"
             >
-                <GameEditionBadge :edition="item?.game_edition as string"/>
-                <PublicationTypeBadge :type="item?.publication_type as string" />
+                <template #labels>
+                    <GameEditionBadge :edition="data?.game_edition as string"/>
+                    <PublicationTypeBadge :type="data?.publication_type as string" />
+                </template>
+                <template #subtitle>
+                    {{ data?.sourcebook_types?.join(' • ') }}
+                </template>
             </PageTitle>
             <!-- /Heading -->
 
@@ -39,23 +54,23 @@ const item = await store.getBySlug(route.params.slug as string, RenderMode.FULL)
                 <!-- Left of "Under Heading" -->
                 <div class="sourcebook-details">
                     <SourcebookDetailsList
-                        :loading="!item"
-                        :sourcebook="item as ISourcebook"
+                        :loading="!data"
+                        :sourcebook="data as ISourcebook"
                     />
                     <SourcebookInTheBox
-                        v-if="item?.editions[0]?.boxed_set_items?.length > 0"
-                        :items="item?.editions[0]?.boxed_set_items"
+                        v-if="data.editions[0]?.boxed_set_datas?.length > 0"
+                        :datas="data.editions[0]?.boxed_set_datas"
                     />
                     <ProductLinkButtonContainer
-                        v-if="item?.product_ids?.length > 1"
-                        :loading="!item"
-                        :sourcebook="item as ISourcebook"
+                        v-if="data?.product_ids?.length > 1"
+                        :loading="!data"
+                        :sourcebook="data as ISourcebook"
                     />
                 </div>
                 <!-- Left of "Under Heading" -->
 
                 <!-- Right of "Under Heading -->
-                <ProseContainer v-if="item" :text="item.description"/>
+                <ProseContainer v-if="data" :text="data.description"/>
                 <!-- Right of "Under Heading -->
             </div>
             <!-- /Under Heading -->

@@ -1,44 +1,29 @@
 ﻿<script setup lang="ts">
-import PopoverContentBase from "~/components/popovers/PopoverContentBase.vue";
-
 const props = defineProps<{
-    classes?: string
-    size: string,
+    link?: boolean
     school?: IMagicSchool
 }>();
-
 </script>
 
 <template>
-    <div v-if="!props.school" class="skeleton magic-school-label" :style="{ width: size, height: size }"/>
+    <span v-if="school" class="magic-school-label">
+        <template v-if="school.parent">
+            <NuxtLink v-if="props.link" :to="'/magic-school/' + school.parent.name" class="link text-dark">
+                {{ school.parent.name }}
+            </NuxtLink>
+            <template v-else>{{ school.parent.name }}</template>
 
-    <UPopover v-if="props.school" mode="hover">
-        <img
-            class="magic-school-label"
-            :class="props.classes"
-            :src="school?.image.url"
-            :alt="school?.name + ' magic school'"
-            :style="{ width: size, height: size }"
-        >
-
-        <template #content>
-            <PopoverContentBase>
-                <h3>{{ school?.name }}</h3>
-                <p>{{ school?.description }}</p>
-            </PopoverContentBase>
+            (<NuxtLink v-if="props.link" :to="'/magic-school/' + school.name" class="link text-dark">
+                {{ school.name }}
+            </NuxtLink>
+            <template v-else>({{ school.name }}</template>)
         </template>
-    </UPopover>
+
+        <template v-else>
+            <NuxtLink v-if="props.link" :to="'/magic-school/' + school.name" class="link text-dark">
+                {{ school.name }}
+            </NuxtLink>
+            <template v-else>{{ school.name }}</template>
+        </template>
+    </span>
 </template>
-
-<style lang="scss" scoped>
-@use '~/assets/css/colors';
-
-div[data='reka-popper-content-wrapper'] {
-    border-radius: 2rem;
-
-    > div {
-        background: none !important;
-        display: none;
-    }
-}
-</style>

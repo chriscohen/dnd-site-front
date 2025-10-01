@@ -1,11 +1,12 @@
 ﻿<script setup lang="ts">
 import ClassesLevelsList from "~/components/lists/ClassesLevelsList.vue";
-import MagicSchoolLabel from "~/components/labels/MagicSchoolLabel.vue";
+import MagicSchoolSpellbookLabel from "~/components/labels/MagicSchoolSpellbookLabel.vue";
 import ReferenceList from "~/components/references/ReferenceList.vue";
 import SavingThrowLabel from "~/components/labels/SavingThrowLabel.vue";
+import PageTitle from "~/components/labels/PageTitle.vue";
+import MagicSchoolLabel from "~/components/labels/MagicSchoolLabel.vue";
 
 const props = defineProps<{
-    loading: boolean
     spell?: ISpell
     edition?: ISpellEdition
 }>();
@@ -18,29 +19,33 @@ const editionsWithSavingThrow = [
 </script>
 
 <template>
-    <LoadingConjuringScreen v-if="loading"/>
-
-    <div v-if="!loading && spell && edition" class="spellbook scrollbar yellowed">
-        <div class="spellbook-header">
-            <h1>{{ spell?.name }}</h1>
-            <MagicSchoolLabel
-                :school="edition.school"
+    <div class="spellbook scrollbar yellowed">
+        <div v-if="edition" class="spellbook-header">
+            <PageTitle
+                :title="spell?.name"
+                :underline="true"
+                back-to="/spells"
+            >
+                <template #subtitle><MagicSchoolLabel :link="true" :school="edition?.school"/></template>
+            </PageTitle>
+            <MagicSchoolSpellbookLabel
+                :school="edition?.school"
                 size="4rem"
                 classes="ml-auto"
             />
         </div>
 
-        <div class="spellbook-upper">
+        <div v-if="edition" class="spellbook-upper">
             <div class="spell-attributes">
                 <span>Components</span>
                 <span>{{ edition.spell_components }}</span>
 
                 <span>Range</span>
-                <span>{{ edition.range.string }}</span>
+                <span>{{ edition.range?.string }}</span>
 
-                <template v-if="edition?.area?.string">
+                <template v-if="edition.area?.string">
                     <span>Area</span>
-                    <span>{{ edition?.area?.string }}</span>
+                    <span>{{ edition.area?.string }}</span>
                 </template>
 
                 <span>Casting Time</span>
@@ -54,11 +59,11 @@ const editionsWithSavingThrow = [
             <ClassesLevelsList :data="edition.class_levels" />
         </div>
 
-        <div v-html="edition.description ?? ''" class="spellbook-description"/>
+        <div v-html="edition?.description ?? ''" class="spellbook-description"/>
         <DividersHorizontalDivider/>
 
         <div class="spellbook-lower">
-            <ReferenceList :references="edition.references" :show-title="true"/>
+            <ReferenceList :references="edition?.references" :show-title="true"/>
         </div>
     </div>
 </template>
