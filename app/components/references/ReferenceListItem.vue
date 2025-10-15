@@ -7,11 +7,11 @@ const props = defineProps<{
 </script>
 
 <template>
-    <a v-if="reference" :href="'/sources/' + reference.slug" class="reference-list-item">
+    <NuxtLink v-if="reference" :href="'/sources/' + reference.slug" class="reference-list-item item-link">
         <img :src="reference.image?.url" :alt="reference.source + ' thumbnail'">
         <span>{{ reference.source }}</span>
         <span class="page-reference">{{ formatPages(reference.page_from, reference?.page_to) }}</span>
-    </a>
+    </NuxtLink>
 </template>
 
 <style lang="scss">
@@ -22,9 +22,8 @@ a.reference-list-item {
     display: flex;
     align-items: center;
     gap: 1rem;
-    color: colors.$text-dark;
     font-weight: 700;
-    padding-right: 0.5rem;
+    padding: 0.25rem 0.5rem;
 
     > img {
         height: 3rem;

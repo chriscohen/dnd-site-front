@@ -1,5 +1,5 @@
 ﻿<script setup lang="ts">
-import {useSourceStore, useSpellStore} from "#imports";
+const emit = defineEmits(['editionsUpdated']);
 
 const props = defineProps<{
     editionId: string
@@ -12,6 +12,9 @@ const persistedStore = usePersistedStore();
 
 function clicked(e: MouseEvent) {
     persistedStore.toggle(props.editionId);
+    setTimeout(() => {
+        persistedStore.reload++;
+    }, 1000);
 }
 
 function isActive(id: string): boolean {

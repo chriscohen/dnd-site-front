@@ -2,11 +2,22 @@
 @use 'variables';
 
 .badge {
-    border-radius: 50vh;
     font-size: 60%;
     padding: 0 0.5rem;
-    margin: 0 0.25rem;
     text-transform: uppercase;
+    white-space: nowrap;
+
+    &.rounded {
+        border-radius: 50vh;
+    }
+    &.rounded-left {
+        border-top-left-radius: 50vh;
+        border-bottom-left-radius: 50vh;
+    }
+    &.rounded-right {
+        border-top-right-radius: 50vh;
+        border-bottom-right-radius: 50vh;
+    }
 
     &.text-dark {
         color: colors.$text-dark;

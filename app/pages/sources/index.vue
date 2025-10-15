@@ -1,43 +1,31 @@
 <script setup lang="ts">
 import SourcebookTeaser from "~/components/teasers/SourcebookTeaser.vue";
-import ConjuringScreen from "~/components/loading/ConjuringScreen.vue";
 import {useSourceStore} from "~/stores/SourceStore";
-import {useRuntimeConfig} from "#app";
-import {useCacheStore} from "#build/imports";
+import ConjuringScreen from "~/components/loading/ConjuringScreen.vue";
 
+const $nuxt = useLoadingIndicator();
 const store = useSourceStore();
-const cache = useCacheStore();
-const runtimeConfig = useRuntimeConfig();
+const persistedStore = usePersistedStore();
+const apiUrl = useApi(store);
 
-const url = runtimeConfig.public.apiUrl + '/sources?mode=teaser';
-
-const { data, error, status } = await useAsyncData('sources', () => $fetch(
-    url, {
-        method: 'GET',
-        headers: {
-            "Access-Control-Allow-Origin": "*"
-        }
-    }
-));
-watch(data, (newValue) => {
-    cache.setItem(url, newValue);
+apiUrl.get({
+    type: 'sources',
+    mode: RenderMode.TEASER,
+    multiple: true
 });
 </script>
 
 <template>
     <div class="page-container">
-        <Suspense>
-            <template #fallback>
-                <ConjuringScreen />
-            </template>
-
-        <div class="teaser-container">
-            <SourcebookTeaser v-for="item in data" :key="item.id" :loading="false" :data="item"/>
+        <div v-if="store.empty(RenderMode.TEASER)" class="teaser-container">
+            <ConjuringScreen/>
         </div>
-        </Suspense>
+        <div v-else class="teaser-container">
+            <SourcebookTeaser v-for="item in store.getAll(RenderMode.TEASER)" :key="item.id" :data="item"/>
+        </div>
     </div>
 </template>
 
 <style scoped lang="scss">
-@forward '~/assets/css/components/teasers';
+@use '~/assets/css/teasers';
 </style>

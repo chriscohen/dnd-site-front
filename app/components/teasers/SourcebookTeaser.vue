@@ -3,15 +3,12 @@
 import TeaserTitle from "~/components/teasers/TeaserTitle.vue";
 
 const props = defineProps<{
-    loading: boolean,
     data?: ISourcebook
 }>();
 </script>
 
 <template>
-    <div v-if="loading" class="shrink teaser loading"/>
-
-    <NuxtLink v-if="!loading" :to="'/sources/' + data?.slug" class="shrink teaser">
+    <NuxtLink v-if="data" :to="'/sources/' + data?.slug" class="shrink teaser source-teaser">
         <MediaCoverImage :sourcebook="props.data" />
         <TeaserTitle :title="data?.name" :edition="data?.game_edition"/>
     </NuxtLink>
@@ -19,5 +16,11 @@ const props = defineProps<{
 
 <style scoped lang="scss">
 @use '~/assets/css/colors';
-@use '~/assets/css/components/teasers';
+@use '~/assets/css/teasers';
+@use '~/assets/css/variables';
+
+.source-teaser {
+    width: variables.$teaser-width;
+    height: variables.$teaser-height;
+}
 </style>

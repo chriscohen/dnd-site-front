@@ -6,5 +6,5 @@
 </template>
 
 <style scoped lang="scss">
-@use '~/assets/css/components/teasers';
+@use '../../assets/css/teasers';
 </style>

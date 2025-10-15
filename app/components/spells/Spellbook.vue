@@ -5,6 +5,7 @@ import ReferenceList from "~/components/references/ReferenceList.vue";
 import SavingThrowLabel from "~/components/labels/SavingThrowLabel.vue";
 import PageTitle from "~/components/labels/PageTitle.vue";
 import MagicSchoolLabel from "~/components/labels/MagicSchoolLabel.vue";
+import SpellbookImage from "~/components/spells/SpellbookImage.vue";
 
 const props = defineProps<{
     spell?: ISpell
@@ -19,8 +20,8 @@ const editionsWithSavingThrow = [
 </script>
 
 <template>
-    <div class="spellbook scrollbar yellowed">
-        <div v-if="edition" class="spellbook-header">
+    <div class="book scrollbar">
+        <div v-if="edition" class="book-header">
             <PageTitle
                 :title="spell?.name"
                 :underline="true"
@@ -56,9 +57,10 @@ const editionsWithSavingThrow = [
                     <SavingThrowLabel :edition="edition"/>
                 </template>
             </div>
-            <ClassesLevelsList :data="edition.class_levels" />
+            <ClassesLevelsList :data="edition.levels" />
         </div>
 
+        <DividersHorizontalDivider/>
         <div v-html="edition?.description ?? ''" class="spellbook-description"/>
         <DividersHorizontalDivider/>
 
@@ -70,40 +72,24 @@ const editionsWithSavingThrow = [
 
 <style scoped lang="scss">
 @use '~/assets/css/animations';
+@use '~/assets/css/books';
 @use '~/assets/css/fonts';
 @use '~/assets/css/colors';
 @use '~/assets/css/variables';
 @use '~/assets/css/mixins';
 
-.spellbook {
-    background: radial-gradient(colors.$yellow-50, colors.$yellow-100);
-    border-radius: 1rem;
-    color: colors.$text-dark;
-    max-width: 48rem;
-    max-height: 100%;
-    padding: 1rem 2rem;
-    position: relative;
-    width: 48rem;
-    @include mixins.heavyShadow;
-    @include animations.animate(fadeIn);
+.spellbook-upper {
+    display: flex;
+    margin-bottom: 1rem;
+    align-items: start;
+    font-size: 1.25rem;
+}
 
-    > .spellbook-header {
-        @include fonts.modesto;
-        border-bottom: 0.1rem solid colors.$text-dark;
-        margin-bottom: 2rem;
-        display: flex;
-        align-items: center;
-    }
-    > .spellbook-upper {
-        display: flex;
-        margin-bottom: 2rem;
-        align-items: start;
-        font-size: 1.25rem;
-    }
+.spellbook-description {
+    margin-top: 1.5rem;
 }
 
 .classes-levels-list {
-    background: rgba(0, 0, 0, 0.15);
     margin-left: auto;
 }
 

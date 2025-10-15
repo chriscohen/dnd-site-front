@@ -7,13 +7,11 @@ type TypedStoreProps = {
 };
 
 export function createTypedStore<T>(props: TypedStoreProps): StoreDefinition {
-    // For cache entries, we will store what query string was used, and what the result was.
-
-
     return defineStore(props.storeName, () => {
         const short = ref<T[]>([]);
         const teaser = ref<T[]>([]);
         const full = ref<T[]>([]);
+        const latest = ref<T | undefined>();
 
         function getStore(mode: RenderMode) {
             switch (mode) {
@@ -27,36 +25,60 @@ export function createTypedStore<T>(props: TypedStoreProps): StoreDefinition {
             }
         }
 
-        function contains (slug: string, mode: RenderMode): boolean {
+        function contains (search: T, mode: RenderMode): boolean {
             const store = getStore(mode);
-
-            store.value.map((item: T) => {
-                if (item.slug === slug) {
-                    return true;
-                }
-            });
-            return false;
+            const result = store.value.find((item: T) => search == item);
+            return result != undefined;
         }
 
-        const isLoading: boolean = computed(() => loading.value);
+        function empty(mode: RenderMode): boolean {
+            const store = getStore(mode);
+            return store.value.length == 0;
+        }
 
-        function getBySlug(slug: string, mode: RenderMode = RenderMode.SHORT): T | null {
+        function getBySlug(slug: string, mode: RenderMode = RenderMode.SHORT): T | undefined {
             const store = getStore(mode);
             return store.value.find((item: T) => item.slug === slug);
         }
 
-       function getAll (mode: RenderMode) {
-           const store = getStore(mode);
-           return store.value;
-       }
+        function getAll (mode: RenderMode) {
+            const store = getStore(mode);
+            return store.value;
+        }
+
+        function getLatest(): T | undefined {
+            return latest.value;
+        }
+
+        function add(item: T, mode: RenderMode): void {
+            const store = getStore(mode);
+            const existingIndex = store.value.indexOf(item);
+
+            if (existingIndex == -1) {
+                store.value.push(item);
+            } else {
+                store.value.splice(existingIndex, 1, item);
+            }
+
+            latest.value = item;
+        }
+
+        function replace(items: T[], mode: RenderMode): void {
+            const store = getStore(mode);
+            store.value = items;
+        }
 
         return {
             short,
             teaser,
             full,
+            add,
+            empty,
             getAll,
             getBySlug,
-            contains
+            contains,
+            getLatest,
+            replace
         };
     });
 }

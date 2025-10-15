@@ -47,7 +47,18 @@ export interface ICategory {
 
 export interface ICharacterClass {
     id: string
+    slug: string
     name: string
+    editions: ICharacterClassEdition[]
+    image?: IMediaTeaser
+    is_prestige: boolean
+}
+
+export interface ICharacterClassEdition {
+    id: string
+    game_edition: string
+    is_prestige: boolean
+    references: IReferenceTeaser[]
 }
 
 export interface ICompany {
@@ -266,11 +277,10 @@ export interface ISpellEditionTeaser {
 }
 
 export interface ISpellEditionCharacterClassLevel {
-    id: string
-    spell_edition: ISpellEdition,
-    character_class: string
-    character_class_raw: ICharacterClass
+    name: string
+    slug: string
     level: number
+    type: string
 }
 
 export enum RenderMode {

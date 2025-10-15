@@ -1,9 +1,9 @@
-﻿@use '../animations';
+﻿@use 'animations';
 @use 'sass:color';
-@use '../colors';
-@use '../fonts';
-@use '../mixins';
-@use '../variables';
+@use 'colors';
+@use 'fonts';
+@use 'mixins';
+@use 'variables';
 
 .teaser {
     @include mixins.heavyShadow;
@@ -11,8 +11,6 @@
     background: colors.$black-20;
     flex-shrink: 1;
     position: relative;
-    width: variables.$teaser-width;
-    height: variables.$teaser-height;
     transition:
         color 250ms ease-in-out,
         background 500ms ease-in-out,
@@ -23,6 +21,12 @@
 
     > img {
         margin: auto;
+    }
+
+    > .badge-container {
+        position: absolute;
+        top: 0.5rem;
+        right: 0;
     }
 
     &.loading {

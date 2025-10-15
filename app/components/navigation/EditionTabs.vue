@@ -98,6 +98,7 @@ const tabData = ref<TabData[]>([
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
+    min-width: 7rem;
 
     > button {
         @include fonts.mrs-eaves;

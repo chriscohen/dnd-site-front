@@ -3,13 +3,16 @@ import Spellbook from "~/components/spells/Spellbook.vue";
 import SpellbookImage from "~/components/spells/SpellbookImage.vue";
 import EditionTabs from "~/components/navigation/EditionTabs.vue";
 import {useRuntimeConfig} from "#app";
+import SpellbookExtra from "~/components/spells/SpellbookExtra.vue";
+import {useApi} from "#imports";
 
 const route = useRoute();
 const store = useSourceStore();
 const runtimeConfig = useRuntimeConfig();
+const apiUrl = useApi();
 
 const { data, error, status } = await useAsyncData('spell', () => $fetch(
-    runtimeConfig.public.apiUrl + '/spell/' + route.params.slug + '?mode=full',
+    apiUrl.getUrl('spell/' + route.params.slug, RenderMode.FULL),
     {
         method: 'GET',
         headers: {
@@ -42,27 +45,47 @@ function setActive(id?: string): ISpellEdition | null {
 </script>
 
 <template>
-
     <div class="spell-container">
-        <EditionTabs :active="activeEdition" :spell="data" @edition-selected="(id: string) => setActive(id)"/>
+        <SpellbookImage :spell="data"/>
 
-        <div class="spell">
-            <SpellbookImage :loading="status === 'pending'" :spell="data"/>
-            <Spellbook :loading="status === 'pending'" :spell="data" :edition="activeEdition"/>
+        <div class="book-container spellbook">
+            <EditionTabs :active="activeEdition" :spell="data" @edition-selected="(id: string) => setActive(id)"/>
+            <Spellbook :spell="data" :edition="activeEdition"/>
+        </div>
+
+        <div class="book-container spellbook-extras">
+            <SpellbookExtra :spell="data" :edition="activeEdition"/>
         </div>
     </div>
 </template>
 
 <style scoped lang="scss">
+@use '~/assets/css/books';
+@use '~/assets/css/mixins';
+
 .spell-container {
     display: flex;
+    justify-content: stretch;
     height: 100%;
+    width: 100%;
 
     > .edition-tabs {
         margin-top: 2rem;
     }
-    > .spell {
-        height: 100%;
+    > .spellbook {
+        width: 40%;
+
+        > .book {
+            @include mixins.heavyShadow;
+        }
+    }
+    > .spellbook-extras {
+        margin-left: auto;
+        width: 35%;
+
+        > .book {
+            @include mixins.heavyShadowLeft;
+        }
     }
 }
 </style>

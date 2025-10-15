@@ -17,5 +17,5 @@ const props = defineProps<{
 </template>
 
 <style lang="scss">
-@use '~/assets/css/components/teasers';
+@use '../../assets/css/teasers';
 </style>

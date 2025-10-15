@@ -1,11 +1,18 @@
 ﻿@use 'sass:color';
 @use 'colors' as c;
+@use 'variables' as v;
 
 @mixin text-shadow {
     text-shadow: 2px 2px 0 c.$shadow;
 };
 @mixin heavyShadow {
-    box-shadow: 5px 5px 15px 5px c.$shadow;
+    box-shadow: v.$heavy-shadow-distance v.$heavy-shadow-distance v.$heavy-shadow-blur v.$heavy-shadow-distance c.$shadow;
+}
+@mixin heavyShadowLeft {
+    box-shadow: v.$heavy-shadow-distance-left v.$heavy-shadow-distance v.$heavy-shadow-blur v.$heavy-shadow-distance c.$shadow;
+}
+@mixin lightShadow {
+    box-shadow: v.$light-shadow-distance v.$light-shadow-distance v.$light-shadow-blur v.$light-shadow-distance v.$light-shadow-color;
 }
 @mixin drop-shadow {
     box-shadow:

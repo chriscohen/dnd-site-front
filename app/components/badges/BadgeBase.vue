@@ -5,19 +5,23 @@ const props = defineProps<{
     bgColor?: string
     label?: string
     extraText?: string
+    roundedCorners?: string
 }>();
 
 const classes = [
     'badge',
     props.type ? props.type + '-badge' : null,
     props.bgColor ? 'bg-' + props.bgColor : null,
+    props.roundedCorners == 'all' ? 'rounded' : null,
+    props.roundedCorners == 'left' ? 'rounded-left' : null,
+    props.roundedCorners == 'right' ? 'rounded-right' : null,
 ];
 </script>
 
 <template>
-    <div :class="classes">
+    <span :class="classes">
         {{ label }}
-    </div>
+    </span>
 </template>
 
 <style scoped lang="scss">

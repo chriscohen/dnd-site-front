@@ -1,6 +1,7 @@
 ﻿@use 'colors';
 
 $editions:
+    'edition-0' colors.$edition-0 colors.$edition-0-active colors.$edition-0-hover,
     'edition-1' colors.$edition-1 colors.$edition-1-active colors.$edition-1-hover,
     'edition-2' colors.$edition-2 colors.$edition-2-active colors.$edition-2-hover,
     'edition-3' colors.$edition-3 colors.$edition-3-active colors.$edition-3-hover,
@@ -18,3 +19,12 @@ $scrollbar-width: 0.5rem;
 
 $teaser-width: 16rem;
 $teaser-height: 20rem;
+
+$heavy-shadow-distance: 5px;
+$heavy-shadow-distance-left: -5px;
+$heavy-shadow-blur: 15px;
+
+$light-shadow-distance: 2px;
+$light-shadow-distance-left: -2px;
+$light-shadow-blur: 5px;
+$light-shadow-color: colors.$black-50;

@@ -7,44 +7,44 @@ import MediaLarge from "~/components/media/MediaLarge.vue";
 import ProductLinkButtonContainer from "~/components/containers/ProductLinkButtonContainer.vue";
 import PageTitle from "~/components/labels/PageTitle.vue";
 import SourcebookInTheBox from "~/components/sourcebooks/SourcebookInTheBox.vue";
-import {useRuntimeConfig} from "#app";
+import ConjuringScreen from "~/components/loading/ConjuringScreen.vue";
 
 const route = useRoute();
 const store = useSourceStore();
-const runtimeConfig = useRuntimeConfig();
+const api = useApi(store);
+let data;
 
-const { data, error, status } = await useAsyncData('source', () => $fetch(
-    runtimeConfig.public.apiUrl + '/source/' + route.params.slug + '?mode=full',
-    {
-        method: 'GET',
-        headers: {
-            "Access-Control-Allow-Origin": "*"
-        }
-    }
-));
+api.get({
+    type: 'source',
+    slug: route.params.slug as string,
+    mode: RenderMode.FULL,
+    multiple: false,
+});
 </script>
 
 <template>
-
-    <div class="sourcebook">
+    <div v-if="!store.getLatest()" class="sourcebook">
+        <ConjuringScreen/>
+    </div>
+    <div v-else class="sourcebook">
         <!-- Left: Cover Art -->
-        <MediaLarge :loading="status === 'pending'" :name="data?.name" :cover-image="data?.cover_image" />
+        <MediaLarge :loading="api.loading.value" :name="store.getLatest()?.name" :cover-image="store.getLatest()?.cover_image" />
         <!-- /Left: Cover Art -->
 
         <!-- Right Side -->
         <div>
             <!-- Heading -->
             <PageTitle
-                :title="data?.name ?? ''"
+                :title="store.getLatest()?.name ?? ''"
                 back-to="/sources"
                 :underline="true"
             >
                 <template #labels>
-                    <GameEditionBadge :edition="data?.game_edition as string"/>
-                    <PublicationTypeBadge :type="data?.publication_type as string" />
+                    <GameEditionBadge :edition="store.getLatest()?.game_edition as string"/>
+                    <PublicationTypeBadge :type="store.getLatest()?.publication_type as string" />
                 </template>
                 <template #subtitle>
-                    {{ data?.sourcebook_types?.join(' • ') }}
+                    {{ store.getLatest()?.sourcebook_types?.join(' • ') }}
                 </template>
             </PageTitle>
             <!-- /Heading -->
@@ -54,23 +54,23 @@ const { data, error, status } = await useAsyncData('source', () => $fetch(
                 <!-- Left of "Under Heading" -->
                 <div class="sourcebook-details">
                     <SourcebookDetailsList
-                        :loading="!data"
-                        :sourcebook="data as ISourcebook"
+                        :loading="!store.getLatest()"
+                        :sourcebook="store.getLatest() as ISourcebook"
                     />
                     <SourcebookInTheBox
-                        v-if="data.editions[0]?.boxed_set_datas?.length > 0"
-                        :datas="data.editions[0]?.boxed_set_datas"
+                        v-if="store.getLatest()?.editions[0]?.boxed_set_datas?.length > 0"
+                        :datas="store.getLatest()?.editions[0]?.boxed_set_datas"
                     />
                     <ProductLinkButtonContainer
-                        v-if="data?.product_ids?.length > 1"
-                        :loading="!data"
-                        :sourcebook="data as ISourcebook"
+                        v-if="store.getLatest()?.product_ids?.length > 1"
+                        :loading="!store.getLatest()"
+                        :sourcebook="store.getLatest() as ISourcebook"
                     />
                 </div>
                 <!-- Left of "Under Heading" -->
 
                 <!-- Right of "Under Heading -->
-                <ProseContainer v-if="data" :text="data.description"/>
+                <ProseContainer v-if="data" :text="store.getLatest().description"/>
                 <!-- Right of "Under Heading -->
             </div>
             <!-- /Under Heading -->

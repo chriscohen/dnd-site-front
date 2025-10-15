@@ -67,7 +67,8 @@ export const usePersistedStore = defineStore('persisted', {
                 bgClass: 'edition-2024',
                 active: false
             },
-        ]
+        ],
+        reload: 0
     }),
     persist: true,
     getters: {
