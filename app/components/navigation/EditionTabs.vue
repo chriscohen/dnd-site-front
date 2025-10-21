@@ -11,8 +11,8 @@ type TabData = {
 }
 
 const props = defineProps<{
-    active?: ISpellEdition
-    spell?: ISpell
+    active?: string
+    editions: ISpellEdition[]
 }>();
 
 const tabData = ref<TabData[]>([
@@ -21,41 +21,41 @@ const tabData = ref<TabData[]>([
         class: "edition-1",
         name: "1",
         sup: "st",
-        disabled: !props.spell?.editions?.find((item: ISpellEdition) => item.game_edition === '1e'),
+        disabled: !props.editions?.find((item: ISpellEdition) => item.game_edition === '1e'),
     },
     {
         id: "2e",
         class: "edition-2",
         name: "2",
         sup: "nd",
-        disabled: !props.spell?.editions?.find((item: ISpellEdition) => item.game_edition === '2e'),
+        disabled: !props.editions?.find((item: ISpellEdition) => item.game_edition === '2e'),
     },
     {
         id: "3e",
         class: "edition-3",
         name: "3",
         sup: "rd",
-        disabled: !props.spell?.editions?.find((item: ISpellEdition) => item.game_edition === '3e'),
+        disabled: !props.editions?.find((item: ISpellEdition) => item.game_edition === '3e'),
     },
     {
         id: "3.5",
         class: "edition-3",
         name: "3.5",
-        disabled: !props.spell?.editions?.find((item: ISpellEdition) => item.game_edition === '3.5'),
+        disabled: !props.editions?.find((item: ISpellEdition) => item.game_edition === '3.5'),
     },
     {
         id: "4e",
         class: "edition-4",
         name: "4",
         sup: "th",
-        disabled: !props.spell?.editions?.find((item: ISpellEdition) => item.game_edition === '4e'),
+        disabled: !props.editions?.find((item: ISpellEdition) => item.game_edition === '4e'),
     },
     {
         id: "5e (2014)",
         class: "edition-5",
         name: "5",
         sup: "th",
-        disabled: !props.spell?.editions?.find((item: ISpellEdition) => item.game_edition === '5e (2014)'),
+        disabled: !props.editions?.find((item: ISpellEdition) => item.game_edition === '5e (2014)'),
     },
     {
         id: "5e (2024)",
@@ -63,19 +63,19 @@ const tabData = ref<TabData[]>([
         name: "5",
         sup: "th",
         suffix: "2024",
-        disabled: !props.spell?.editions?.find((item: ISpellEdition) => item.game_edition === '5e (2024)'),
+        disabled: !props.editions?.find((item: ISpellEdition) => item.game_edition === '5e (2024)'),
     }
 ]);
 </script>
 
 <template>
-    <nav v-if="spell && tabData" class="edition-tabs">
+    <nav v-if="editions && tabData" class="edition-tabs">
         <button
             v-for="tab in tabData"
             :key="tab.id"
             :disabled="tab.disabled ? 'disabled' : null"
             :class="[
-                active?.game_edition === tab.id ? 'active' : null,
+                active === tab.id ? 'active' : null,
                 tab.disabled ? null : 'border-stripe',
                 'border-' + tab.class,
                 'bg-' + tab.class + (tab.id === active ? '-active' : '')

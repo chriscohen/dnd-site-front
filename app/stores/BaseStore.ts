@@ -46,10 +46,6 @@ export function createTypedStore<T>(props: TypedStoreProps): StoreDefinition {
             return store.value;
         }
 
-        function getLatest(): T | undefined {
-            return latest.value;
-        }
-
         function add(item: T, mode: RenderMode): void {
             const store = getStore(mode);
             const existingIndex = store.value.indexOf(item);
@@ -77,7 +73,7 @@ export function createTypedStore<T>(props: TypedStoreProps): StoreDefinition {
             getAll,
             getBySlug,
             contains,
-            getLatest,
+            latest,
             replace
         };
     });

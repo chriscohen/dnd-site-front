@@ -1,28 +1,26 @@
 ﻿<script setup lang="ts">
 import SpellTeaser from "~/components/teasers/SpellTeaser.vue";
+import {useSpellStore} from "#imports";
+import ConjuringScreen from "~/components/loading/ConjuringScreen.vue";
 
+const store = useSpellStore();
 const persistedStore = usePersistedStore();
-const apiUrl = useApiUrl();
+const apiUrl = useApi(store);
 
-const { data, error, status } = await useAsyncData(
-    'spells',
-    () => $fetch(
-        apiUrl.getUrl('spells', RenderMode.TEASER),
-        {
-            method: 'GET',
-            headers: {
-                "Access-Control-Allow-Origin": "*"
-            }
-        }
-    ),
-    {watch: [persistedStore]}
-);
+apiUrl.get({
+    type: 'spells',
+    mode: RenderMode.TEASER,
+    multiple: true
+});
 </script>
 
 <template>
     <div class="page-container">
-        <div class="teaser-container">
-            <SpellTeaser v-for="item in data" :key="item.id" :loading="false" :data="item" />
+        <div v-if="store.empty(RenderMode.TEASER)" class="teaser-container">
+            <ConjuringScreen/>
+        </div>
+        <div v-else class="teaser-container">
+            <SpellTeaser v-for="item in store.getAll(RenderMode.TEASER)" :key="item.id" :data="item" />
         </div>
     </div>
 

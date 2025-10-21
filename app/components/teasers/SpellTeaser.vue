@@ -3,13 +3,12 @@ import { toOrdinal } from '~/utils/utils';
 import TeaserTitle from "~/components/teasers/TeaserTitle.vue";
 
 const props = defineProps<{
-    loading: boolean,
-    data?: ISpellTeaser
+    data: ISpellTeaser
 }>();
 
 const getSubtitle = computed(() => {
-    return props.loading ? [] : [
-        toOrdinal(props.data.lowest_level ?? ''),
+    return [
+        toOrdinal(props.data.lowest_level.toString() ?? ''),
         'level',
         props.data.school
     ].join(' ');

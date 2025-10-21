@@ -2,7 +2,7 @@
 import BackButton from "~/components/buttons/BackButton.vue";
 
 const props = defineProps<{
-    title: string
+    title?: string
     backTo?: string
     underline?: boolean
 }>();

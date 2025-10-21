@@ -5,7 +5,6 @@ import ReferenceList from "~/components/references/ReferenceList.vue";
 import SavingThrowLabel from "~/components/labels/SavingThrowLabel.vue";
 import PageTitle from "~/components/labels/PageTitle.vue";
 import MagicSchoolLabel from "~/components/labels/MagicSchoolLabel.vue";
-import SpellbookImage from "~/components/spells/SpellbookImage.vue";
 
 const props = defineProps<{
     spell?: ISpell
@@ -65,7 +64,7 @@ const editionsWithSavingThrow = [
         <DividersHorizontalDivider/>
 
         <div class="spellbook-lower">
-            <ReferenceList :references="edition?.references" :show-title="true"/>
+            <ReferenceList :references="edition?.references ?? []" :show-title="true"/>
         </div>
     </div>
 </template>

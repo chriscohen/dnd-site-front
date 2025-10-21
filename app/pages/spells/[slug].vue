@@ -2,59 +2,66 @@
 import Spellbook from "~/components/spells/Spellbook.vue";
 import SpellbookImage from "~/components/spells/SpellbookImage.vue";
 import EditionTabs from "~/components/navigation/EditionTabs.vue";
-import {useRuntimeConfig} from "#app";
 import SpellbookExtra from "~/components/spells/SpellbookExtra.vue";
-import {useApi} from "#imports";
+import {useApi, usePersistedStore} from "#imports";
+import ConjuringScreen from "~/components/loading/ConjuringScreen.vue";
 
 const route = useRoute();
-const store = useSourceStore();
-const runtimeConfig = useRuntimeConfig();
-const apiUrl = useApi();
+const store = useSpellStore();
+const persistedStore = usePersistedStore();
+const api = useApi(store);
 
-const { data, error, status } = await useAsyncData('spell', () => $fetch(
-    apiUrl.getUrl('spell/' + route.params.slug, RenderMode.FULL),
-    {
-        method: 'GET',
-        headers: {
-            "Access-Control-Allow-Origin": "*"
-        }
-    }
-));
-watch (data, (newValue) => setActive());
+api.get({
+    type: 'spell',
+    slug: route.params.slug as string,
+    mode: RenderMode.FULL,
+    multiple: false,
+});
 
-function findActive(): ISpellEdition | null {
-    if (status === 'pending' || !data.value || !data.value?.editions) {
+const activeEdition = computed(() => {
+    if (!store.latest) {
         return null;
     }
 
-    const active = data.value.editions?.find((edition: ISpellEdition) => edition.is_default);
-    return active ?? data?.value.editions[0];
-}
+    // Does the currently selected edition exist within this spell's editions?
+    const edition = store.latest.editions.find(
+        (edition: ISpellEdition) => edition.game_edition === persistedStore.selectedEdition
+    );
 
-const activeEdition = ref<ISpellEdition>(findActive());
-
-function setActive(id?: string): ISpellEdition | null {
-    if (!data) {
-        return null;
-    } else if (!id) {
-        activeEdition.value = data.value.editions.find((edition: ISpellEdition) => edition.is_default);
-    } else {
-        activeEdition.value = data.value.editions.find((edition: ISpellEdition) => edition?.game_edition === id);
+    // If it does, return it.
+    if (edition) {
+        return edition;
     }
+
+    // If not, set the new "selectedEdition" as the first edition on this spell, and return that.
+    constl newValue = store.latest.editions[0].game_edition;
+    setActive(newValue);
+    return newValue;
+});
+
+function setActive(id: string) {
+    persistedStore.selectedEdition = id;
 }
 </script>
 
 <template>
-    <div class="spell-container">
-        <SpellbookImage :spell="data"/>
+    <div v-if="!store.latest" class="spell-container">
+        <ConjuringScreen/>
+    </div>
+    <div v-else class="spell-container">
+        <SpellbookImage :spell="store.latest"/>
 
         <div class="book-container spellbook">
-            <EditionTabs :active="activeEdition" :spell="data" @edition-selected="(id: string) => setActive(id)"/>
-            <Spellbook :spell="data" :edition="activeEdition"/>
+            <EditionTabs
+                :active="activeEdition"
+                :editions="store.latest?.editions ?? []"
+                @edition-selected="(id: string) => setActive(id)"
+            />
+            <Spellbook :spell="store.latest" :edition="activeEdition"/>
         </div>
 
         <div class="book-container spellbook-extras">
-            <SpellbookExtra :spell="data" :edition="activeEdition"/>
+            <SpellbookExtra :spell="store.latest" :edition="activeEdition"/>
         </div>
     </div>
 </template>

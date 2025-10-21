@@ -23,28 +23,28 @@ api.get({
 </script>
 
 <template>
-    <div v-if="!store.getLatest()" class="sourcebook">
+    <div v-if="!store.latest" class="sourcebook">
         <ConjuringScreen/>
     </div>
     <div v-else class="sourcebook">
         <!-- Left: Cover Art -->
-        <MediaLarge :loading="api.loading.value" :name="store.getLatest()?.name" :cover-image="store.getLatest()?.cover_image" />
+        <MediaLarge :loading="api.loading.value" :name="store.latest?.name" :cover-image="store.latest?.cover_image" />
         <!-- /Left: Cover Art -->
 
         <!-- Right Side -->
         <div>
             <!-- Heading -->
             <PageTitle
-                :title="store.getLatest()?.name ?? ''"
+                :title="store.latest?.name ?? ''"
                 back-to="/sources"
                 :underline="true"
             >
                 <template #labels>
-                    <GameEditionBadge :edition="store.getLatest()?.game_edition as string"/>
-                    <PublicationTypeBadge :type="store.getLatest()?.publication_type as string" />
+                    <GameEditionBadge :edition="store.latest?.game_edition as string"/>
+                    <PublicationTypeBadge :type="store.latest?.publication_type as string" />
                 </template>
                 <template #subtitle>
-                    {{ store.getLatest()?.sourcebook_types?.join(' • ') }}
+                    {{ store.latest?.sourcebook_types?.join(' • ') }}
                 </template>
             </PageTitle>
             <!-- /Heading -->
@@ -54,23 +54,23 @@ api.get({
                 <!-- Left of "Under Heading" -->
                 <div class="sourcebook-details">
                     <SourcebookDetailsList
-                        :loading="!store.getLatest()"
-                        :sourcebook="store.getLatest() as ISourcebook"
+                        :loading="!store.latest"
+                        :sourcebook="store.latest as ISourcebook"
                     />
                     <SourcebookInTheBox
-                        v-if="store.getLatest()?.editions[0]?.boxed_set_datas?.length > 0"
-                        :datas="store.getLatest()?.editions[0]?.boxed_set_datas"
+                        v-if="store.latest?.editions[0]?.boxed_set_datas?.length > 0"
+                        :datas="store.latest?.editions[0]?.boxed_set_datas"
                     />
                     <ProductLinkButtonContainer
-                        v-if="store.getLatest()?.product_ids?.length > 1"
-                        :loading="!store.getLatest()"
-                        :sourcebook="store.getLatest() as ISourcebook"
+                        v-if="store.latest?.product_ids?.length > 1"
+                        :loading="!store.latest"
+                        :sourcebook="store.latest as ISourcebook"
                     />
                 </div>
                 <!-- Left of "Under Heading" -->
 
                 <!-- Right of "Under Heading -->
-                <ProseContainer v-if="data" :text="store.getLatest().description"/>
+                <ProseContainer v-if="data" :text="store.latest.description"/>
                 <!-- Right of "Under Heading -->
             </div>
             <!-- /Under Heading -->

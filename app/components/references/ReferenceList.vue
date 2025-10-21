@@ -2,7 +2,7 @@
 import ReferenceListItem from "~/components/references/ReferenceListItem.vue";
 
 const props = defineProps<{
-    references: IReference[],
+    references: IReferenceTeaser[],
     showTitle: boolean
 }>();
 </script>

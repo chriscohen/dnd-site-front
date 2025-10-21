@@ -68,7 +68,8 @@ export const usePersistedStore = defineStore('persisted', {
                 active: false
             },
         ],
-        reload: 0
+        reload: 0,
+        selectedEdition: ''
     }),
     persist: true,
     getters: {
