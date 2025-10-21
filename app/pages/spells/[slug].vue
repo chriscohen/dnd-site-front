@@ -34,7 +34,7 @@ const activeEdition = computed(() => {
     }
 
     // If not, set the new "selectedEdition" as the first edition on this spell, and return that.
-    constl newValue = store.latest.editions[0].game_edition;
+    const newValue = store.latest.editions[0].game_edition;
     setActive(newValue);
     return newValue;
 });
