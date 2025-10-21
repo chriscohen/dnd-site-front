@@ -1,4 +1,5 @@
 ﻿import type {Store} from "pinia";
+import {useCacheStore} from "~/stores/CacheStore";
 
 type ApiGetProps = {
     type: string,
@@ -14,10 +15,21 @@ export const useApi = (store: Store) => {
     const apiUrl = runtimeConfig.public.apiUrl;
     const loading = ref<boolean>(false);
     const item = ref<T | null>(null);
+    const cacheStore = useCacheStore();
 
     function get(props: ApiGetProps) {
+        const url = getUrl(props.type, props.slug, props.mode);
+        const cached = cacheStore.getItem(url);
+
+        if (cached) {
+            console.log('[CACHE] hit: ' + url, cached);
+            return cached;
+        } else {
+            console.log('[CACHE] miss: ' + url);
+        }
+
         const { data, error, status } = useLazyAsyncData(props.type,
-            () => $fetch(getUrl(props.type, props.slug, props.mode), {
+            () => $fetch(url, {
                 method: 'GET',
                 headers: {"Access-Control-Allow-Origin": "*"}
             }),
@@ -40,6 +52,10 @@ export const useApi = (store: Store) => {
                 store.add(newValue, props.mode);
             }
         });
+    }
+
+    function getCached(url: string): T | null {
+
     }
 
     function getUrl(url: string, slug?: string, mode?: RenderMode) {
