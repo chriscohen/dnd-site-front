@@ -1,26 +1,23 @@
 ﻿<script setup lang="ts">
 import SpellTeaser from "~/components/teasers/SpellTeaser.vue";
-import {useSpellStore} from "#imports";
 import ConjuringScreen from "~/components/loading/ConjuringScreen.vue";
 
-const store = useSpellStore();
-const persistedStore = usePersistedStore();
-const apiUrl = useApi(store);
-
-apiUrl.get({
+const api = useApi({
     type: 'spells',
     mode: RenderMode.TEASER,
     multiple: true
 });
+
+api.get();
 </script>
 
 <template>
     <div class="page-container">
-        <div v-if="store.empty(RenderMode.TEASER)" class="teaser-container">
+        <div v-if="!api.getItem()" class="teaser-container">
             <ConjuringScreen/>
         </div>
         <div v-else class="teaser-container">
-            <SpellTeaser v-for="item in store.getAll(RenderMode.TEASER)" :key="item.id" :data="item" />
+            <SpellTeaser v-for="item in api.getItem()" :key="item.id" :data="item" />
         </div>
     </div>
 

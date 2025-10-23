@@ -1,5 +1,4 @@
 ﻿import {type IQueryString, ref, useCacheStore} from "#build/imports";
-import type {StoreDefinition} from "pinia";
 
 type TypedProps = {
     getPath: string

@@ -3,7 +3,7 @@ import MainNavigation from "~/components/navigation/MainNavigation.vue";
 import SidebarNavigation from "~/components/navigation/SidebarNavigation.vue";
 
 const magicSchoolStore = useMagicSchoolStore();
-magicSchoolStore.getAll();
+const cache = useCacheStore();
 </script>
 
 <template>

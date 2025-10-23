@@ -26,7 +26,7 @@ const routeData = ref<RouteData[]>([
             },
             {
                 name: 'Magic Schools',
-                path: '/magic-schools'
+                path: '/'
             }
         ]
     },
@@ -43,11 +43,11 @@ const routeData = ref<RouteData[]>([
             },
             {
                 name: 'Feats',
-                path: '/feats'
+                path: '/'
             },
             {
                 name: 'Skills',
-                path: '/skills'
+                path: '/'
             }
         ]
     },
@@ -56,7 +56,7 @@ const routeData = ref<RouteData[]>([
         children: [
             {
                 name: 'Monsters',
-                path: '/monsters'
+                path: '/'
             }
         ]
     },
@@ -69,11 +69,11 @@ const routeData = ref<RouteData[]>([
             },
             {
                 name: 'Magazines',
-                path: '/magazines'
+                path: '/'
             },
             {
                 name: 'Websites',
-                path: '/websites'
+                path: '/'
             }
         ]
     },
