@@ -19,21 +19,23 @@ const editionsWithSavingThrow = [
 </script>
 
 <template>
-    <div class="book scrollbar">
-        <div v-if="edition" class="book-header">
-            <PageTitle
-                :title="spell?.name"
-                :underline="true"
-                back-to="/spells"
-            >
-                <template #subtitle><MagicSchoolLabel :link="true" :school="edition?.school"/></template>
-            </PageTitle>
-            <MagicSchoolSpellbookLabel
-                :school="edition?.school"
-                size="4rem"
-                classes="ml-auto"
-            />
-        </div>
+    <div class="container scrollbar">
+        <PageTitle
+            v-if="edition"
+            :title="spell?.name"
+            :underline="true"
+            back-to="/spells"
+        >
+            <template #subtitle><MagicSchoolLabel :link="true" :school="edition?.school"/></template>
+            <template #side>
+                <MagicSchoolSpellbookLabel
+                    :school="edition?.school"
+                    size="4rem"
+                    classes="ml-auto"
+                />
+            </template>
+        </PageTitle>
+
 
         <div v-if="edition" class="spellbook-upper">
             <div class="spell-attributes">
@@ -74,6 +76,7 @@ const editionsWithSavingThrow = [
 @use '~/assets/css/books';
 @use '~/assets/css/fonts';
 @use '~/assets/css/colors';
+@use '~/assets/css/layout';
 @use '~/assets/css/variables';
 @use '~/assets/css/mixins';
 

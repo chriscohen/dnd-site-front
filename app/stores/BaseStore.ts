@@ -5,76 +5,43 @@ type TypedStoreProps = {
     getEndpoint: string
     listEndpoint: string
 };
+type CacheEntry = {
+    url: string
+    result: never | Array<never>
+}
 
 export function createTypedStore<T>(props: TypedStoreProps): StoreDefinition {
     return defineStore(props.storeName, () => {
-        const short = ref<T[]>([]);
-        const teaser = ref<T[]>([]);
-        const full = ref<T[]>([]);
-        const latest = ref<T | undefined>();
+        const cache = ref<CacheEntry[]>([]);
 
-        function getStore(mode: RenderMode) {
-            switch (mode) {
-                default:
-                case RenderMode.SHORT:
-                    return short;
-                case RenderMode.TEASER:
-                    return teaser;
-                case RenderMode.FULL:
-                    return full;
-            }
-        }
-
-        function contains (search: T, mode: RenderMode): boolean {
-            const store = getStore(mode);
-            const result = store.value.find((item: T) => search == item);
-            return result != undefined;
+        function contains (url: string): boolean {
+            return cache.value.find((item: CacheEntry) => item.url == url) != undefined;
         }
 
         function empty(mode: RenderMode): boolean {
-            const store = getStore(mode);
-            return store.value.length == 0;
+            return cache.value.length == 0;
         }
 
-        function getBySlug(slug: string, mode: RenderMode = RenderMode.SHORT): T | undefined {
-            const store = getStore(mode);
-            return store.value.find((item: T) => item.slug === slug);
+        function getItem(url: string): never | Array<never> | undefined {
+            const entry = cache.value.find((item: CacheEntry) => item.url == url);
+            return entry?.result ?? undefined;
         }
 
-        function getAll (mode: RenderMode) {
-            const store = getStore(mode);
-            return store.value;
-        }
+        function setItem(url: string, data: never): void {
+            const index = cache.value.findIndex((item: CacheEntry) => item.url == url);
+            console.log('index', index);
 
-        function add(item: T, mode: RenderMode): void {
-            const store = getStore(mode);
-            const existingIndex = store.value.indexOf(item);
-
-            if (existingIndex == -1) {
-                store.value.push(item);
+            if (index < 0) {
+                this.$patch((state) => state.cache.push({url: url, result: data} as CacheEntry));
             } else {
-                store.value.splice(existingIndex, 1, item);
+                cache.value.splice(index, 1, {url: url, result: data});
             }
-
-            latest.value = item;
-        }
-
-        function replace(items: T[], mode: RenderMode): void {
-            const store = getStore(mode);
-            store.value = items;
         }
 
         return {
-            short,
-            teaser,
-            full,
-            add,
-            empty,
-            getAll,
-            getBySlug,
-            contains,
-            latest,
-            replace
+            cache,
+            getItem,
+            setItem
         };
     });
 }

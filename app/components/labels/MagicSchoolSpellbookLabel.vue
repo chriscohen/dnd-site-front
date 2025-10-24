@@ -12,7 +12,7 @@ const props = defineProps<{
 <template>
     <div v-if="!school" class="skeleton magic-school-label" :style="{ width: size, height: size }"/>
 
-    <UPopover v-if="school" mode="hover">
+    <UPopover v-if="school" mode="hover" :open-delay="500">
         <img
             class="magic-school-label"
             :class="classes"

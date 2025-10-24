@@ -1,68 +1,62 @@
 ﻿<script setup lang="ts">
+import type {TabsItem} from "#ui/components/Tabs.vue";
+
 defineEmits(['edition-selected']);
 
 type TabData = {
     id: string;
     class: string,
-    name: string,
-    sup?: string,
+    label: string;
     suffix?: string
     disabled: boolean,
 }
 
 const props = defineProps<{
-    active?: string
+    active?: ISpellEdition
     editions: ISpellEdition[]
 }>();
 
-const tabData = ref<TabData[]>([
+const tabData = ref<TabsItem[]>([
     {
         id: "1e",
         class: "edition-1",
-        name: "1",
-        sup: "st",
+        label: "1st",
         disabled: !props.editions?.find((item: ISpellEdition) => item.game_edition === '1e'),
     },
     {
         id: "2e",
         class: "edition-2",
-        name: "2",
-        sup: "nd",
+        label: "2nd",
         disabled: !props.editions?.find((item: ISpellEdition) => item.game_edition === '2e'),
     },
     {
         id: "3e",
         class: "edition-3",
-        name: "3",
-        sup: "rd",
+        label: "3rd",
         disabled: !props.editions?.find((item: ISpellEdition) => item.game_edition === '3e'),
     },
     {
         id: "3.5",
         class: "edition-3",
-        name: "3.5",
+        label: "3.5",
         disabled: !props.editions?.find((item: ISpellEdition) => item.game_edition === '3.5'),
     },
     {
         id: "4e",
         class: "edition-4",
-        name: "4",
-        sup: "th",
+        label: "4th",
         disabled: !props.editions?.find((item: ISpellEdition) => item.game_edition === '4e'),
     },
     {
         id: "5e (2014)",
         class: "edition-5",
-        name: "5",
-        sup: "th",
+        label: "5th",
         disabled: !props.editions?.find((item: ISpellEdition) => item.game_edition === '5e (2014)'),
     },
     {
         id: "5e (2024)",
         class: "edition-2024",
-        name: "5",
-        sup: "th",
-        suffix: "2024",
+        label: "2024",
         disabled: !props.editions?.find((item: ISpellEdition) => item.game_edition === '5e (2024)'),
     }
 ]);
@@ -73,17 +67,16 @@ const tabData = ref<TabData[]>([
         <button
             v-for="tab in tabData"
             :key="tab.id"
-            :disabled="tab.disabled ? 'disabled' : null"
+            :disabled="tab.disabled"
             :class="[
-                active === tab.id ? 'active' : null,
+                active?.id === tab.id ? 'active' : null,
                 tab.disabled ? null : 'border-stripe',
                 'border-' + tab.class,
-                'bg-' + tab.class + (tab.id === active ? '-active' : '')
+                'bg-' + tab.class + (tab.id === active?.id ? '-active' : '')
             ]"
             @click="$emit('edition-selected', tab.id)"
         >
-            {{ tab.name }}
-            <sup v-if="tab.sup">{{ tab.sup }}</sup>&nbsp;
+            {{ tab.label }}
             <template v-if="tab.suffix">{{ tab.suffix }}</template>
         </button>
     </nav>
@@ -98,7 +91,6 @@ const tabData = ref<TabData[]>([
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
-    min-width: 7rem;
 
     > button {
         @include fonts.mrs-eaves;
@@ -115,8 +107,12 @@ const tabData = ref<TabData[]>([
             margin-left: -0.35rem;
         }
         &:disabled {
-            background-color: colors.$gray-700;
+            background-color: colors.$gray-950;
             color: colors.$text-disabled;
+
+            &:hover {
+                cursor: default;
+            }
         }
         &:hover {
             cursor: pointer;

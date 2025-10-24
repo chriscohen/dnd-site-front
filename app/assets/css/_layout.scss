@@ -1,0 +1,8 @@
+﻿@use 'colors';
+@use 'variables';
+
+.container {
+    background: colors.$black-50;
+    border-radius: 1rem;
+    padding: 0 1rem;
+}

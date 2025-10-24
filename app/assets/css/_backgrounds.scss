@@ -3,15 +3,7 @@
 @use 'mixins';
 
 .bg-default {
-    background-color: colors.$bg-default;
-    transition: background variables.$default-delay ease-in-out;
-
-    &.active {
-        background-color: colors.$bg-active;
-    }
-    &:hover {
-        background-color: colors.$bg-hover;
-    }
+    background: none;
 }
 
 .bg-black20 {

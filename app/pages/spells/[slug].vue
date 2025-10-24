@@ -1,30 +1,29 @@
 ﻿<script setup lang="ts">
 import Spellbook from "~/components/spells/Spellbook.vue";
-import SpellbookImage from "~/components/spells/SpellbookImage.vue";
 import EditionTabs from "~/components/navigation/EditionTabs.vue";
 import SpellbookExtra from "~/components/spells/SpellbookExtra.vue";
 import {useApi, usePersistedStore} from "#imports";
 import ConjuringScreen from "~/components/loading/ConjuringScreen.vue";
 
 const route = useRoute();
-const store = useSpellStore();
 const persistedStore = usePersistedStore();
-const api = useApi(store);
-
-api.get({
+const api = useApi({
+    cache: useSpellStore(),
     type: 'spell',
     slug: route.params.slug as string,
     mode: RenderMode.FULL,
     multiple: false,
 });
 
+api.get();
+
 const activeEdition = computed(() => {
-    if (!store.latest) {
+    if (!api.getItem()) {
         return null;
     }
 
     // Does the currently selected edition exist within this spell's editions?
-    const edition = store.latest.editions.find(
+    const edition = api.getItem().editions.find(
         (edition: ISpellEdition) => edition.game_edition === persistedStore.selectedEdition
     );
 
@@ -34,7 +33,7 @@ const activeEdition = computed(() => {
     }
 
     // If not, set the new "selectedEdition" as the first edition on this spell, and return that.
-    const newValue = store.latest.editions[0].game_edition;
+    const newValue = api.getItem().editions[0].game_edition;
     setActive(newValue);
     return newValue;
 });
@@ -45,23 +44,21 @@ function setActive(id: string) {
 </script>
 
 <template>
-    <div v-if="!store.latest" class="spell-container">
+    <div v-if="!api.getItem()" class="spell-container">
         <ConjuringScreen/>
     </div>
     <div v-else class="spell-container">
-        <SpellbookImage :spell="store.latest"/>
-
         <div class="book-container spellbook">
             <EditionTabs
                 :active="activeEdition"
-                :editions="store.latest?.editions ?? []"
+                :editions="api.getItem()?.editions ?? []"
                 @edition-selected="(id: string) => setActive(id)"
             />
-            <Spellbook :spell="store.latest" :edition="activeEdition"/>
+            <Spellbook :spell="api.getItem()" :edition="activeEdition"/>
         </div>
 
         <div class="book-container spellbook-extras">
-            <SpellbookExtra :spell="store.latest" :edition="activeEdition"/>
+            <SpellbookExtra :spell="api.getItem()" :edition="activeEdition"/>
         </div>
     </div>
 </template>

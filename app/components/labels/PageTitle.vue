@@ -1,17 +1,16 @@
 ﻿<script setup lang="ts">
 import BackButton from "~/components/buttons/BackButton.vue";
+import HorizontalDivider from "~/components/dividers/HorizontalDivider.vue";
 
 const props = defineProps<{
     title?: string
     backTo?: string
     underline?: boolean
 }>();
-const style = props.underline ? { borderBottom: '1px solid colors.$gray-400' } : {};
 </script>
 
 <template>
-
-    <div class="page-title" :style="style">
+    <div class="page-title">
         <div class="buttons">
             <BackButton :to="backTo ?? '/'" size="3rem"/>
         </div>
@@ -23,6 +22,9 @@ const style = props.underline ? { borderBottom: '1px solid colors.$gray-400' } :
         <div class="page-title-labels">
             <slot name="labels"/>
         </div>
+
+        <slot name="side"/>
+        <HorizontalDivider/>
     </div>
 </template>
 

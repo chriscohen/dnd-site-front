@@ -3,6 +3,7 @@ import SpellTeaser from "~/components/teasers/SpellTeaser.vue";
 import ConjuringScreen from "~/components/loading/ConjuringScreen.vue";
 
 const api = useApi({
+    cache: useSpellStore(),
     type: 'spells',
     mode: RenderMode.TEASER,
     multiple: true

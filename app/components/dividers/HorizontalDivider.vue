@@ -9,16 +9,5 @@ const props = defineProps({
 </template>
 
 <style lang="scss">
-@use '~/assets/css/colors';
-
-div.horizontal-divider {
-    height: 1px;
-    background-image: linear-gradient(
-        to right,
-        transparent,
-        colors.$gray-400 30%,
-        colors.$gray-400 70%,
-        transparent 100%
-    );
-}
+@use '~/assets/css/borders';
 </style>

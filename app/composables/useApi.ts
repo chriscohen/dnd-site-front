@@ -1,4 +1,5 @@
 ﻿type ApiGetProps = {
+    cache,
     type: string,
     slug?: string,
     mode?: RenderMode,
@@ -16,7 +17,7 @@ export const useApi = (props: ApiGetProps) => {
     const apiUrl = runtimeConfig.public.apiUrl;
     const loading = ref<boolean>(false);
     const item = ref<T | null>(null);
-    const cacheStore = useCacheStore();
+    const cacheStore = props.cache;
 
     function get() {
         const url = getUrl(type, slug, mode);

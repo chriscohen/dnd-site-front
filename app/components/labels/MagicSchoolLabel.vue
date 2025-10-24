@@ -1,4 +1,6 @@
 ﻿<script setup lang="ts">
+import PopoverContentBase from "~/components/popovers/PopoverContentBase.vue";
+
 const props = defineProps<{
     link?: boolean
     school?: IMagicSchool
@@ -8,22 +10,43 @@ const props = defineProps<{
 <template>
     <span v-if="school" class="magic-school-label">
         <template v-if="school.parent">
-            <NuxtLink v-if="props.link" :to="'/magic-school/' + school.parent.name" class="link text-dark">
-                {{ school.parent.name }}
-            </NuxtLink>
-            <template v-else>{{ school.parent.name }}</template>
+            <UPopover mode="hover" :open-delay="500" :ui="{ strategy: 'override' }">
+                <NuxtLink
+                    v-if="props.link"
+                    :to="'/magic-school/' + school.parent.name.toLowerCase()"
+                    class="link text-dark"
+                >
+                    {{ school.parent.name }}
+                </NuxtLink>
+                <template v-else>{{ school.parent.name }}</template>
 
-            (<NuxtLink v-if="props.link" :to="'/magic-school/' + school.name" class="link text-dark">
-                {{ school.name }}
-            </NuxtLink>
-            <template v-else>({{ school.name }}</template>)
-        </template>
+                <template #content>
+                    <PopoverContentBase>{{ school.parent.description }}</PopoverContentBase>
+                </template>
+            </UPopover>
 
-        <template v-else>
-            <NuxtLink v-if="props.link" :to="'/magic-school/' + school.name" class="link text-dark">
+            (<UPopover mode="hover" :open-delay="500"><NuxtLink v-if="props.link" :to="'/magic-school/' + school.name.toLowerCase()" class="link text-dark">
                 {{ school.name }}
             </NuxtLink>
             <template v-else>{{ school.name }}</template>
+
+            <template #content>
+                <PopoverContentBase>{{ school.parent.description }}</PopoverContentBase>
+            </template>
+            </UPopover>)
+        </template>
+
+        <template v-else>
+            <UPopover mode="hover" :open-delay="500">
+                <NuxtLink v-if="props.link" :to="'/magic-school/' + school.name.toLowerCase()" class="link text-dark">
+                    {{ school.name }}
+                </NuxtLink>
+                <template v-else>{{ school.name }}</template>
+
+                <template #content>
+                    <PopoverContentBase>{{ school.description }}</PopoverContentBase>
+                </template>
+            </UPopover>
         </template>
     </span>
 </template>
