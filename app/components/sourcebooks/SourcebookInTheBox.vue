@@ -21,8 +21,8 @@ const props = defineProps<{
 </template>
 
 <style scoped lang="scss">
-@use '~/assets/css/colors';
-@use '~/assets/css/fonts';
+@use '~/assets/css/default/colors';
+@use '~/assets/css/default/fonts';
 
 .in-the-box {
     background: colors.$black-20;

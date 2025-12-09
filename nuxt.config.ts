@@ -14,7 +14,7 @@ export default defineNuxtConfig({
     },
     compatibilityDate: '2025-07-15',
     css: [
-        '~/assets/css/styles.scss'
+        '~/assets/css/tailwind.css'
     ],
     devtools: { enabled: true },
     fonts: {
@@ -47,6 +47,7 @@ export default defineNuxtConfig({
         '@nuxt/icon',
         '@nuxt/image',
         '@nuxt/ui',
+        '@nuxtjs/tailwindcss',
         '@pinia/nuxt',
         'pinia-plugin-persistedstate'
     ],
@@ -61,6 +62,14 @@ export default defineNuxtConfig({
     ui: {
     },
     vite: {
+        optimizeDeps: {
+            include: ['dnd5e-ts']
+        },
+        build: {
+            commonjsOptions: {
+                include: [/dnd5e-ts/, /node_modules/]
+            }
+        },
         plugins: [
             tailwindcss(),
         ]

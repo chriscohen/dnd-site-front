@@ -1,5 +1,5 @@
 ﻿<script setup lang="ts">
-import Spellbook from "~/components/spells/Spellbook.vue";
+import Spell from "~/components/spells/Spell.vue";
 import EditionTabs from "~/components/navigation/EditionTabs.vue";
 import SpellbookExtra from "~/components/spells/SpellbookExtra.vue";
 import {useApi, usePersistedStore} from "#imports";
@@ -54,7 +54,7 @@ function setActive(id: string) {
                 :editions="api.getItem()?.editions ?? []"
                 @edition-selected="(id: string) => setActive(id)"
             />
-            <Spellbook :spell="api.getItem()" :edition="activeEdition"/>
+            <Spell :spell="api.getItem()" :edition="activeEdition"/>
         </div>
 
         <div class="book-container spellbook-extras">
@@ -64,8 +64,8 @@ function setActive(id: string) {
 </template>
 
 <style scoped lang="scss">
-@use '~/assets/css/books';
-@use '~/assets/css/mixins';
+@use '~/assets/css/default/books';
+@use '~/assets/css/default/mixins';
 
 .spell-container {
     display: flex;

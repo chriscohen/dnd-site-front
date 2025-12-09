@@ -18,11 +18,11 @@ const persistedStore = usePersistedStore();
 </template>
 
 <style scoped lang="scss">
-@use '../assets/css/colors';
-@use '~/assets/css/backgrounds';
-@use '~/assets/css/forms';
-@use '../assets/css/mixins';
-@use '~/assets/css/fonts';
+@use '~/assets/css/default/colors';
+@use '~/assets/css/default/backgrounds';
+@use '~/assets/css/default/forms';
+@use '~/assets/css/default/mixins';
+@use '~/assets/css/default/fonts';
 
 .edition-selector {
     display: flex;

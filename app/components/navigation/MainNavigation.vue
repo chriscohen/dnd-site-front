@@ -120,10 +120,10 @@ function getActive(item: RouteData): boolean {
 </template>
 
 <style scoped lang="scss">
-@use '~/assets/css/colors';
-@use '~/assets/css/fonts';
-@use '~/assets/css/mixins';
-@use '~/assets/css/variables';
+@use '~/assets/css/default/colors';
+@use '~/assets/css/default/fonts';
+@use '~/assets/css/default/mixins';
+@use '~/assets/css/default/variables';
 
 .navigation-menu {
     display: flex;

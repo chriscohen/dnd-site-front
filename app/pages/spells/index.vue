@@ -25,5 +25,5 @@ api.get();
 </template>
 
 <style scoped lang="scss">
-@use '~/assets/css/teasers';
+@use '~/assets/css/default/teasers';
 </style>

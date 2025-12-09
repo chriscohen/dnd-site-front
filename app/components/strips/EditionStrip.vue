@@ -13,7 +13,7 @@ const className = ['bg-' + editionToClass(props.edition) + '-active'];
 </template>
 
 <style lang="scss">
-@use '~/assets/css/backgrounds';
+@use '~/assets/css/default/backgrounds';
 
 .edition-strip {
     display: block;

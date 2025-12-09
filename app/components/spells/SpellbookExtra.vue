@@ -12,5 +12,5 @@ const props = defineProps<{
 </template>
 
 <style scoped lang="scss">
-@use '~/assets/css/books';
+@use '~/assets/css/default/books';
 </style>

@@ -1,5 +1,0 @@
-﻿<script>
-defineProps({
-
-})
-</script>

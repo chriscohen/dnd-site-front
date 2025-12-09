@@ -31,7 +31,8 @@ const props = defineProps<{
 </template>
 
 <style lang="scss" scoped>
-@use '~/assets/css/colors';
+@use '~/assets/css/default/colors';
+@use '~/assets/css/default/variables';
 
 div[data='reka-popper-content-wrapper'] {
     border-radius: 2rem;
@@ -39,6 +40,15 @@ div[data='reka-popper-content-wrapper'] {
     > div {
         background: none !important;
         display: none;
+    }
+}
+
+.magic-school-label {
+    filter: invert(.5);
+    transition: filter variables.$default-delay ease-in-out;
+
+    &:hover {
+        filter: invert(1);
     }
 }
 </style>

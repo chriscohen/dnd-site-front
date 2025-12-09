@@ -13,7 +13,7 @@ export const useApi = (props: ApiGetProps) => {
     const multiple = props.multiple;
     const persistedStore = usePersistedStore();
     const runtimeConfig = useRuntimeConfig();
-    const indicator = useLoadingIndicator();
+    const { start, finish } = useLoadingIndicator();
     const apiUrl = runtimeConfig.public.apiUrl;
     const loading = ref<boolean>(false);
     const item = ref<T | null>(null);
@@ -41,10 +41,10 @@ export const useApi = (props: ApiGetProps) => {
             if (newValue == 'pending') {
                 console.log('status is now pending');
                 loading.value = true;
-                indicator.start();
+                start({ force: true });
             } else {
                 console.log('status is NOT pending');
-                indicator.finish();
+                finish({ force: true });
                 loading.value = false;
             }
         });
@@ -61,7 +61,7 @@ export const useApi = (props: ApiGetProps) => {
         const myMode = mode ?? RenderMode.SHORT;
         const middle = slug ? url + '/' + slug : url;
 
-        return apiUrl + '/' + middle + '?mode=' + myMode + '&editions=' + persistedStore.getEditionsQueryString;
+        return apiUrl + '/' + middle + '?mode=' + myMode;// + '&editions=' + persistedStore.getEditionsQueryString;
     }
 
     return {

@@ -1,4 +1,6 @@
-﻿export function toOrdinal(input: string): string {
+﻿export const DEFAULT_ABILITY_SCORE = 10;
+
+export function toOrdinal(input: string): string {
     switch (input) {
         case '1':
             return '1st'

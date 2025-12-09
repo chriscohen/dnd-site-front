@@ -9,5 +9,5 @@ const props = defineProps({
 </template>
 
 <style lang="scss">
-@use '~/assets/css/borders';
+@use '~/assets/css/default/borders';
 </style>

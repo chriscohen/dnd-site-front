@@ -18,8 +18,8 @@ const props = defineProps<{
 </template>
 
 <style scoped lang="scss">
-@use '~/assets/css/colors';
-@use '~/assets/css/fonts';
+@use '~/assets/css/default/colors';
+@use '~/assets/css/default/fonts';
 
 .classes-levels-list {
     background: colors.$black-80;

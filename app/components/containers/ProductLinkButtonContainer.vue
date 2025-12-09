@@ -2,13 +2,12 @@
 import ProductLinkButton from "~/components/buttons/ProductLinkButton.vue";
 
 const props = defineProps({
-    loading: { type: Boolean, required: true },
     sourcebook: { type: Object as () => ISourcebook, default: null },
 });
 </script>
 
 <template>
-    <aside v-if="!loading" class="product-link-button-container default-padding">
+    <aside class="product-link-button-container default-padding">
         <ProductLinkButton
             v-for="productId in props.sourcebook.product_ids"
             :key="productId.id"
@@ -18,7 +17,7 @@ const props = defineProps({
 </template>
 
 <style scoped lang="scss">
-@use '../../assets/css/mixins';
+@use '../../assets/css/default/mixins';
 
 .product-link-button-container {
     @include mixins.backgroundBlack(0.2);

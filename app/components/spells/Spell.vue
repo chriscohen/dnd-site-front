@@ -72,13 +72,13 @@ const editionsWithSavingThrow = [
 </template>
 
 <style scoped lang="scss">
-@use '~/assets/css/animations';
-@use '~/assets/css/books';
-@use '~/assets/css/fonts';
-@use '~/assets/css/colors';
-@use '~/assets/css/layout';
-@use '~/assets/css/variables';
-@use '~/assets/css/mixins';
+@use '~/assets/css/default/animations';
+@use '~/assets/css/default/books';
+@use '~/assets/css/default/fonts';
+@use '~/assets/css/default/colors';
+@use '~/assets/css/default/layout';
+@use '~/assets/css/default/variables';
+@use '~/assets/css/default/mixins';
 
 .spellbook-upper {
     display: flex;

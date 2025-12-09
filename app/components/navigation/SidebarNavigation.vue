@@ -15,10 +15,10 @@ const active = ref<boolean>(false);
 </template>
 
 <style scoped lang="scss">
-@use '~/assets/css/colors';
-@use '~/assets/css/icons';
-@use '~/assets/css/mixins';
-@use '~/assets/css/variables';
+@use '~/assets/css/default/colors';
+@use '~/assets/css/default/icons';
+@use '~/assets/css/default/mixins';
+@use '~/assets/css/default/variables';
 
 #sidebar {
     background-color: colors.$gray-800;

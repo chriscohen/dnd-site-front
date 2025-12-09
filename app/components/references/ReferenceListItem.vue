@@ -15,15 +15,15 @@ const props = defineProps<{
 </template>
 
 <style lang="scss">
-@use '~/assets/css/colors';
-@use '~/assets/css/links';
+@use '~/assets/css/default/colors';
+@use '~/assets/css/default/variables';
 
-a.reference-list-item {
+.reference-list-item {
     display: flex;
     align-items: center;
     gap: 1rem;
     font-weight: 700;
-    padding: 0.25rem 0.5rem;
+    padding: 0.25rem 1rem 0.25rem 0.5rem;
 
     > img {
         height: 3rem;
@@ -33,4 +33,16 @@ a.reference-list-item {
         margin-left: auto;
     }
 }
+
+a.reference-list-item {
+    background-color: transparent;
+    color: colors.$text;
+    transition: all variables.$default-delay ease-in-out;
+
+    &:hover {
+        background-color: colors.$bg-hover;
+        color: colors.$text-dark;
+    }
+}
+
 </style>

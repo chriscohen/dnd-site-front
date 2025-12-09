@@ -15,9 +15,9 @@ const props = defineProps<{
 </template>
 
 <style scoped lang="scss">
-@use '~/assets/css/colors';
-@use '~/assets/css/teasers';
-@use '~/assets/css/variables';
+@use '~/assets/css/default/colors';
+@use '~/assets/css/default/teasers';
+@use '~/assets/css/default/variables';
 
 .source-teaser {
     width: variables.$teaser-width;

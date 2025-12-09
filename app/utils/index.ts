@@ -232,6 +232,7 @@ export interface ISpell {
     slug: string
     name: string
     image: IMedia
+    rarity: string
     editions: ISpellEdition[]
 }
 
@@ -242,6 +243,7 @@ export interface ISpellTeaser {
     editions: ISpellEditionTeaser[]
     image: IMediaTeaser
     lowest_level: number
+    rarity: string
     school: string
 }
 

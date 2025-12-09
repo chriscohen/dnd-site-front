@@ -8,7 +8,7 @@
 </template>
 
 <style lang="scss" scoped>
-@use '~/assets/css/mixins';
+@use '~/assets/css/default/mixins';
 aside.label {
     padding: 0.25rem 0.5rem;
     display: flex;

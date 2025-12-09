@@ -3,13 +3,12 @@ import SourcebookEditionsTabs from "~/components/sourcebooks/SourcebookEditionsT
 import SourcebookEditionTab from "~/components/sourcebooks/SourcebookEditionTab.vue";
 
 const props = defineProps<{
-    loading: boolean;
-    sourcebook: ISourcebook | boolean;
+    sourcebook: ISourcebook;
 }>();
 </script>
 
 <template>
-    <div v-if="!loading" class="sourcebook-details-list">
+    <div class="sourcebook-details-list">
         <!-- Editions -->
         <SourcebookEditionsTabs v-if="props.sourcebook?.editions?.length > 1" :sourcebook="props.sourcebook"/>
         <SourcebookEditionTab
@@ -32,8 +31,8 @@ const props = defineProps<{
 </template>
 
 <style scoped lang="scss">
-@use '~/assets/css/colors';
-@use '~/assets/css/mixins';
+@use '~/assets/css/default/colors';
+@use '~/assets/css/default/mixins';
 
 .sourcebook-details-list {
     background-color: colors.$black-20;

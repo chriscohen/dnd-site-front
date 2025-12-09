@@ -11,37 +11,48 @@ const props = defineProps<{
 
 <template>
     <div class="page-title">
-        <div class="buttons">
-            <BackButton :to="backTo ?? '/'" size="3rem"/>
-        </div>
+        <div class="page-title-content">
+            <div v-if="backTo" class="buttons">
+                <BackButton :to="backTo" size="3rem"/>
+            </div>
 
-        <div class="page-title-main">
-            <h1>{{ title }}</h1>
-            <h3 v-if="$slots.subtitle"><slot name="subtitle"/></h3>
-        </div>
-        <div class="page-title-labels">
-            <slot name="labels"/>
-        </div>
+            <div class="page-title-main">
+                <h1>{{ title }}</h1>
+                <h3 v-if="$slots.subtitle"><slot name="subtitle"/></h3>
+            </div>
+            <div class="page-title-labels">
+                <slot name="labels"/>
+            </div>
 
-        <slot name="side"/>
-        <HorizontalDivider/>
+            <slot name="side"/>
+        </div>
+        <HorizontalDivider v-if="underline"/>
     </div>
 </template>
 
 <style scoped lang="scss">
-@use '~/assets/css/colors';
-@use '~/assets/css/fonts';
-@use '~/assets/css/mixins';
+@use '~/assets/css/default/colors';
+@use '~/assets/css/default/fonts';
+@use '~/assets/css/default/mixins';
 
 .page-title {
+    @include fonts.modesto;
+    width: 100%;
+
+    &.underline {
+        border-bottom: 1px solid colors.$gray-400;
+    }
+}
+.page-title-content {
     display: flex;
-    align-items: center;
+    align-items: baseline;
     margin-bottom: 1rem;
     gap: 2rem;
 
     h1 {
         flex-grow: 1;
         margin-bottom: -1.25rem;
+        @include fonts.modesto;
     }
     h3 {
         @include fonts.mrs-eaves

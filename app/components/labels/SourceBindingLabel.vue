@@ -13,7 +13,7 @@ const props = defineProps({
 </template>
 
 <style scoped lang="scss">
-@use '~/assets/css/colors';
+@use '~/assets/css/default/colors';
 
 aside.label {
     background-color: colors.$amber-700-20;

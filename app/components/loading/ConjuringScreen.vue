@@ -12,7 +12,7 @@
 </template>
 
 <style scoped lang="scss">
-@use '~/assets/css/fonts';
+@use '~/assets/css/default/fonts';
 
 .conjuring-wrapper {
     width: 100%;

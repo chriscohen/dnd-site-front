@@ -91,13 +91,13 @@ const columnVisibility = ref({ slug: false });
 </template>
 
 <style lang="scss">
-@use '~/assets/css/links';
-@use '~/assets/css/media';
-@use '~/assets/css/tables';
+@use '~/assets/css/default/links';
+@use '~/assets/css/default/media';
+@use '~/assets/css/default/tables';
 </style>
 
 <style scoped lang="scss">
-@use '~/assets/css/fonts';
+@use '~/assets/css/default/fonts';
 
 .link {
     @include fonts.mrs-eaves;

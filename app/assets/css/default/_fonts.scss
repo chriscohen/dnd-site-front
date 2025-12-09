@@ -48,6 +48,20 @@
 }
 
 /**
+ * Scala Sans
+ */
+@font-face {
+    font-family: 'Scala Sans';
+    src: url('/fonts/scala-sans-400.ttf') format('truetype');
+    font-weight: 400;
+}
+@font-face {
+    font-family: 'Scala Sans';
+    src: url('/fonts/scala-sans-700.otf') format('opentype');
+    font-weight: 700;
+}
+
+/**
  * Modesto
  */
 @font-face {
@@ -84,4 +98,7 @@
 }
 @mixin nunito {
     font-family: 'Nunito', sans-serif;
+}
+@mixin scala-sans {
+    font-family: 'Scala Sans', sans-serif;
 }

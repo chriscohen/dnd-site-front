@@ -26,8 +26,8 @@ try {
 </template>
 
 <style scoped lang="scss">
-@use '~/assets/css/colors';
-@use '~/assets/css/fonts';
+@use '~/assets/css/default/colors';
+@use '~/assets/css/default/fonts';
 
 aside.label {
     background-color: colors.$red-500-20;

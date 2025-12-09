@@ -23,8 +23,8 @@ const props = defineProps<{
 </template>
 
 <style lang="scss">
-@use '~/assets/css/colors';
-@use '~/assets/css/mixins';
+@use '~/assets/css/default/colors';
+@use '~/assets/css/default/mixins';
 
 .character-class-teaser {
     display: block;

@@ -10,11 +10,11 @@ const props = defineProps<{
 <template>
     <span v-if="school" class="magic-school-label">
         <template v-if="school.parent">
-            <UPopover mode="hover" :open-delay="500" :ui="{ strategy: 'override' }">
+            <UPopover mode="hover" :open-delay="500">
                 <NuxtLink
                     v-if="props.link"
-                    :to="'/magic-school/' + school.parent.name.toLowerCase()"
-                    class="link text-dark"
+                    :to="'/magic-schools/' + school.parent.name.toLowerCase()"
+                    class="link text-dimmed"
                 >
                     {{ school.parent.name }}
                 </NuxtLink>
@@ -25,9 +25,10 @@ const props = defineProps<{
                 </template>
             </UPopover>
 
-            (<UPopover mode="hover" :open-delay="500"><NuxtLink v-if="props.link" :to="'/magic-school/' + school.name.toLowerCase()" class="link text-dark">
-                {{ school.name }}
-            </NuxtLink>
+            (<UPopover mode="hover" :open-delay="500">
+                <NuxtLink v-if="props.link" :to="'/magic-schools/' + school.name.toLowerCase()" class="link text-dimmed">
+                    {{ school.name }}
+                </NuxtLink>
             <template v-else>{{ school.name }}</template>
 
             <template #content>
@@ -38,7 +39,7 @@ const props = defineProps<{
 
         <template v-else>
             <UPopover mode="hover" :open-delay="500">
-                <NuxtLink v-if="props.link" :to="'/magic-school/' + school.name.toLowerCase()" class="link text-dark">
+                <NuxtLink v-if="props.link" :to="'/magic-schools/' + school.name.toLowerCase()" class="link text-dimmed">
                     {{ school.name }}
                 </NuxtLink>
                 <template v-else>{{ school.name }}</template>
@@ -50,3 +51,7 @@ const props = defineProps<{
         </template>
     </span>
 </template>
+
+<style lang="scss">
+@use '~/assets/css/default/links';
+</style>

@@ -33,9 +33,8 @@ api.get({
 </template>
 
 <style lang="scss" scoped>
-.page-container {
-    display: flex;
-}
+@use '~/assets/css/default/layout';
+
 .left-container {
     display: flex;
     flex-wrap: wrap;

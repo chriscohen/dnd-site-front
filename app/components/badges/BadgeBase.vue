@@ -25,5 +25,5 @@ const classes = [
 </template>
 
 <style scoped lang="scss">
-@use '~/assets/css/badges';
+@use '~/assets/css/default/badges';
 </style>

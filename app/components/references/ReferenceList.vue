@@ -19,7 +19,7 @@ const props = defineProps<{
 </template>
 
 <style scoped lang="scss">
-@use '~/assets/css/fonts';
+@use '~/assets/css/default/fonts';
 
 .reference-list {
     margin-top: 0.5rem;

@@ -1,0 +1,10 @@
+﻿@use 'colors';
+@use 'variables';
+
+a.link {
+    text-decoration: dotted underline;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}

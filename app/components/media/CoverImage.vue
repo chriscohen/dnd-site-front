@@ -11,7 +11,7 @@ const props = defineProps<{
 </template>
 
 <style scoped lang="scss">
-@use '../../assets/css/mixins';
+@use '../../assets/css/default/mixins';
 
 .media-cover-image {
     max-height: 20rem;

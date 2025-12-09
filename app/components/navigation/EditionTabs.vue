@@ -83,9 +83,9 @@ const tabData = ref<TabsItem[]>([
 </template>
 
 <style scoped lang="scss">
-@use '~/assets/css/borders';
-@use '~/assets/css/colors';
-@use '~/assets/css/fonts';
+@use '~/assets/css/default/borders';
+@use '~/assets/css/default/colors';
+@use '~/assets/css/default/fonts';
 
 .edition-tabs {
     display: flex;

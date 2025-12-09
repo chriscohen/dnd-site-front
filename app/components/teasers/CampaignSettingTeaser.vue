@@ -22,5 +22,5 @@ console.log(props.campaignSetting);
 </template>
 
 <style lang="scss" scoped>
-@forward '../../assets/css/teasers';
+@forward '../../assets/css/default/teasers';
 </style>

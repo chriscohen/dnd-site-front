@@ -31,5 +31,5 @@ const className = classMap.find((item) => item.name == props.edition)?.class ?? 
 </template>
 
 <style scoped lang="scss">
-@use '~/assets/css/backgrounds';
+@use '~/assets/css/default/backgrounds';
 </style>

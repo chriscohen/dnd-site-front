@@ -17,5 +17,5 @@ const props = defineProps<{
 </template>
 
 <style lang="scss">
-@use '~/assets/css/badges';
+@use '~/assets/css/default/badges';
 </style>

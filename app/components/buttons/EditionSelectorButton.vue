@@ -34,9 +34,9 @@ function isActive(id: string): boolean {
 </template>
 
 <style scoped lang="scss">
-@use '~/assets/css/borders';
-@use '~/assets/css/colors';
-@use '~/assets/css/variables';
+@use '~/assets/css/default/borders';
+@use '~/assets/css/default/colors';
+@use '~/assets/css/default/variables';
 
 .edition-button {
     transition: border variables.$default-delay ease-in-out;
