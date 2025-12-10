@@ -1,4 +1,9 @@
 ﻿export const DEFAULT_ABILITY_SCORE = 10;
+export const API_URL = 'http://localhost:8080/api';
+
+export function ucFirst(input: string): string {
+    return input.charAt(0).toUpperCase() + input.slice(1);
+}
 
 export function toOrdinal(input: string): string {
     switch (input) {
@@ -13,9 +18,9 @@ export function toOrdinal(input: string): string {
     }
 }
 
-export function primaryEdition(item: ISourcebook | ISpell): null | ISourcebookEdition | ISpellEdition {
-    if (!item || item.editions != Array) {
-        return null;
+export function primaryEdition(item: ISourcebook | ISpell): undefined | ISourcebookEdition | ISpellEdition {
+    if (!item) {
+        return undefined;
     }
 
     return item.editions[0];

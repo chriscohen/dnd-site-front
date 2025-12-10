@@ -1,29 +1,25 @@
 ﻿<script setup lang="ts">
 import SpellTeaser from "~/components/teasers/SpellTeaser.vue";
-import ConjuringScreen from "~/components/loading/ConjuringScreen.vue";
+import {useSpellCache} from "~/stores/Store";
+import PageTitle from "~/components/labels/PageTitle.vue";
 
-const api = useApi({
-    cache: useSpellStore(),
-    type: 'spells',
-    mode: RenderMode.TEASER,
-    multiple: true
-});
+const path = API_URL + '/spells?mode=teaser';
+const store = useSpellCache();
+await store.fetch(path);
 
-api.get();
+const items: ISpellTeaser[] = computed(() => store.get(path));
 </script>
 
 <template>
     <div class="page-container">
-        <div v-if="!api.getItem()" class="teaser-container">
-            <ConjuringScreen/>
-        </div>
-        <div v-else class="teaser-container">
-            <SpellTeaser v-for="item in api.getItem()" :key="item.id" :data="item" />
+        <PageTitle title="Spells" back-to="/" :underline="true"/>
+        <div v-if="items" class="teaser-container grid-flow-col-dense">
+            <SpellTeaser
+                v-for="item in items"
+                :key="item.id"
+                :data="item"
+            />
         </div>
     </div>
 
 </template>
-
-<style scoped lang="scss">
-@use '~/assets/css/default/teasers';
-</style>

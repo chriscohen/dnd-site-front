@@ -11,23 +11,29 @@
     @include fonts.bookmania;
 }
 
-html {
+html, body {
     margin: 0;
-    height: 100%;
-    width: 100%;
+    padding: 0;
+    height: 100vh;
+    width: 100vw;
     overflow: hidden;
     font-size: 16px;
 }
 
 body {
     background: radial-gradient(colors.$gray-800, colors.$gray-950);
-    max-height: 100vh;
+}
+
+#__nuxt {
+    height: 100dvh;
+    width: 100vw;
+    overflow: hidden;
 }
 
 #outer {
-    height: 100vh;
+    height: 100dvh;
+    width: 100vw;
     overflow: hidden;
-    padding: 0.5rem 2rem 1rem;
     display: flex;
     flex-direction: column;
 }
@@ -44,9 +50,12 @@ body {
     width: 100%;
 }
 .page-container {
-    display: flex;
     width: 100%;
     overflow: auto;
+}
+.teaser-container {
+    align-items: flex-start;
+    justify-content: center;
 }
 
 .container {
@@ -63,4 +72,8 @@ body {
 button {
     background: none;
     border: none;
+}
+
+.page-content {
+    width: 100%;
 }

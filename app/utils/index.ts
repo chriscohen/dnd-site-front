@@ -201,16 +201,17 @@ export interface ISourcebook {
     id: string
     slug: string
     name: string
-    campaign_setting?: ICampaignSetting
-    cover_image: IMedia
+    campaignSetting?: ICampaignSetting
+    coverImage: IMedia
     description: string
     editions: ISourcebookEdition[]
-    game_edition: string
-    product_code: string
-    product_ids: IProductId[]
-    publication_type: string
-    source_type: string
-    sourcebook_types?: string[]
+    gameEdition: string
+    parent?: ISourcebook
+    productCode: string
+    productIds: IProductId[]
+    publicationType: string
+    sourceType: string
+    sourcebookTypes?: string[]
 }
 
 export interface ISourcebookEdition {

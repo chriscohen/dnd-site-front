@@ -1,29 +1,20 @@
 ﻿<script setup lang="ts">
 import PageTitle from "~/components/labels/PageTitle.vue";
-import {useMagicSchoolStore} from "~/stores/MagicSchoolStore";
-import ConjuringScreen from "~/components/loading/ConjuringScreen.vue";
+import {API_URL} from "#imports";
+import {computed} from "vue";
 
 const route = useRoute();
-const api = useApi({
-    cache: useMagicSchoolStore(),
-    type: 'school',
-    slug: route.params.slug as string,
-    mode: RenderMode.FULL,
-    multiple: false,
-})
-
-api.get();
+const path = API_URL + '/school/' + route.params.slug + '?mode=full';
+const store = useMagicSchoolCache();
+await store.fetch(path);
+const item: ComputedRef<IMagicSchool> = computed(() => store.get(path));
 </script>
 
 <template>
-    <div v-if="!api.getItem()">
-        <ConjuringScreen/>
-    </div>
-
-    <div v-else class="page-container">
+    <div v-if="item" class="page-container">
         <div class="container scrollbar">
-            <PageTitle :title="api.getItem()?.name" back-to="/magic-schools" :underline="true"/>
-            <div class="prose" v-html="api.getItem()?.description"/>
+            <PageTitle :title="item.name" back-to="/magic-schools" :underline="true"/>
+            <div class="prose" v-html="item.description"/>
         </div>
     </div>
 </template>

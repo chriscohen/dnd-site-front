@@ -10,7 +10,11 @@ const item = await store.getBySlug(route.params.slug as string, RenderMode.FULL)
 <template>
     <div class="item">
         <!-- Left: Cover Art -->
-        <MediaLarge :loading="!item" :name="item?.name" :cover-image="item?.image" />
+        <img
+            :src="item.coverImage?.url"
+            :alt="item.name + ' cover image'"
+            class="media-large hover:scale-105 transition-all duration-500"
+        >
         <!-- /Left: Cover Art -->
 
         <!-- Right Side -->

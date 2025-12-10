@@ -24,7 +24,7 @@ function isActive(id: string): boolean {
 
 <template>
     <button
-        class="border-stripe"
+        class="border-stripe text-nowrap"
         :class="[props.bgClass, 'text-default', isActive(editionId) ? 'active' : ''].join(' ')"
         @click="clicked"
     >
@@ -40,6 +40,7 @@ function isActive(id: string): boolean {
 
 .edition-button {
     transition: border variables.$default-delay ease-in-out;
+    text-wrap: nowrap;
 }
 .edition-all {
     &.active {

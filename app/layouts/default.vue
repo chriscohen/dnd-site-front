@@ -5,12 +5,11 @@ import SidebarNavigation from "~/components/navigation/SidebarNavigation.vue";
 
 <template>
     <div id="outer">
-        <div id="header">
+        <div id="header" class="bg-slate-900 border-b-1 border-gray-600">
             <MainNavigation/>
             <EditionSelector/>
         </div>
         <div id="page">
-            <SidebarNavigation/>
             <NuxtLoadingIndicator/>
             <slot/>
         </div>
@@ -18,5 +17,6 @@ import SidebarNavigation from "~/components/navigation/SidebarNavigation.vue";
 </template>
 
 <style lang="scss">
-@forward '~/assets/css/default/styles';
+@use '~/assets/css/tailwind.css';
+@use '~/assets/css/default/styles';
 </style>

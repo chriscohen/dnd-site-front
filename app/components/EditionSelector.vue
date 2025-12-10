@@ -5,7 +5,7 @@ const persistedStore = usePersistedStore();
 </script>
 
 <template>
-    <UButtonGroup class="edition-selector">
+    <UButtonGroup class="edition-selector flex">
         <EditionSelectorButton
             v-for="edition in persistedStore.editions"
             :key="edition.id"
@@ -25,7 +25,6 @@ const persistedStore = usePersistedStore();
 @use '~/assets/css/default/fonts';
 
 .edition-selector {
-    display: flex;
     margin-left: auto;
     height: 3rem;
     @include mixins.drop-shadow;

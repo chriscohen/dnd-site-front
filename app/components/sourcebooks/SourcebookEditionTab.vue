@@ -1,6 +1,7 @@
 ﻿<script setup lang="ts">
 
 import {format, parseISO} from "date-fns";
+import {ucFirst} from "~/utils/utils";
 
 const props = defineProps({
     edition: { type: Object as () => ISourcebookEdition, required: true },
@@ -18,30 +19,32 @@ try {
 
 <template>
     <div class="sourcebook-editions-tab">
-        <dl>
+        <dl class="w-full md:text-xl">
             <template v-if="edition.pages">
-                <dd>Pages</dd>
-                <dt>{{edition.pages}}</dt>
+                <dt>Pages</dt>
+                <dd>{{edition.pages}}</dd>
             </template>
 
-            <dd>First Released</dd>
-            <dt>
+            <dt>First Released</dt>
+            <dd>
                 <template v-if="!edition.release_date_month_only">{{ day }}</template>
                 {{ month }}
                 {{ year }}
-            </dt>
+            </dd>
 
-            <dd>Binding</dd>
-            <dt>{{ edition.binding }}</dt>
+            <template v-if="edition.binding">
+                <dt>Binding</dt>
+                <dd>{{ ucFirst(edition.binding) }}</dd>
+            </template>
 
             <template v-if="edition.isbn10">
-                <dd>ISBN-10</dd>
-                <dt>{{ formatIsbn(edition.isbn10) }}</dt>
+                <dt>ISBN-10</dt>
+                <dd>{{ formatIsbn(edition.isbn10) }}</dd>
             </template>
 
             <template v-if="edition.isbn13">
-                <dd>ISBN-13</dd>
-                <dt>{{ formatIsbn(edition.isbn13) }}</dt>
+                <dt>ISBN-13</dt>
+                <dd>{{ formatIsbn(edition.isbn13) }}</dd>
             </template>
         </dl>
     </div>
@@ -55,14 +58,13 @@ try {
 }
 
 dl {
-    font-size: 1.25rem;
-    width: 100%;
-
     dd, dt {
         display: inline-block;
         width: 50%;
+        text-wrap: nowrap;
     }
     dd {
+        display: inline-block;
         font-weight: 300;
     }
     dt {

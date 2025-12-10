@@ -17,10 +17,18 @@ const getSubtitle = computed(() => {
 </script>
 
 <template>
-    <NuxtLink v-if="data" :to="'/spells/' + data?.slug" class="shrink teaser spell-teaser">
-        <NuxtImg v-if="data.image?.url" :src="data.image.url"/>
+    <NuxtLink
+        v-if="data"
+        :to="'/spells/' + data?.slug"
+        class="shrink teaser spell-teaser w-48 md:w-64 h-48 md:h-64"
+    >
+        <NuxtImg
+            v-if="data.image?.url"
+            :src="data.image.url"
+            class="absolute top-0 left-0"
+        />
         <TeaserTitle :title="data?.name" :subtitle="getSubtitle" :rarity="data?.rarity"/>
-        <BadgesBadgeContainer vertical>
+        <BadgesBadgeContainer vertical class="absolute top-4, right-0">
             <BadgesGameEditionBadge
                 v-for="edition in data?.editions"
                 :key="edition.id"
@@ -30,25 +38,3 @@ const getSubtitle = computed(() => {
         </BadgesBadgeContainer>
     </NuxtLink>
 </template>
-
-<style lang="scss">
-@use '~/assets/css/default/variables';
-
-.spell-teaser {
-    position: relative;
-    width: variables.$teaser-width;
-    height: variables.$teaser-width;
-
-    > img {
-        position: absolute;
-        top: 0;
-        left: 0;
-    }
-
-    .badge-container {
-        position: absolute;
-        top: 1rem;
-        right: 0;
-    }
-}
-</style>

@@ -9,78 +9,46 @@ watch(
 
 type RouteData = {
     name: string
-    path: string
+    path?: string
+    children?: RouteData[]
 };
 
 const routeData = ref<RouteData[]>([
+    { name: 'Home', path: '/' },
     {
-        name: 'Home',
-        path: '/',
-    },
-    {
-        name: 'Magic',
+        name: 'Spells',
+        path: '/spells',
         children: [
-            {
-                name: 'Spells',
-                path: '/spells'
-            },
-            {
-                name: 'Magic Schools',
-                path: '/'
-            }
+            { name: 'Spells', path: '/spells' },
+            { name: 'Magic Schools', path: '/magic-schools' }
         ]
     },
+    { name: 'Items', path: '/items' },
     {
-        name: 'Items',
-        path: '/items',
-    },
-    {
-        name: 'Heroes',
+        name: 'Classes',
+        path: '/classes',
         children: [
-            {
-                name: 'Classes',
-                path: '/classes'
-            },
-            {
-                name: 'Feats',
-                path: '/'
-            },
-            {
-                name: 'Skills',
-                path: '/'
-            }
+            { name: 'Classes', path: '/classes' },
+            { name: 'Feats', path: '/' },
+            { name: 'Skills', path: '/'}
         ]
     },
     {
         name: 'Foes',
         children: [
-            {
-                name: 'Monsters',
-                path: '/'
-            }
+            { name: 'Monsters', path: '/' }
         ]
     },
     {
         name: 'Sources',
+        path: '/sources',
         children: [
-            {
-                name: 'Sourcebooks',
-                path: '/sources'
-            },
-            {
-                name: 'Magazines',
-                path: '/'
-            },
-            {
-                name: 'Websites',
-                path: '/'
-            }
+            { name: 'Sourcebooks', path: '/sources' },
+            { name: 'Magazines', path: '/' },
+            { name: 'Websites', path: '/' }
         ]
     },
-    {
-        name: 'Campaign Settings',
-        path: '/campaign-settings',
-    }
+    { name: 'Campaign Settings', path: '/campaign-settings' }
 ]);
 
 function getActive(item: RouteData): boolean {
@@ -91,24 +59,45 @@ function getActive(item: RouteData): boolean {
     }
 }
 
+let menuOpen: Ref<boolean> = ref<boolean>(false);
+
 </script>
 
 <template>
-    <nav role="navigation">
-        <ul id="main-navigation" class="navigation-menu">
-            <li v-for="item in routeData" :key="item.name">
-                <ULink v-if="item.path" :to="item.path" :class="getActive(item) ? 'active' : ''">
+    <nav role="navigation" class="relative flex space-between">
+        <!-- Main navigation, full width -->
+        <ul id="main-navigation" class="navigation-menu text-3xl hidden lg:flex">
+            <li
+                v-for="item in routeData"
+                :key="item.name"
+                class="group cursor-pointer hover:bg-slate-600 hover:text-gray-50 transition-bg-color duration-500 ease-in-out"
+            >
+                <NuxtLink
+                    v-if="!item.children"
+                    :to="item.path"
+                    :class="getActive(item) ? 'active' : ''"
+                    class="text-nowrap px-4 py-2"
+                >
                     {{ item.name }}
-                </ULink>
+                </NuxtLink>
 
                 <template v-else-if="item.children">
-                    <span>{{ item.name }}</span>
+                    <span class="px-4 py-2">{{ item.name }}</span>
 
-                    <ul>
-                        <li v-for="inner in item.children" :key="inner.name">
-                            <ULink v-if="inner.path" :to="inner.path" :class="getActive(inner) ? 'active' : ''">
+                    <ul class="absolute min-w-64 bg-slate-800 transition-colors duration-500 ease-in-out">
+                        <li
+                            v-for="inner in item.children"
+                            :key="inner.name"
+                            class="block"
+                        >
+                            <NuxtLink
+                                v-if="inner.path"
+                                :to="inner.path"
+                                :class="getActive(inner) ? 'active' : ''"
+                                class="block px-4 py-2"
+                            >
                                 {{ inner.name }}
-                            </ULink>
+                            </NuxtLink>
                         </li>
                     </ul>
                 </template>
@@ -116,6 +105,37 @@ function getActive(item: RouteData): boolean {
 
             </li>
         </ul>
+
+        <button
+            class="lg:hidden ml-4"
+            aria-label="Toggle menu"
+            @click="menuOpen = !menuOpen"
+        >
+            <svg style="width: 2rem; height: 2rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path v-if="!menuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                <path v-else stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+
+        <div
+            v-show="menuOpen"
+            class="lg:hidden absolute top-full left-0 bg-slate-800 z-100"
+        >
+            <ul class="flex flex-col transition-opacity duration-500 ease-in-out">
+                <li
+                    v-for="item in routeData"
+                    :key="item.name"
+                >
+                    <NuxtLink
+                        :to="item.path"
+                        class="block text-nowrap uppercase text-3xl font-[mrs-eaves] px-8 py-4 hover:bg-slate-700"
+                        @click="menuOpen = false"
+                    >
+                        {{ item.name }}
+                    </NuxtLink>
+                </li>
+            </ul>
+        </div>
     </nav>
 </template>
 
@@ -126,8 +146,6 @@ function getActive(item: RouteData): boolean {
 @use '~/assets/css/default/variables';
 
 .navigation-menu {
-    display: flex;
-    font-size: 2rem;
     color: colors.$gray-400;
 
     padding-top: 1rem;
@@ -136,34 +154,8 @@ function getActive(item: RouteData): boolean {
     @include fonts.mrs-eaves;
 
     > li {
-        border-bottom: 1px solid colors.$gray-600;
-        cursor: pointer;
-
-        > a, span {
-            padding: 0 1rem;
-
-            border-top-left-radius: 0.5rem;
-            border-top-right-radius: 0.5rem;
-
-            transition: 250ms ease-in-out;
-
-            &.active {
-                background-color: colors.$white-50;
-
-                &:hover {
-                    background-color: colors.$bg-hover;
-                }
-            }
-
-            &:hover {
-                border-bottom: 1px solid colors.$gray-50;
-                color: colors.$gray-50;
-            }
-        }
 
         > ul {
-            background-color: colors.$gray-800;
-            border-top: 1px solid transparent;
             position: absolute;
             @include mixins.lightShadow;
 
@@ -179,10 +171,6 @@ function getActive(item: RouteData): boolean {
 
             > li {
                 > a {
-                    display: block;
-                    padding: 0 1rem;
-                    transition: all variables.$default-delay ease-in-out;
-
                     &:hover {
                         background-color: colors.$bg-active;
                         color: colors.$text-dark;

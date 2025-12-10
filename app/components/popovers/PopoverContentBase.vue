@@ -9,7 +9,3 @@ const props = defineProps<{
         <slot/>
     </div>
 </template>
-
-<style lang="scss">
-@forward '~/assets/css/components/popover';
-</style>

@@ -11,13 +11,15 @@ const props = defineProps<{
 
 <template>
     <div class="page-title">
-        <div class="page-title-content">
-            <div v-if="backTo" class="buttons">
+        <div class="page-title-content flex align-baseline md:mb-4 gap-8">
+            <UButtonGroup v-if="backTo" class="buttons">
                 <BackButton :to="backTo" size="3rem"/>
-            </div>
+            </UButtonGroup>
 
             <div class="page-title-main">
-                <h1>{{ title }}</h1>
+                <h1 class="font-[Modesto] overflow-ellipsis text-4xl md:text-6xl mt-1 md:mt-2">
+                    {{ title }}
+                </h1>
                 <h3 v-if="$slots.subtitle"><slot name="subtitle"/></h3>
             </div>
             <div class="page-title-labels">
@@ -38,22 +40,13 @@ const props = defineProps<{
 .page-title {
     @include fonts.modesto;
     width: 100%;
+    overflow: hidden;
 
     &.underline {
         border-bottom: 1px solid colors.$gray-400;
     }
 }
 .page-title-content {
-    display: flex;
-    align-items: baseline;
-    margin-bottom: 1rem;
-    gap: 2rem;
-
-    h1 {
-        flex-grow: 1;
-        margin-bottom: -1.25rem;
-        @include fonts.modesto;
-    }
     h3 {
         @include fonts.mrs-eaves
     }

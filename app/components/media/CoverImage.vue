@@ -6,7 +6,7 @@ const props = defineProps<{
 
 <template>
     <div class="max-h-[320px] max-w-[256px]">
-        <img class="media-cover-image max-h-[320px] max-w-[256px]" :src="sourcebook?.cover_image.url" alt="cover image">
+        <img class="media-cover-image max-h-[320px] max-w-[256px]" :src="sourcebook?.coverImage.url" alt="cover image">
     </div>
 </template>
 
@@ -15,7 +15,7 @@ const props = defineProps<{
 
 .media-cover-image {
     max-height: 20rem;
-    width: 16rem;
+    width: 100%;
     margin: 0 auto;
     position: relative;
 }

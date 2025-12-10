@@ -2,63 +2,28 @@
 import Spell from "~/components/spells/Spell.vue";
 import EditionTabs from "~/components/navigation/EditionTabs.vue";
 import SpellbookExtra from "~/components/spells/SpellbookExtra.vue";
-import {useApi, usePersistedStore} from "#imports";
+import {API_URL, useApi, usePersistedStore} from "#imports";
 import ConjuringScreen from "~/components/loading/ConjuringScreen.vue";
 
 const route = useRoute();
-const persistedStore = usePersistedStore();
-const api = useApi({
-    cache: useSpellStore(),
-    type: 'spell',
-    slug: route.params.slug as string,
-    mode: RenderMode.FULL,
-    multiple: false,
-});
-
-api.get();
-
-const activeEdition = computed(() => {
-    if (!api.getItem()) {
-        return null;
-    }
-
-    // Does the currently selected edition exist within this spell's editions?
-    const edition = api.getItem().editions.find(
-        (edition: ISpellEdition) => edition.game_edition === persistedStore.selectedEdition
-    );
-
-    // If it does, return it.
-    if (edition) {
-        return edition;
-    }
-
-    // If not, set the new "selectedEdition" as the first edition on this spell, and return that.
-    const newValue = api.getItem().editions[0].game_edition;
-    setActive(newValue);
-    return newValue;
-});
-
-function setActive(id: string) {
-    persistedStore.selectedEdition = id;
-}
+const store = useSpellCache();
+const path = API_URL + '/spell/' + route.params.slug + '?mode=full';
+await store.fetch(path);
+const item: ComputedRef<ISpell> = computed(() => store.get(path));
 </script>
 
 <template>
-    <div v-if="!api.getItem()" class="spell-container">
-        <ConjuringScreen/>
-    </div>
-    <div v-else class="spell-container">
+    <div v-if="item" class="spell-container">
         <div class="book-container spellbook">
             <EditionTabs
-                :active="activeEdition"
-                :editions="api.getItem()?.editions ?? []"
-                @edition-selected="(id: string) => setActive(id)"
+                :editions="item.editions ?? []"
+                @edition-selected="(id: string) => false"
             />
-            <Spell :spell="api.getItem()" :edition="activeEdition"/>
+            <Spell :spell="item" :edition="item.editions[0]"/>
         </div>
 
         <div class="book-container spellbook-extras">
-            <SpellbookExtra :spell="api.getItem()" :edition="activeEdition"/>
+            <SpellbookExtra :spell="item" :edition="item.editions[0]"/>
         </div>
     </div>
 </template>

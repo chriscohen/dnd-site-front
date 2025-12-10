@@ -1,23 +1,13 @@
 <script setup lang="ts">
 import SourcebookTeaser from "~/components/teasers/SourcebookTeaser.vue";
 import PageTitle from "~/components/labels/PageTitle.vue";
-import {useFetch} from "#app";
 import {useSourcebookCache} from "~/stores/Store";
 
 const sourcePath = 'http://localhost:8080/api/sources?mode=teaser';
 const store = useSourcebookCache();
+await store.fetch(sourcePath);
 
 const items: ISourcebook[] = computed(() => store.get(sourcePath));
-
-if (!store.has(sourcePath)) {
-    const {data, error} = await useFetch<ISourcebook[]>(sourcePath, {
-        server: false
-    });
-
-    if (data.value) {
-        store.set(sourcePath, data.value as ISourcebook);
-    }
-}
 </script>
 
 <template>
