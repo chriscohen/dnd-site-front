@@ -232,9 +232,11 @@ export interface ISpell {
     id: string
     slug: string
     name: string
-    image: IMedia
-    rarity: string
     editions: ISpellEdition[]
+    image: IMedia
+    lowestLevel: number
+    rarity: string
+    school: string
 }
 
 export interface ISpellTeaser {
@@ -243,7 +245,7 @@ export interface ISpellTeaser {
     name: string
     editions: ISpellEditionTeaser[]
     image: IMediaTeaser
-    lowest_level: number
+    lowestLevel: number
     rarity: string
     school: string
 }
@@ -256,21 +258,22 @@ export interface ISpellLevel {
 export interface ISpellEdition {
     id: string
     area?: IArea
-    casting_time: string
-    class_levels: ISpellEditionCharacterClassLevel[]
+    castingTime: string
+    classLevels: ISpellEditionCharacterClassLevel[]
     description: string
     domains: string[]
-    game_edition: string
-    has_spell_resistance?: boolean
-    higher_level: string
-    is_default: boolean
+    gameEdition: string
+    hasSpellResistance?: boolean
+    higherLevel: string
+    isDefault: boolean
     levels: ISpellLevel[]
-    lowest_level: number
-    range: string
+    lowestLevel: number
+    range: IRange
     references: IReferenceTeaser[]
-    saving_throw?: ISavingThrow
+    savingThrow?: ISavingThrow
     school?: IMagicSchool
-    spell_components?: string
+    spellComponents?: string
+    spellId: string
 }
 
 export interface ISpellEditionTeaser {

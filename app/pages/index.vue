@@ -1,9 +1,9 @@
 ﻿<script setup lang="ts">
-import {definePageMeta} from "#imports";
 
-definePageMeta({ layout: 'default' });
 </script>
 
 <template>
-    <h1>Index</h1>
+    <NuxtLayout name="default">
+        <h1>Index</h1>
+    </NuxtLayout>
 </template>

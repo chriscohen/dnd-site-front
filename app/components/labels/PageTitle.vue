@@ -5,30 +5,29 @@ import HorizontalDivider from "~/components/dividers/HorizontalDivider.vue";
 const props = defineProps<{
     title?: string
     backTo?: string
-    underline?: boolean
 }>();
 </script>
 
 <template>
-    <div class="page-title">
-        <div class="page-title-content flex align-baseline md:mb-4 gap-8">
-            <UButtonGroup v-if="backTo" class="buttons">
-                <BackButton :to="backTo" size="3rem"/>
-            </UButtonGroup>
+    <div id="page-title" class="w-full flex justify-between mb-4 border-b-1 bg-gray-900">
+        <UButtonGroup v-if="backTo" class="buttons mt-4 mr-4">
+            <BackButton :to="backTo" size="5rem"/>
+        </UButtonGroup>
 
-            <div class="page-title-main">
-                <h1 class="font-[Modesto] overflow-ellipsis text-4xl md:text-6xl mt-1 md:mt-2">
-                    {{ title }}
-                </h1>
-                <h3 v-if="$slots.subtitle"><slot name="subtitle"/></h3>
-            </div>
-            <div class="page-title-labels">
-                <slot name="labels"/>
-            </div>
-
-            <slot name="side"/>
+        <div class="w-full mb-2">
+            <h1 class="font-[Modesto] overflow-ellipsis text-4xl md:text-6xl mt-1 md:mt-2">
+                {{ title }}
+            </h1>
+            <h3 v-if="$slots.subtitle" class="text-md lg:text-2xl font-[mrs eaves] uppercase">
+                <slot name="subtitle"/>
+            </h3>
         </div>
-        <HorizontalDivider v-if="underline"/>
+        <div class="page-title-labels">
+            <slot name="labels"/>
+        </div>
+
+        <slot name="side"/>
+        <HorizontalDivider/>
     </div>
 </template>
 
@@ -37,25 +36,6 @@ const props = defineProps<{
 @use '~/assets/css/default/fonts';
 @use '~/assets/css/default/mixins';
 
-.page-title {
-    @include fonts.modesto;
-    width: 100%;
-    overflow: hidden;
-
-    &.underline {
-        border-bottom: 1px solid colors.$gray-400;
-    }
-}
-.page-title-content {
-    h3 {
-        @include fonts.mrs-eaves
-    }
-    .page-title-labels {
-        margin-left: auto;
-        display: flex;
-        margin-bottom: 0.5rem;
-    }
-}
 .loading {
     height: 3rem;
 }

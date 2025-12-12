@@ -11,8 +11,11 @@ const items: ISpellTeaser[] = computed(() => store.get(path));
 </script>
 
 <template>
-    <div class="page-container">
-        <PageTitle title="Spells" back-to="/" :underline="true"/>
+    <NuxtLayout name="default">
+        <template #pageTitle>
+            <PageTitle title="Spells" back-to="/" :underline="true"/>
+        </template>
+
         <div v-if="items" class="teaser-container grid-flow-col-dense">
             <SpellTeaser
                 v-for="item in items"
@@ -20,6 +23,5 @@ const items: ISpellTeaser[] = computed(() => store.get(path));
                 :data="item"
             />
         </div>
-    </div>
-
+    </NuxtLayout>
 </template>

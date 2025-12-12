@@ -5,7 +5,6 @@ import SourcebookDetailsList from "~/components/lists/SourcebookDetailsList.vue"
 import MediaLarge from "~/components/media/MediaLarge.vue";
 import ProductLinkButtonContainer from "~/components/containers/ProductLinkButtonContainer.vue";
 import PageTitle from "~/components/labels/PageTitle.vue";
-import {useFetch} from "#app";
 
 const route = useRoute();
 const store = useSourcebookCache();
@@ -16,23 +15,24 @@ const item: ComputedRef<ISourcebook> = computed(() => store.get(path));
 </script>
 
 <template>
-    <div v-if="item as ISourcebook" class="page-content sourcebook">
-        <!-- Heading -->
-        <PageTitle
-            :title="item?.name ?? ''"
-            back-to="/sources"
-            :underline="true"
-        >
-            <template #labels>
-                <GameEditionBadge :edition="item?.gameEdition as string"/>
-                <PublicationTypeBadge :type="item?.publicationType as string" />
-            </template>
-            <template #subtitle>
-                {{ item?.sourcebookTypes?.join(' • ') }}
-            </template>
-        </PageTitle>
-        <!-- /Heading -->
-
+    <NuxtLayout name="default">
+        <template #pageTitle>
+            <!-- Heading -->
+            <PageTitle
+                :title="item?.name ?? ''"
+                back-to="/sources"
+                :underline="true"
+            >
+                <template #labels>
+                    <GameEditionBadge :edition="item?.gameEdition as string"/>
+                    <PublicationTypeBadge :type="item?.publicationType as string" />
+                </template>
+                <template #subtitle>
+                    {{ item?.sourcebookTypes?.join(' • ') }}
+                </template>
+            </PageTitle>
+            <!-- /Heading -->
+        </template>
 
         <div class="overflow-y-scroll flex flex-col items-start sm:flex-row gap-4 mx-2 my-4 h-full">
             <!-- Left: Cover Art -->
@@ -61,6 +61,6 @@ const item: ComputedRef<ISourcebook> = computed(() => store.get(path));
             </div>
             <!-- /Right Side -->
         </div>
-    </div>
+    </NuxtLayout>
 </template>
 

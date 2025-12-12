@@ -9,7 +9,7 @@ const { data = undefined } = defineProps<Props>();
 
 const getSubtitle = computed(() => {
     return [
-        toOrdinal(data?.lowest_level.toString() ?? ''),
+        toOrdinal(data?.lowestLevel.toString() ?? ''),
         'level',
         data?.school
     ].join(' ');

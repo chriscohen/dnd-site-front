@@ -1,18 +1,22 @@
 ﻿<script setup lang="ts">
 import MainNavigation from "~/components/navigation/MainNavigation.vue";
-import SidebarNavigation from "~/components/navigation/SidebarNavigation.vue";
 </script>
 
 <template>
     <div id="outer">
-        <div id="header" class="bg-slate-900 border-b-1 border-gray-600">
-            <MainNavigation/>
-            <EditionSelector/>
-        </div>
-        <div id="page">
+        <header class="flex justify-between bg-gray-950">
+            <slot name="header">
+                <MainNavigation/>
+                <EditionSelector/>
+            </slot>
+        </header>
+        <slot name="pageTitle"/>
+        <main class="h-screen max-h-screen overflow-hidden flex gap-8 overflow-y-scroll">
             <NuxtLoadingIndicator/>
-            <slot/>
-        </div>
+            <div class="page-content md:mx-4">
+                <slot/>
+            </div>
+        </main>
     </div>
 </template>
 

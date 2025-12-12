@@ -20,27 +20,10 @@ const editionsWithSavingThrow = [
 
 <template>
     <div class="container scrollbar">
-        <PageTitle
-            v-if="edition"
-            :title="spell?.name"
-            :underline="true"
-            back-to="/spells"
-        >
-            <template #subtitle><MagicSchoolLabel :link="true" :school="edition?.school"/></template>
-            <template #side>
-                <MagicSchoolSpellbookLabel
-                    :school="edition?.school"
-                    size="4rem"
-                    classes="ml-auto"
-                />
-            </template>
-        </PageTitle>
-
-
         <div v-if="edition" class="spellbook-upper">
             <div class="spell-attributes">
                 <span>Components</span>
-                <span>{{ edition.spell_components }}</span>
+                <span>{{ edition.spellComponents }}</span>
 
                 <span>Range</span>
                 <span>{{ edition.range?.string }}</span>
@@ -51,9 +34,9 @@ const editionsWithSavingThrow = [
                 </template>
 
                 <span>Casting Time</span>
-                <span>{{ edition.casting_time }}</span>
+                <span>{{ edition.castingTime }}</span>
 
-                <template v-if="editionsWithSavingThrow.includes(edition.game_edition)">
+                <template v-if="editionsWithSavingThrow.includes(edition.gameEdition)">
                     <span>Saving Throw</span>
                     <SavingThrowLabel :edition="edition"/>
                 </template>
