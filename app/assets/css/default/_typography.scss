@@ -5,16 +5,6 @@ a {
     text-decoration: none;
 }
 
-.prose {
-    font-size: 1.25rem;
-    font-weight: 300;
-
-    ul {
-        list-style-type: disc;
-        list-style-position: inside;
-    }
-}
-
 .text-active {
     color: colors.$text-active;
 }

@@ -5,7 +5,7 @@ import SourcebookEditionTab from "~/components/sourcebooks/SourcebookEditionTab.
 const props = defineProps({
     sourcebook: { type: Object as () => ISourcebook, default: null },
 });
-console.log('props', props);
+
 const items = props.sourcebook?.editions?.map((edition) => {
     return {
         label: edition.name,

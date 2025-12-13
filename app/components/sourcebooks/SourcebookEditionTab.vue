@@ -18,8 +18,8 @@ try {
 </script>
 
 <template>
-    <div class="sourcebook-editions-tab">
-        <dl class="w-full md:text-xl">
+    <div class="sourcebook-editions-tab flex gap-4 flex-wrap">
+        <dl class="w-full text-md md:text-lg">
             <template v-if="edition.pages">
                 <dt>Pages</dt>
                 <dd>{{edition.pages}}</dd>
@@ -51,12 +51,6 @@ try {
 </template>
 
 <style scoped lang="scss">
-.sourcebook-editions-tab {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-}
-
 dl {
     dd, dt {
         display: inline-block;

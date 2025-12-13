@@ -214,12 +214,23 @@ export interface ISourcebook {
     sourcebookTypes?: string[]
 }
 
+export interface ISourcebookContents {
+    id: string,
+    edition_id?: string
+    name: string,
+    ordinal: string,
+    source?: string,
+    type: string,
+    headers: { header: string }[]
+}
+
 export interface ISourcebookEdition {
     id: string
     sourcebook_id: string
     name: string
     binding: string
     box_set_items: IBoxedSetItem[]
+    contents?: ISourcebookContents[]
     formats: string[]
     isbn10: string
     isbn13: string

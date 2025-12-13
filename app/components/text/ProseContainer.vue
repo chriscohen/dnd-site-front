@@ -1,11 +1,11 @@
 ﻿<script setup lang="ts">
-const props = defineProps({
-    text: { type: String, required: true },
-    textSize: { type: String, default: '' },
-    class: { type: String, default: '' },
-})
+const props = defineProps<{
+    class?: string
+}>();
 </script>
 
 <template>
-    <div class="prose" v-html="props.text"/>
+    <div class="prose" :class="props.class">
+        <slot/>
+    </div>
 </template>

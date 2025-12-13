@@ -1,5 +1,9 @@
 ﻿<script setup lang="ts">
 import MainNavigation from "~/components/navigation/MainNavigation.vue";
+
+useHead({
+    bodyAttrs: { class: 'text-md md:text-lg' }
+});
 </script>
 
 <template>

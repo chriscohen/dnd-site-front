@@ -5,6 +5,8 @@ import SourcebookDetailsList from "~/components/lists/SourcebookDetailsList.vue"
 import MediaLarge from "~/components/media/MediaLarge.vue";
 import ProductLinkButtonContainer from "~/components/containers/ProductLinkButtonContainer.vue";
 import PageTitle from "~/components/labels/PageTitle.vue";
+import SourcebookContents from "~/components/sourcebooks/SourcebookContents.vue";
+import ProseContainer from "~/components/text/ProseContainer.vue";
 
 const route = useRoute();
 const store = useSourcebookCache();
@@ -12,6 +14,9 @@ const path = `http://localhost:8080/api/source/${route.params.slug}?mode=full`;
 await store.fetch(path);
 
 const item: ComputedRef<ISourcebook> = computed(() => store.get(path));
+
+useHead({ title: item?.value.name });
+definePageMeta({ layout: false });
 </script>
 
 <template>
@@ -40,7 +45,7 @@ const item: ComputedRef<ISourcebook> = computed(() => store.get(path));
             <!-- /Left: Cover Art -->
 
             <!-- Right Side -->
-            <div class="flex flex-col xl:flex-row gap-2 xl:gap-8">
+            <div class="flex flex-col lg:flex-row gap-2 xl:gap-8">
                 <!-- Under Heading -->
                 <!-- Left of "Under Heading" -->
                 <div class="sourcebook-details">
@@ -55,7 +60,13 @@ const item: ComputedRef<ISourcebook> = computed(() => store.get(path));
                 <!-- Left of "Under Heading" -->
 
                 <!-- Right of "Under Heading -->
-                <div class="prose bg-black/50 p-4" v-html="item.description"/>
+                <section class="flex flex-col gap-4">
+                    <ProseContainer v-if="item?.description">
+                        {{ item.description }}
+                    </ProseContainer>
+
+                    <SourcebookContents :contents="item.editions[0]?.contents"/>
+                </section>
                 <!-- Right of "Under Heading -->
                 <!-- /Under Heading -->
             </div>
