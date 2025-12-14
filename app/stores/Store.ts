@@ -44,8 +44,10 @@ export function createCacheStore<T>(storeId: string) {
     });
 }
 
+export const useCampaignSettingCache = createCacheStore('campaign-setting');
 export const useCharacterClassCache = createCacheStore('character-class');
 export const useLanguageCache = createCacheStore<Language>('language');
 export const useMagicSchoolCache = createCacheStore('magic-school');
 export const useSourcebookCache = createCacheStore<ISourcebook>('sourcebook');
+export const useSpeciesCache = createCacheStore<ISpecies>('species');
 export const useSpellCache = createCacheStore<ISpell>('spell');

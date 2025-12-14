@@ -61,9 +61,7 @@ definePageMeta({ layout: false });
 
                 <!-- Right of "Under Heading -->
                 <section class="flex flex-col gap-4">
-                    <ProseContainer v-if="item?.description">
-                        {{ item.description }}
-                    </ProseContainer>
+                    <ProseContainer v-if="item.description" :prose="item.description"/>
 
                     <SourcebookContents :contents="item.editions[0]?.contents"/>
                 </section>

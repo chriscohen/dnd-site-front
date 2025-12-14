@@ -9,7 +9,7 @@ const props = defineProps<{
 </script>
 
 <template>
-    <ProseContainer v-if="contents" class="bg-black/50 text-lg px-4 py-2" :class="props.class">
+    <div v-if="contents" class="bg-black/50 text-lg px-4 py-2" :class="props.class">
         <h2 class="font-[mrs-eaves] text-4xl uppercase border-b-5 border-red-800 border-double">
             Contents
         </h2>
@@ -25,5 +25,5 @@ const props = defineProps<{
                 </li>
             </ul>
         </template>
-    </ProseContainer>
+    </div>
 </template>

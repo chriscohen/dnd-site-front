@@ -18,3 +18,14 @@ a {
         color: colors.$text-dark-hover;
     }
 }
+
+.prose {
+    > p {
+        margin-top: 1rem;
+    }
+
+    > ul {
+        list-style: disc;
+        margin-left: 1.5rem;
+    }
+}

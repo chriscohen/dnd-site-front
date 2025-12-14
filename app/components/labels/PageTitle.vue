@@ -18,11 +18,11 @@ const props = defineProps<{
             <h1 class="font-[Modesto] overflow-ellipsis text-4xl md:text-6xl mt-1 md:mt-2">
                 {{ title }}
             </h1>
-            <h3 v-if="$slots.subtitle" class="text-md lg:text-2xl font-[mrs eaves] uppercase">
+            <h3 v-if="$slots.subtitle" class="text-sm sm:text-md lg:text-xl font-[mrs eaves] uppercase">
                 <slot name="subtitle"/>
             </h3>
         </div>
-        <div class="page-title-labels">
+        <div class="page-title-labels hidden sm:block">
             <slot name="labels"/>
         </div>
 

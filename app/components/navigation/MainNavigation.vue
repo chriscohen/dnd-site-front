@@ -34,9 +34,9 @@ const routeData = ref<RouteData[]>([
         ]
     },
     {
-        name: 'Foes',
+        name: 'Species',
         children: [
-            { name: 'Monsters', path: '/' }
+            { name: 'Species', path: '/species' }
         ]
     },
     {
@@ -59,7 +59,7 @@ function getActive(item: RouteData): boolean {
     }
 }
 
-let menuOpen: Ref<boolean> = ref<boolean>(false);
+const menuOpen: Ref<boolean> = ref<boolean>(false);
 
 </script>
 

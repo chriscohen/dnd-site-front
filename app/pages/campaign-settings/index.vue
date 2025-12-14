@@ -1,19 +1,29 @@
 ﻿<script setup lang="ts">
 
 import CampaignSettingTeaser from "~/components/teasers/CampaignSettingTeaser.vue";
-import ConjuringScreen from "~/components/loading/ConjuringScreen.vue";
+import {API_URL} from "~/utils/utils";
+import {useCampaignSettingCache} from "~/stores/Store";
+import PageTitle from "~/components/labels/PageTitle.vue";
 
-const store = useCampaignSettingStore();
-store.getAll();
+const path = API_URL + '/campaign-settings?mode=full';
+const store = useCampaignSettingCache();
+await store.fetch(path);
+const items: ICampaignSetting[] = computed(() => store.get(path));
+
+useHead({ title: 'Campaign Settings' });
+definePageMeta({ layout: false })
 
 </script>
 
 <template>
-    <div>
-        <ConjuringScreen v-if="store.isLoading()" />
+    <NuxtLayout name="default">
+        <template #pageTitle>
+            <PageTitle title="Campaign Settings" back-to="/"/>
+        </template>
 
-        <div v-if="!store.isLoading()" class="flex flex-wrap gap-4 items-center">
-            <CampaignSettingTeaser v-for="item in store.items" :key="item.id" :campaign-setting="item"/>
+
+        <div v-if="items" class="flex flex-wrap gap-4 items-center">
+            <CampaignSettingTeaser v-for="item in items" :key="item.id" :campaign-setting="item"/>
         </div>
-    </div>
+    </NuxtLayout>
 </template>

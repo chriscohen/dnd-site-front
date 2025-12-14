@@ -25,6 +25,5 @@ useHead({
 </template>
 
 <style lang="scss">
-@use '~/assets/css/tailwind.css';
 @use '~/assets/css/default/styles';
 </style>

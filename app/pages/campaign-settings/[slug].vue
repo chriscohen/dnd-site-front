@@ -1,17 +1,26 @@
 ﻿<script setup lang="ts">
-import {useCampaignSettingStore} from "~/stores/CampaignSettingStore";
+
+import {useCampaignSettingCache} from "~/stores/Store";
+import PageTitle from "~/components/labels/PageTitle.vue";
 
 const route = useRoute();
-const store = useCampaignSettingStore();
+const path = API_URL + '/campaign-setting/' + route.params.slug + '?mode=full';
+const store = useCampaignSettingCache();
+await store.fetch(path);
 
-const item: ICampaignSetting = await store.getBySlug(route.params.slug as string);
+const item: ComputedRef<ICampaignSetting> = computed(() => store.get(path));
+
+useHead({ title: item?.value.name + ' Campaign Setting' });
+definePageMeta({ layout: false });
 </script>
 
 <template>
-    <Suspense>
+    <NuxtLayout name="default">
+        <template #pageTitle>
+            <PageTitle :title="item?.name" subtitle="Campaign Setting"/>
+        </template>
 
-
-        <div class="source">
+        <div v-if="item">
             <div class="flex items-start gap-16">
                 <!-- Left: Cover Art -->
                 <div class="d-effect max-w-[30%]"/>
@@ -44,9 +53,5 @@ const item: ICampaignSetting = await store.getBySlug(route.params.slug as string
             </div>
         </div>
 
-        <template #fallback>
-            LOADING
-        </template>
-
-    </Suspense>
+    </NuxtLayout>
 </template>

@@ -22,6 +22,11 @@
                     'data-[state=inactive]:border-muted',
                 ]
             }
+        },
+        tooltip: {
+            slots: {
+                content: 'bg-yellow-50 rounded-md text-gray-700 text-sm py-1 px-2',
+            }
         }
     }
 })

@@ -44,10 +44,15 @@ export default defineNuxtConfig({
         '@nuxt/icon',
         '@nuxt/image',
         '@nuxt/ui',
-        '@nuxtjs/tailwindcss',
         '@pinia/nuxt',
         'pinia-plugin-persistedstate'
     ],
+    postcss: {
+        plugins: {
+            autoprefixer: {},
+            '@tailwindcss/postcss': {}
+        }
+    },
     runtimeConfig: {
         public: {
             apiUrl: 'http://localhost:8080/api'

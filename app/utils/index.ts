@@ -1,3 +1,17 @@
+export interface IAbilityScoreModifierGroup {
+    str?: number,
+    dex?: number,
+    con?: number,
+    int?: number,
+    wis?: number,
+    cha?: number,
+    choose?: {
+        from: string[],
+        amount?: number
+        count?: number
+    }
+}
+
 export interface IArea {
     string: string
     id: string
@@ -141,6 +155,15 @@ export interface IMediaTeaser {
     url: string
 }
 
+export interface IMovementSpeedGroup {
+    burrow?: number,
+    canHover?: boolean,
+    climb?: number,
+    fly?: number,
+    swim?: number,
+    walk?: number
+}
+
 export interface IPrerequisite {
     __typename: "Prerequisite"
     id: string
@@ -183,6 +206,7 @@ export interface IReferenceTeaser {
     id: string
     page_from: number
     page_to?: number
+    shortName?: string
     source: string
     slug: string
     image: IMedia
@@ -237,6 +261,21 @@ export interface ISourcebookEdition {
     pages: number
     release_date: string
     release_date_month_only: boolean
+}
+
+export interface ISpecies {
+    id: string,
+    slug: string,
+    name: string,
+    editions: ISpeciesEdition[]
+}
+
+export interface ISpeciesEdition {
+    id: string,
+    gameEdition: string,
+    ability?: IAbilityScoreModifierGroup[],
+    references?: IReferenceTeaser[],
+    speed?: IMovementSpeedGroup
 }
 
 export interface ISpell {
