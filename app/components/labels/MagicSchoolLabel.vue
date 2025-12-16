@@ -51,7 +51,3 @@ const props = defineProps<{
         </template>
     </span>
 </template>
-
-<style lang="scss">
-@use '~/assets/css/default/links';
-</style>

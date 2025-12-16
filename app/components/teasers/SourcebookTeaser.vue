@@ -1,6 +1,7 @@
 ﻿<script lang="ts" setup>
 
 import TeaserTitle from "~/components/teasers/TeaserTitle.vue";
+import TeaserTile from "~/components/teasers/TeaserTile.vue";
 
 const props = defineProps<{
     data?: ISourcebook
@@ -8,17 +9,8 @@ const props = defineProps<{
 </script>
 
 <template>
-    <NuxtLink v-if="data" :to="'/sources/' + data?.slug" class="shrink teaser source-teaser">
-        <MediaCoverImage v-if="data.coverImage" :sourcebook="data" />
+    <TeaserTile :href="'/sources/' + data?.slug">
+        <MediaCoverImage v-if="data?.coverImage" :sourcebook="data" />
         <TeaserTitle :title="data?.name" :edition="data?.gameEdition"/>
-    </NuxtLink>
+    </TeaserTile>
 </template>
-
-<style scoped lang="scss">
-@use '~/assets/css/default/colors';
-@use '~/assets/css/default/teasers';
-
-.source-teaser {
-    width: teasers.$width;
-}
-</style>

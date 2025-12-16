@@ -8,6 +8,8 @@ const props = defineProps<{
     rarity?: string
 }>();
 
+console.log('edition' + props.edition);
+
 const classes = [
     'teaser-title',
     props.rarity ? 'border-' + props.rarity : null,

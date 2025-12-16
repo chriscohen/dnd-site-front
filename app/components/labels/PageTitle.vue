@@ -9,10 +9,10 @@ const props = defineProps<{
 </script>
 
 <template>
-    <div id="page-title" class="w-full flex justify-between mb-4 border-b-1 bg-gray-900">
-        <UButtonGroup v-if="backTo" class="buttons mt-4 mr-4">
-            <BackButton :to="backTo" size="5rem"/>
-        </UButtonGroup>
+    <div id="page-title" class="w-full flex justify-between items-center border-b bg-gray-900">
+        <UFieldGroup v-if="backTo" class="mr-4">
+            <BackButton :to="backTo" size="3rem"/>
+        </UFieldGroup>
 
         <div class="w-full mb-2">
             <h1 class="font-[Modesto] overflow-ellipsis text-4xl md:text-6xl mt-1 md:mt-2">

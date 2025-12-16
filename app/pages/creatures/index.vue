@@ -4,7 +4,7 @@ import PageTitle from "~/components/labels/PageTitle.vue";
 import type {TableColumn} from "#ui/components/Table.vue";
 import SourceShortNameLabel from "~/components/labels/SourceShortNameLabel.vue";
 
-const path = API_URL + '/species?mode=full';
+const path = API_URL + '/creatures?mode=full';
 const store = useSpeciesCache();
 await store.fetch(path);
 
@@ -57,7 +57,7 @@ const getShortSourceName = (row, useShortName: boolean = false) => {
                 }"
             >
                 <template #name-cell="{ row }">
-                    <ULink :to="'/species/' + row.original.slug">{{ row.getValue('name') }}</ULink>
+                    <ULink :to="'/creatures/' + row.original.slug" class="link">{{ row.getValue('name') }}</ULink>
                 </template>
 
                 <template #editions-cell="{ row }">
@@ -67,7 +67,3 @@ const getShortSourceName = (row, useShortName: boolean = false) => {
         </div>
     </NuxtLayout>
 </template>
-
-<style scoped lang="scss">
-@use '~/assets/css/default/links';
-</style>

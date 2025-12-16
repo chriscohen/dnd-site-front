@@ -5,7 +5,7 @@ const persistedStore = usePersistedStore();
 </script>
 
 <template>
-    <UButtonGroup class="edition-selector flex">
+    <UFieldGroup class="edition-selector flex">
         <EditionSelectorButton
             v-for="edition in persistedStore.editions"
             :key="edition.id"
@@ -14,7 +14,7 @@ const persistedStore = usePersistedStore();
             :sup="edition.sup"
             :bg-class="edition.bgClass"
         />
-    </UButtonGroup>
+    </UFieldGroup>
 </template>
 
 <style scoped lang="scss">

@@ -7,6 +7,7 @@ import ProductLinkButtonContainer from "~/components/containers/ProductLinkButto
 import PageTitle from "~/components/labels/PageTitle.vue";
 import SourcebookContents from "~/components/sourcebooks/SourcebookContents.vue";
 import ProseContainer from "~/components/text/ProseContainer.vue";
+import BottomNavigation from "~/components/navigation/BottomNavigation.vue";
 
 const route = useRoute();
 const store = useSourcebookCache();
@@ -40,12 +41,13 @@ definePageMeta({ layout: false });
         </template>
 
         <div class="overflow-y-scroll flex flex-col items-start sm:flex-row gap-4 mx-2 my-4 h-full">
+            <a id="overview"/>
             <!-- Left: Cover Art -->
             <MediaLarge :media="item.coverImage" :name="item.name"/>
             <!-- /Left: Cover Art -->
 
             <!-- Right Side -->
-            <div class="flex flex-col lg:flex-row gap-2 xl:gap-8">
+            <div class="flex flex-col lg:flex-row gap-2 xl:gap-8 w-full">
                 <!-- Under Heading -->
                 <!-- Left of "Under Heading" -->
                 <div class="sourcebook-details">
@@ -60,9 +62,11 @@ definePageMeta({ layout: false });
                 <!-- Left of "Under Heading" -->
 
                 <!-- Right of "Under Heading -->
-                <section class="flex flex-col gap-4">
+                <section class="flex flex-col gap-4 max-w-192">
+                    <a id="description"/>
                     <ProseContainer v-if="item.description" :prose="item.description"/>
 
+                    <a id="contents"/>
                     <SourcebookContents :contents="item.editions[0]?.contents"/>
                 </section>
                 <!-- Right of "Under Heading -->
@@ -70,6 +74,30 @@ definePageMeta({ layout: false });
             </div>
             <!-- /Right Side -->
         </div>
+
+        <template #bottomNav>
+            <BottomNavigation
+                :items="[
+                    {
+                        anchor: 'overview',
+                        icon: 'image',
+                        name: 'Overview'
+                    },
+                    {
+                        anchor: 'description',
+                        icon: 'notebook-text',
+                        name: 'Description',
+                        disabled: !item.description
+                    },
+                    {
+                        anchor: 'contents',
+                        icon: 'list',
+                        name: 'Contents',
+                        disabled: !item.editions?.[0]?.contents?.length
+                    }
+                ]"
+            />
+        </template>
     </NuxtLayout>
 </template>
 

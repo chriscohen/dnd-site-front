@@ -1,49 +1,72 @@
 ﻿<script setup lang="ts">
 
 import {format, parseISO} from "date-fns";
-import {ucFirst} from "~/utils/utils";
+import SourceFormatLabel from "~/components/labels/SourceFormatLabel.vue";
 
-const props = defineProps({
-    edition: { type: Object as () => ISourcebookEdition, required: true },
-});
+const props = defineProps<{
+    edition: ISourcebookEdition
+    source: ISourcebook
+}>();
 
 let day: string, month: string, year: string;
 
 try {
-    const parsed = parseISO(props.edition.release_date);
+    const parsed = parseISO(props.edition?.releaseDate ?? '');
     day = format(parsed, "dd");
     month = format(parsed, "MMMM");
     year = format(parsed, "y");
-} catch (e) { console.error(e); }
+} catch (e) { console.error(`Error parsing date ${props.edition?.releaseDate}: ${e}`); }
 </script>
 
 <template>
-    <div class="sourcebook-editions-tab flex gap-4 flex-wrap">
-        <dl class="w-full text-md md:text-lg">
+    <div class="sourcebook-editions-tab">
+        <dl class="grid grid-cols-[auto_1fr] gap-x-8 gap-y-2 text-md md:text-lg mx-2">
+            <template v-if="source?.publisher">
+                <dt class="text-right">Publisher</dt>
+                <dd>
+                    <NuxtLink :to="'/companies/' + source?.publisher?.slug" class="link">
+                        {{ source.publisher?.name }}
+                    </NuxtLink>
+                </dd>
+            </template>
+
             <template v-if="edition.pages">
-                <dt>Pages</dt>
+                <dt class="text-right">Pages</dt>
                 <dd>{{edition.pages}}</dd>
             </template>
 
-            <dt>First Released</dt>
+            <template v-if="edition.formats">
+                <dt class="text-right">Formats</dt>
+                <dd>
+                    <SourceFormatLabel
+                        v-for="sourceFormat in edition.formats"
+                        :key="sourceFormat"
+                        :type="sourceFormat"
+                    >
+                        {{ sourceFormat }}
+                    </SourceFormatLabel>
+                </dd>
+            </template>
+
+            <dt class="text-right">First Released</dt>
             <dd>
-                <template v-if="!edition.release_date_month_only">{{ day }}</template>
+                <template v-if="!edition.releaseDateMonthOnly">{{ day }}</template>
                 {{ month }}
                 {{ year }}
             </dd>
 
             <template v-if="edition.binding">
-                <dt>Binding</dt>
-                <dd>{{ ucFirst(edition.binding) }}</dd>
+                <dt class="text-right">Binding</dt>
+                <dd class="capitalize">{{ edition.binding }}</dd>
             </template>
 
             <template v-if="edition.isbn10">
-                <dt>ISBN-10</dt>
+                <dt class="text-right">ISBN-10</dt>
                 <dd>{{ formatIsbn(edition.isbn10) }}</dd>
             </template>
 
             <template v-if="edition.isbn13">
-                <dt>ISBN-13</dt>
+                <dt class="text-right">ISBN-13</dt>
                 <dd>{{ formatIsbn(edition.isbn13) }}</dd>
             </template>
         </dl>
@@ -53,17 +76,13 @@ try {
 <style scoped lang="scss">
 dl {
     dd, dt {
-        display: inline-block;
-        width: 50%;
         text-wrap: nowrap;
     }
     dd {
-        display: inline-block;
         font-weight: 300;
     }
     dt {
         font-weight: 700;
-        text-align: right;
         text-transform: capitalize;
     }
 }

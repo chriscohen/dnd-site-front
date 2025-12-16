@@ -4,21 +4,14 @@ import CategoryBadge from "~/components/badges/CategoryBadge.vue";
 import {useRuntimeConfig} from "#app";
 import GameEditionBadge from "~/components/badges/GameEditionBadge.vue";
 import BadgeContainer from "~/components/badges/BadgeContainer.vue";
+import {useItemCache} from "~/stores/Store";
 
-const store = useItemStore();
-const cache = useCacheStore();
+const store = useItemCache();
+const path = API_URL + '/items?mode=teaser';
+await store.fetch(path);
+
+const items: ComputedRef<IItem[]> = computed(() => store.get(path));
 const runtimeConfig = useRuntimeConfig();
-
-const url = runtimeConfig.public.apiUrl + '/items?mode=full';
-
-const { data, error, status } = await useAsyncData('items', () => $fetch(
-    url, {
-        method: 'GET',
-        headers: {
-            "Access-Control-Allow-Origin": "*"
-        }
-    }
-));
 
 const columns: TableColumn<IItem>[] = [
     {
@@ -52,7 +45,7 @@ const columnVisibility = ref({ slug: false });
             <UTable
                 v-model:column-visibility="columnVisibility"
                 :columns="columns"
-                :data="data"
+                :data="items"
             >
                 <template #image-cell="{ row }">
                     <NuxtLink :to="'/items/' + row.getValue('slug')">
@@ -80,8 +73,8 @@ const columnVisibility = ref({ slug: false });
                     <BadgeContainer>
                         <GameEditionBadge
                             v-for="edition in row.getValue('editions')"
-                            :key="edition.game_edition"
-                            :edition="edition.game_edition"
+                            :key="edition.gameEdition"
+                            :edition="edition.gameEdition"
                         />
                     </BadgeContainer>
                 </template>
@@ -89,12 +82,6 @@ const columnVisibility = ref({ slug: false });
         </div>
     </div>
 </template>
-
-<style lang="scss">
-@use '~/assets/css/default/links';
-@use '~/assets/css/default/media';
-@use '~/assets/css/default/tables';
-</style>
 
 <style scoped lang="scss">
 @use '~/assets/css/default/fonts';

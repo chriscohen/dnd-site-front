@@ -46,6 +46,8 @@ export function createCacheStore<T>(storeId: string) {
 
 export const useCampaignSettingCache = createCacheStore('campaign-setting');
 export const useCharacterClassCache = createCacheStore('character-class');
+export const useCompanyCache = createCacheStore('company');
+export const useItemCache = createCacheStore('item');
 export const useLanguageCache = createCacheStore<Language>('language');
 export const useMagicSchoolCache = createCacheStore('magic-school');
 export const useSourcebookCache = createCacheStore<ISourcebook>('sourcebook');

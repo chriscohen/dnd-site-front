@@ -1,23 +1,33 @@
 ﻿<script setup lang="ts">
-import {type ActorType, type ActorTypeJsonItem, createActorType} from "dnd5e-ts";
-import StatBlock from "~/components/dnd/StatBlock.vue";
-import {useFetch} from "#app";
+import {API_URL} from "#imports";
+import PageTitle from "~/components/labels/PageTitle.vue";
+import BottomNavigation from "~/components/navigation/BottomNavigation.vue";
 
 const route = useRoute();
-const path = `/data/creatures/${route.params.slug as string}.json`;
-console.log('path:', path);
-const { data: rawJson } = await useFetch(path, { server: false });
+const store = useSpeciesCache();
+const path = API_URL + '/creature/' + route.params.slug + '?mode=full';
+await store.fetch(path);
 
-const creature = computed(() => {
-    if (!rawJson.value) return null;
-    console.log('rawJson:', rawJson.value);
-    return createActorType().fromJson(rawJson.value);
-})
+const item: ComputedRef<ISpecies> = computed(() => store.get(path));
+
+useHead({ title: item?.value.name ?? 'Loading' });
+definePageMeta({ layout: false });
 </script>
 
 <template>
-    <Suspense>
-       <StatBlock v-if="creature" :creature="creature"/>
+    <NuxtLayout name="default">
+        <template #pageTitle>
+            <PageTitle :title="item?.name" back-to="/species">
+                <template #subtitle>Species</template>
+            </PageTitle>
+        </template>
 
-    </Suspense>
+        <div class="flex flex-col">
+            <NuxtImg :src="CDN_URL + '/creatures/' + item?.slug + '.webp'" :alt="item?.name" class="w-full"/>
+        </div>
+
+        <template #bottomNav>
+            <BottomNavigation :items="[]"/>
+        </template>
+    </NuxtLayout>
 </template>

@@ -3,6 +3,7 @@ import SourcebookTeaser from "~/components/teasers/SourcebookTeaser.vue";
 import PageTitle from "~/components/labels/PageTitle.vue";
 import {useSourcebookCache} from "~/stores/Store";
 import {definePageMeta} from "#imports";
+import TeaserGrid from "~/components/teasers/TeaserGrid.vue";
 
 const sourcePath = 'http://localhost:8080/api/sources?mode=teaser';
 const store = useSourcebookCache();
@@ -22,9 +23,9 @@ definePageMeta({
             <PageTitle title="Sourcebooks" back-to="/" :underline="true"/>
         </template>
 
-        <div class="teaser-container grid grid-cols-[repeat(auto-fit,minmax(16rem,1fr))] gap-4 gap-y-8">
+        <TeaserGrid v-if="items">
             <SourcebookTeaser v-for="item in items" :key="item.id" :data="item"/>
-        </div>
+        </TeaserGrid>
     </NuxtLayout>
 </template>
 

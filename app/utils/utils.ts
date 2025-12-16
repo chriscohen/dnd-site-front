@@ -1,5 +1,6 @@
-﻿export const DEFAULT_ABILITY_SCORE = 10;
-export const API_URL = 'http://localhost:8080/api';
+﻿export const DEFAULT_ABILITY_SCORE: number = 10;
+export const API_URL: string = 'http://localhost:8080/api';
+export const CDN_URL: string = 'https://dnd001.s3.eu-west-2.amazonaws.com';
 
 export function ucFirst(input: string): string {
     return input.charAt(0).toUpperCase() + input.slice(1);
@@ -28,6 +29,8 @@ export function primaryEdition(item: ISourcebook | ISpell): undefined | ISourceb
 
 export function editionToClass(input: string): string {
     switch (input) {
+        case '0e':
+            return 'edition-0';
         case '1e':
             return 'edition-1';
         case '2e':
@@ -37,9 +40,9 @@ export function editionToClass(input: string): string {
             return 'edition-3';
         case '4e':
             return 'edition-4';
-        case '5e (2014)':
+        case '5e':
             return 'edition-5';
-        case '5e (2024)':
+        case '5.5':
             return 'edition-2024';
         default:
             return '1e';
@@ -48,6 +51,8 @@ export function editionToClass(input: string): string {
 
 export function formatEdition(input: string) {
     switch (input) {
+        case '0e':
+            return 'Original Edition';
         case '1e':
             return '1st Edition';
         case '2e':
@@ -58,13 +63,59 @@ export function formatEdition(input: string) {
             return '3.5 Edition';
         case '4e':
             return '4th Edition';
-        case '5e (2014)':
+        case '5e':
             return '5th Edition (2014)';
-        case '5e (2024)':
+        case '5.5':
             return '5th Edition (2024)';
         default:
             return 'unknown edition';
     }
+}
+
+export function formatEditionShort(input: string, sup: boolean = false): string {
+    switch (input) {
+        case '0e':
+            return sup ? '0<sup>th</sup>' : '0th';
+        case '1e':
+            return sup ? '1<sup>st</sup>' : '1st';
+        case '2e':
+            return sup ? '2<sup>nd</sup>' : '2nd';
+        case '3e':
+            return sup ? '3<sup>rd</sup>' : '3rd';
+        case '3.5':
+            return '3.5';
+        case '4e':
+            return sup ? '4<sup>th</sup>' : '4th';
+        case '5e':
+            return sup ? '5<sup>th</sup>' : '5th';
+        case '5.5':
+            return '5.5';
+    }
+
+    return '';
+}
+
+export function formatEditionNumber(input: string): string {
+    switch (input) {
+        case '0e':
+            return '0';
+        case '1e':
+            return '1';
+        case '2e':
+            return '2';
+        case '3e':
+            return '3';
+        case '3.5':
+            return '3.5';
+        case '4e':
+            return '4';
+        case '5e':
+            return '5';
+        case '5.5':
+            return '5.5';
+    }
+
+    return '';
 }
 
 export function formatIsbn(input: string): string {

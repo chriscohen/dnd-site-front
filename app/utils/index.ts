@@ -80,9 +80,10 @@ export interface ICompany {
     id: string
     slug: string
     name: string
-    logo?: IMedia
-    product_url: string
-    short_name?: string
+    logo?: IMedia,
+    products: ISourcebook[],
+    productUrl: string
+    shortName?: string
     website?: string
 }
 
@@ -164,6 +165,15 @@ export interface IMovementSpeedGroup {
     walk?: number
 }
 
+export interface IPerson {
+    id: string
+    firstName: string
+    initials?: string[]
+    lastName: string
+    slug: string
+    twitter?: string
+}
+
 export interface IPrerequisite {
     __typename: "Prerequisite"
     id: string
@@ -234,6 +244,7 @@ export interface ISourcebook {
     productCode: string
     productIds: IProductId[]
     publicationType: string
+    publisher?: ICompany
     sourceType: string
     sourcebookTypes?: string[]
 }
@@ -250,17 +261,18 @@ export interface ISourcebookContents {
 
 export interface ISourcebookEdition {
     id: string
-    sourcebook_id: string
+    sourcebookId: string
     name: string
-    binding: string
-    box_set_items: IBoxedSetItem[]
-    contents?: ISourcebookContents[]
+    binding?: string
+    boxSetItems?: IBoxedSetItem[]
+    contents?: ISourcebookContents[],
+    credits?: Record<string, IPerson[]>
     formats: string[]
-    isbn10: string
-    isbn13: string
-    pages: number
-    release_date: string
-    release_date_month_only: boolean
+    isbn10?: string
+    isbn13?: string
+    pages?: number
+    releaseDate?: string
+    releaseDateMonthOnly?: boolean
 }
 
 export interface ISpecies {

@@ -21,6 +21,8 @@ useHead({
                 <slot/>
             </div>
         </main>
+
+        <slot name="bottomNav"/>
     </div>
 </template>
 

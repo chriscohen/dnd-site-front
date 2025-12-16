@@ -9,8 +9,6 @@ $width: 12rem;
 $height: 17rem;
 
 .teaser {
-    @include mixins.heavyShadow;
-
     background: colors.$black-20;
     flex-shrink: 1;
     position: relative;
@@ -30,19 +28,6 @@ $height: 17rem;
         position: absolute;
         top: 0.5rem;
         right: 0;
-    }
-
-    &.loading {
-        @include mixins.loading;
-        width: 20rem;
-        height: 20rem;
-    }
-
-    &:hover {
-        background: color.scale(colors.$gray-950, $alpha: -20%);
-        color: colors.$text-hover;
-        transform: scale(1.15);
-        z-index: 999;
     }
 }
 

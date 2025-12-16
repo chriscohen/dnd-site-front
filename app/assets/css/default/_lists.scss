@@ -3,21 +3,3 @@
     margin: 0;
     padding: 0;
 }
-
-dl {
-    display: grid;
-    grid-template-columns: max-content auto;
-    gap: 1rem;
-
-    > dd {
-        margin: 0;
-        flex: 1;
-        padding-left: 0.25rem;
-    }
-    > dt {
-        margin: 0;
-        text-align: right;
-        font-weight: 700;
-        padding-right: 0.25rem;
-    }
-}

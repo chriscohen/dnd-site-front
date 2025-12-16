@@ -3,6 +3,14 @@
 a {
     color: colors.$text;
     text-decoration: none;
+
+    &.link {
+        text-decoration: dotted underline;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
 }
 
 .text-active {
@@ -18,9 +26,12 @@ a {
         color: colors.$text-dark-hover;
     }
 }
+.text-muted {
+    color: colors.$text-muted;
+}
 
 .prose {
-    > p {
+    > p:not(:first-child) {
         margin-top: 1rem;
     }
 

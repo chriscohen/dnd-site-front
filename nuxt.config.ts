@@ -12,6 +12,17 @@ export default defineNuxtConfig({
             viewport: 'width=device-width, initial-scale=1, maximum-scale=1',
         }
     },
+    appConfig: {
+        ui: {
+            link: {
+                variants: {
+                    disabled: {
+                        true: 'text-dimmed'
+                    }
+                }
+            }
+        }
+    },
     compatibilityDate: '2025-07-15',
     devtools: { enabled: true },
     fonts: {
@@ -61,12 +72,7 @@ export default defineNuxtConfig({
     typescript: {
         strict: true
     },
-    ui: {
-    },
     vite: {
-        optimizeDeps: {
-            include: ['dnd5e-ts']
-        },
         build: {
             commonjsOptions: {
                 include: [/dnd5e-ts/, /node_modules/]
