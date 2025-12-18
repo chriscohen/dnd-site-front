@@ -137,6 +137,6 @@ export function formatIsbn(input: string): string {
     }
 }
 
-export function formatPages(from: number, to?: number): string {
+export function formatPages(from?: number, to?: number): string {
     return 'pp. ' + from + (to ? '—' + to : '');
 }

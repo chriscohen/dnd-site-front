@@ -2,7 +2,7 @@
 import {formatPages} from "#imports";
 
 const props = defineProps<{
-    reference: IReferenceTeaser
+    reference: IReference
 }>();
 </script>
 
@@ -10,7 +10,7 @@ const props = defineProps<{
     <NuxtLink v-if="reference" :href="'/sources/' + reference.slug" class="reference-list-item item-link">
         <img :src="reference.image?.url" :alt="reference.source + ' thumbnail'">
         <span>{{ reference.source }}</span>
-        <span class="page-reference">{{ formatPages(reference.page_from, reference?.page_to) }}</span>
+        <span class="page-reference">{{ formatPages(reference.pageFrom, reference?.pageTo) }}</span>
     </NuxtLink>
 </template>
 

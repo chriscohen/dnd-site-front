@@ -1,7 +1,6 @@
 ﻿@use 'colors';
 
 a {
-    color: colors.$text;
     text-decoration: none;
 
     &.link {
@@ -11,6 +10,10 @@ a {
             text-decoration: underline;
         }
     }
+}
+
+.underline {
+    text-decoration: underline;
 }
 
 .text-active {
@@ -28,6 +31,10 @@ a {
 }
 .text-muted {
     color: colors.$text-muted;
+}
+
+p {
+    font-weight: 300;
 }
 
 .prose {

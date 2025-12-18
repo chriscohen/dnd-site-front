@@ -42,12 +42,14 @@ export interface IBoxedSetItem {
 export interface ICampaignSetting {
     __typename: "Campaign Setting"
     id: string
-    slug: string
+    description?: string
+    logo?: IMedia
     name: string
-    short_name: string
     publisher: ICompany
     publication_type: string
-    logo?: IMedia
+    slug: string
+    shortName: string
+    startYear?: number
 }
 
 export interface ICategory {
@@ -72,7 +74,7 @@ export interface ICharacterClassEdition {
     id: string
     game_edition: string
     is_prestige: boolean
-    references: IReferenceTeaser[]
+    references: IReference[]
 }
 
 export interface ICompany {
@@ -103,7 +105,7 @@ export interface IFeatEdition {
     description: string
     game_edition: string
     prerequisites: IPrerequisite[]
-    references: IReferenceTeaser[]
+    references: IReference[]
 }
 
 export interface IItem {
@@ -123,6 +125,15 @@ export interface IItemEdition {
     quantity: number
     weight: number
     source: ISourcebook
+}
+
+export interface ILanguage {
+    id: string
+    slug: string
+    name: string
+    isExotic?: boolean
+    references?: IReference[]
+    scriptName?: string
 }
 
 export interface IMagicDomain {
@@ -212,10 +223,10 @@ export interface IRange {
     unit: string
 }
 
-export interface IReferenceTeaser {
+export interface IReference {
     id: string
-    page_from: number
-    page_to?: number
+    pageFrom: number
+    pageTo?: number
     shortName?: string
     source: string
     slug: string
@@ -286,7 +297,7 @@ export interface ISpeciesEdition {
     id: string,
     gameEdition: string,
     ability?: IAbilityScoreModifierGroup[],
-    references?: IReferenceTeaser[],
+    references?: IReference[],
     speed?: IMovementSpeedGroup
 }
 
@@ -312,11 +323,6 @@ export interface ISpellTeaser {
     school: string
 }
 
-export interface ISpellLevel {
-    name: string
-    level: number
-}
-
 export interface ISpellEdition {
     id: string
     area?: IArea
@@ -331,7 +337,7 @@ export interface ISpellEdition {
     levels: ISpellLevel[]
     lowestLevel: number
     range: IRange
-    references: IReferenceTeaser[]
+    references: IReference[]
     savingThrow?: ISavingThrow
     school?: IMagicSchool
     spellComponents?: string
@@ -344,11 +350,32 @@ export interface ISpellEditionTeaser {
     game_edition: string
 }
 
+
 export interface ISpellEditionCharacterClassLevel {
     name: string
     slug: string
     level: number
     type: string
+}
+
+export interface ISpellLevel {
+    name: string
+    level: number
+}
+
+export interface ISpellMaterialComponent {
+    id: string
+    description?: string
+    isConsumed: boolean
+    isFocus: boolean
+    isPlural: boolean
+    itemEditionId?: string
+    minimumValue?: number
+    name: string
+    quantity?: number
+    quantityText?: string
+    spellEditionId?: string
+    string?: string
 }
 
 export enum RenderMode {

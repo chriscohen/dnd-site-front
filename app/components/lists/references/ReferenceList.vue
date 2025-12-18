@@ -1,9 +1,9 @@
 ﻿<script setup lang="ts">
-import ReferenceListItem from "~/components/references/ReferenceListItem.vue";
+import ReferenceListItem from "~/components/lists/references/ReferenceListItem.vue";
 
 const props = defineProps<{
-    references: IReferenceTeaser[],
-    showTitle: boolean
+    references: IReference[],
+    showTitle?: boolean
 }>();
 </script>
 

@@ -26,7 +26,7 @@ const columns: TableColumn<ISpecies>[] = [
 
 const getShortSourceName = (row, useShortName: boolean = false) => {
     const editions: ISpeciesEdition[] | undefined = row.getValue('editions');
-    const reference: IReferenceTeaser | undefined = editions?.[0]?.references?.[0];
+    const reference: IReference | undefined = editions?.[0]?.references?.[0];
 
     if (reference) {
         return {

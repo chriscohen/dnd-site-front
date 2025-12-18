@@ -1,10 +1,9 @@
 ﻿<script setup lang="ts">
 import ClassesLevelsList from "~/components/lists/ClassesLevelsList.vue";
-import MagicSchoolSpellbookLabel from "~/components/labels/MagicSchoolSpellbookLabel.vue";
-import ReferenceList from "~/components/references/ReferenceList.vue";
+import ReferenceList from "~/components/lists/references/ReferenceList.vue";
 import SavingThrowLabel from "~/components/labels/SavingThrowLabel.vue";
-import PageTitle from "~/components/labels/PageTitle.vue";
-import MagicSchoolLabel from "~/components/labels/MagicSchoolLabel.vue";
+import SpellComponentsLabel from "~/components/labels/SpellComponentsLabel.vue";
+import HorizontalDivider from "~/components/dividers/HorizontalDivider.vue";
 
 const props = defineProps<{
     spell?: ISpell
@@ -19,11 +18,13 @@ const editionsWithSavingThrow = [
 </script>
 
 <template>
-    <div class="container scrollbar">
-        <div v-if="edition" class="spellbook-upper">
+    <div>
+        <div v-if="edition" class="spellbook-upper flex flex-col-reverse sm:flex-row gap-4">
             <div class="spell-attributes">
                 <span>Components</span>
-                <span>{{ edition.spellComponents }}</span>
+                <div class="flex gap-2">
+                    <SpellComponentsLabel v-if="edition.spellComponents" :components="edition.spellComponents"/>
+                </div>
 
                 <span>Range</span>
                 <span>{{ edition.range?.string }}</span>
@@ -44,9 +45,9 @@ const editionsWithSavingThrow = [
             <ClassesLevelsList :data="edition.levels" />
         </div>
 
-        <DividersHorizontalDivider/>
-        <div v-html="edition?.description ?? ''" class="spellbook-description"/>
-        <DividersHorizontalDivider/>
+        <HorizontalDivider/>
+        <div v-html="edition?.description ?? ''" class="spellbook-description mt-2 mb-4"/>
+        <HorizontalDivider/>
 
         <div class="spellbook-lower">
             <ReferenceList :references="edition?.references ?? []" :show-title="true"/>

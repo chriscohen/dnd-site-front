@@ -20,10 +20,16 @@ export default defineNuxtConfig({
                         true: 'text-dimmed'
                     }
                 }
+            },
+            popover: {
+                slots: {
+                    content: 'bg-yellow-100 px-4 py-2 rounded-lg text-gray-900 max-w-128'
+                }
             }
         }
     },
     compatibilityDate: '2025-07-15',
+    css: ['~/assets/css/default/styles.scss'],
     devtools: { enabled: true },
     fonts: {
         defaults: {

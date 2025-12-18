@@ -1,5 +1,6 @@
 ﻿<script setup lang="ts">
 import TeaserTitle from "~/components/teasers/TeaserTitle.vue";
+import TeaserTile from "~/components/teasers/TeaserTile.vue";
 
 interface Props {
     data?: ISpellTeaser
@@ -17,14 +18,10 @@ const getSubtitle = computed(() => {
 </script>
 
 <template>
-    <NuxtLink
-        v-if="data"
-        :to="'/spells/' + data?.slug"
-        class="shrink teaser spell-teaser w-48 md:w-64 h-48 md:h-64"
-    >
+    <TeaserTile :href="'/spells/' + data?.slug">
         <NuxtImg
-            v-if="data.image?.url"
-            :src="data.image.url"
+            v-if="data?.image?.url"
+            :src="data?.image?.url"
             class="absolute top-0 left-0"
         />
         <TeaserTitle :title="data?.name" :subtitle="getSubtitle" :rarity="data?.rarity"/>
@@ -36,5 +33,5 @@ const getSubtitle = computed(() => {
                 rounded-corners="left"
             />
         </BadgesBadgeContainer>
-    </NuxtLink>
+    </TeaserTile>
 </template>
