@@ -24,12 +24,12 @@ function isActive(id: string): boolean {
 
 <template>
     <button
-        class="border-stripe text-nowrap"
+        class="border-stripe text-nowrap cursor-pointer text-lg font-[Modesto] min-w-[2rem] px-2"
         :class="[props.bgClass, 'text-default', isActive(editionId) ? 'active' : ''].join(' ')"
         @click="clicked"
     >
         {{props.text}}
-        <sup v-if="props.sup !== null">{{props.sup}}</sup>
+        <sup v-if="props.sup !== null" class="text-[1.25rem]">{{props.sup}}</sup>
     </button>
 </template>
 

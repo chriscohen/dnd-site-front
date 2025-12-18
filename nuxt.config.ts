@@ -14,6 +14,15 @@ export default defineNuxtConfig({
     },
     appConfig: {
         ui: {
+            commandPalette: {
+                slots: {
+                    content: 'absolute top-full left-0 bg-gray-950',
+                    input: 'text-lg',
+                    item: 'text-lg',
+                    label: 'hidden',
+                    root: 'relative'
+                }
+            },
             link: {
                 variants: {
                     disabled: {
@@ -29,7 +38,10 @@ export default defineNuxtConfig({
         }
     },
     compatibilityDate: '2025-07-15',
-    css: ['~/assets/css/default/styles.scss'],
+    css: [
+        '~/assets/css/main.css',
+        '~/assets/css/default/styles.scss'
+    ],
     devtools: { enabled: true },
     fonts: {
         defaults: {

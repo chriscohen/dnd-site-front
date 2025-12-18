@@ -231,7 +231,13 @@ export interface IReference {
     source: string
     slug: string
     image: IMedia
+}
 
+export interface ISearchResult {
+    id: string
+    name: string
+    slug: string
+    type: string
 }
 
 export interface ISavingThrow {

@@ -1,5 +1,6 @@
 ﻿<script setup lang="ts">
 import MainNavigation from "~/components/navigation/MainNavigation.vue";
+import DndSearch from "~/components/search/DndSearch.vue";
 
 useHead({
     bodyAttrs: { class: 'text-md md:text-lg' }
@@ -8,9 +9,10 @@ useHead({
 
 <template>
     <div id="outer">
-        <header class="flex justify-between bg-gray-950">
+        <header class="flex justify-between gap-8 items-center bg-gray-950 min-h-[3rem]">
             <slot name="header">
                 <MainNavigation/>
+                <DndSearch/>
                 <EditionSelector/>
             </slot>
         </header>

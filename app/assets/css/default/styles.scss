@@ -1,7 +1,4 @@
-﻿@use 'tailwindcss';
-@use '@nuxt/ui';
-
-@use 'colors';
+﻿@use 'colors';
 @use 'variables';
 @use 'fonts';
 
@@ -9,6 +6,7 @@
 @use 'lists';
 
 @theme {
+    --color-primary: #{colors.$red-500};
     --color-highlight: #{colors.$white-80};
 }
 
