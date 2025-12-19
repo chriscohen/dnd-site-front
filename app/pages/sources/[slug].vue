@@ -12,11 +12,9 @@ import BottomNavigation from "~/components/navigation/BottomNavigation.vue";
 const route = useRoute();
 const store = useSourcebookCache();
 const path = `http://localhost:8080/api/source/${route.params.slug}?mode=full`;
-await store.fetch(path);
+const item: ISourcebook = await store.get(path) as ISourcebook;
 
-const item: ComputedRef<ISourcebook> = computed(() => store.get(path));
-
-useHead({ title: item?.value.name });
+useHead({ title: item?.name });
 definePageMeta({ layout: false });
 </script>
 

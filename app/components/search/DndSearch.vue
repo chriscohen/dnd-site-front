@@ -30,10 +30,11 @@ function onFocus() {
 </script>
 
 <template>
-    <div ref="containerRef" class="relative w-full max-w-md">
+    <div ref="containerRef" class="relative w-full max-w-md my-2">
         <UInput
             variant="none"
-            class="w-full bg-gray-800 text-lg border-b-2 border-b-red-800 [&_input]:text-lg md:[&_input]:text-2xl font-light"
+            class="w-full bg-gray-800 text-lg border-b-2 border-b-red-800 [&_input]:text-lg md:[&_input]:text-2xl
+                font-light"
             :model-value="store.query"
             icon="i-lucide-search"
             placeholder="Search anything..."

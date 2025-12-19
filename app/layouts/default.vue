@@ -19,7 +19,7 @@ useHead({
         <slot name="pageTitle"/>
         <main class="h-screen max-h-screen overflow-hidden flex gap-8 overflow-y-scroll">
             <NuxtLoadingIndicator/>
-            <div class="page-content w-full">
+            <div class="page-content w-full h-full overflow-hidden pb-4">
                 <slot/>
             </div>
         </main>

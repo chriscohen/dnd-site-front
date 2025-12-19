@@ -1,25 +1,13 @@
 ﻿<script setup lang="ts">
 const props = defineProps<{
-    to?: string
+    item: any
 }>();
 </script>
 
 <template>
     <li
-        class="list-item flex items-center gap-4 font-bold py-1 pr-4 pl-2 m-0 hover:bg-highlight transition-colors
-            duration-100 ease-in-out"
+        class="flex hover:bg-gray-50 group cursor-pointer h-[3rem] items-center px-4 py-1 duration-100 ease-in-out"
     >
-        <NuxtLink v-if="to" :to="to" class="block">
-            <slot/>
-        </NuxtLink>
-        <template v-else><slot/></template>
+        <slot/>
     </li>
 </template>
-
-<style lang="scss">
-@use '~/assets/css/default/colors';
-
-li.list-item:hover > a {
-    color: colors.$black;
-}
-</style>

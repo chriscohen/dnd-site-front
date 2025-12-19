@@ -6,7 +6,7 @@ const props = defineProps<{
 
 <template>
     <section
-        class="teaser-grid grid w-full gap-4 grid-cols-[repeat(auto-fill,minmax(150px,1fr))]"
+        class="teaser-grid grid w-full gap-4 grid-cols-[repeat(auto-fill,minmax(150px,1fr))] h-full overflow-scroll"
         :class="props.class"
     >
         <slot/>

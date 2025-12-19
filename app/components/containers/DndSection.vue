@@ -6,7 +6,7 @@ const props = defineProps<{
 
 <template>
     <section
-        class="bg-black/50 rounded-xl p-2 md:p-4"
+        class="bg-black/50 rounded-xl p-4"
         :class="props.class"
     >
         <slot/>

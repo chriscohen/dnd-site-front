@@ -2,7 +2,6 @@
 import {API_URL} from "~/utils/utils";
 import {useCampaignSettingCache} from "~/stores/Store";
 import PageTitle from "~/components/labels/PageTitle.vue";
-import DndPageColumns from "~/components/containers/DndPageColumns.vue";
 import CampaignSettingList from "~/components/lists/campaign-settings/CampaignSettingList.vue";
 import CampaignSettingCard from "~/components/cards/CampaignSettingCard.vue";
 
@@ -30,13 +29,15 @@ async function handleSelect(item: ICampaignSetting) {
             <PageTitle title="Campaign Settings" back-to="/"/>
         </template>
 
-        <DndPageColumns class="grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
-            <CampaignSettingList :items="items" @select="handleSelect"/>
+        <div class="flex flex-col-reverse sm:flex-row mt-4 gap-4 overflow-hidden h-full">
+            <CampaignSettingList :items="items" class="" @select="handleSelect"/>
 
             <template v-if="itemSelected">
-                <CampaignSettingCard v-if="!store.isLoading" :item="selectedItem"/>
-                <CampaignSettingCard v-else/>
+                <div class="w-full md:w-initial max-w-xl">
+                    <CampaignSettingCard v-if="!store.isLoading" :item="selectedItem"/>
+                    <CampaignSettingCard v-else/>
+                </div>
             </template>
-        </DndPageColumns>
+        </div>
     </NuxtLayout>
 </template>

@@ -5,11 +5,9 @@ import {useSourcebookCache} from "~/stores/Store";
 import {definePageMeta} from "#imports";
 import TeaserGrid from "~/components/teasers/TeaserGrid.vue";
 
-const sourcePath = 'http://localhost:8080/api/sources?mode=teaser';
+const path = 'http://localhost:8080/api/sources?mode=teaser';
 const store = useSourcebookCache();
-await store.fetch(sourcePath);
-
-const items: ISourcebook[] = computed(() => store.get(sourcePath));
+const items: ISourcebook[] = await store.get(path) as ISourcebook[];
 
 useHead({ title: 'Sourcebooks' });
 definePageMeta({

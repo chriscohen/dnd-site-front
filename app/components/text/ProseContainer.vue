@@ -6,5 +6,9 @@ const props = defineProps<{
 </script>
 
 <template>
-    <div class="prose rounded-lg bg-black/50 text-lg lg:text-xl p-4 md:p-8" :class="props.class" v-html="prose"/>
+    <div
+        class="prose rounded-lg bg-black/50 text-lg lg:text-xl p-4 md:p-8 font-light"
+        :class="props.class"
+        v-html="prose"
+    />
 </template>
