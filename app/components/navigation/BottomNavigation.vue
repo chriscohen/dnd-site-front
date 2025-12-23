@@ -16,14 +16,16 @@ const props = defineProps<{
     >
         <ul class="flex flex-row justify-evenly text-4xl w-full">
             <li v-for="item in items" :key="item.name" class="w-32 block">
-                <ULink
-                    :to="'#' + item.anchor"
-                    size="2xl"
-                    class="block text-center pt-1"
-                    :disabled="item.disabled"
-                >
-                    <UIcon :name="'lucide:' + item.icon" :class="item.disabled ? 'text-gray-600' : ''"/>
-                </ULink>
+                <UTooltip :text="item.name" arrow :content="{side: 'top'}" :delay-duration="0">
+                    <ULink
+                        :to="'#' + item.anchor"
+                        size="2xl"
+                        class="block text-center pt-1"
+                        :disabled="item.disabled"
+                    >
+                        <UIcon :name="'lucide:' + item.icon" :class="item.disabled ? 'text-gray-600' : ''"/>
+                    </ULink>
+                </UTooltip>
             </li>
         </ul>
     </div>

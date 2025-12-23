@@ -5,7 +5,7 @@ const persistedStore = usePersistedStore();
 </script>
 
 <template>
-    <UFieldGroup class="hidden md:flex">
+    <UFieldGroup class="hidden xl:flex">
         <EditionSelectorButton
             v-for="edition in persistedStore.editions"
             :key="edition.id"
