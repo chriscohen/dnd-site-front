@@ -34,6 +34,11 @@ export default defineNuxtConfig({
                 slots: {
                     content: 'bg-yellow-100 px-4 py-2 rounded-lg text-gray-900 max-w-128'
                 }
+            },
+            tooltip: {
+                slots: {
+                    content: 'text-xl max-w-128 bg-yellow-100 px-4 py-2 rounded-lg'
+                }
             }
         }
     },
