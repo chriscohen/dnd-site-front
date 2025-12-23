@@ -1,5 +1,12 @@
 ﻿import {defineStore} from "pinia";
 import {ref, type Ref} from "vue";
+import type {LanguageApiResponse} from "~/classes/language";
+import type {SourceApiResponse} from "~/classes/sources/source";
+import type {SpellApiResponse} from "~/classes/spell";
+import type {CreatureApiResponse} from "~/classes/creatures/creature";
+import type {ItemApiResponse} from "~/classes/item";
+import type {CompanyApiResponse} from "~/classes/company";
+import type {CampaignSettingApiResponse} from "~/classes/campaignSetting";
 
 export function createCacheStore<T>(storeId: string) {
     return defineStore(storeId, () => {
@@ -73,12 +80,12 @@ export function createCacheStore<T>(storeId: string) {
     });
 }
 
-export const useCampaignSettingCache = createCacheStore('campaign-setting');
+export const useCampaignSettingCache = createCacheStore<CampaignSettingApiResponse>('campaign-setting');
 export const useCharacterClassCache = createCacheStore('character-class');
-export const useCompanyCache = createCacheStore('company');
-export const useItemCache = createCacheStore('item');
+export const useCompanyCache = createCacheStore<CompanyApiResponse>('company');
+export const useItemCache = createCacheStore<ItemApiResponse>('item');
 export const useLanguageCache = createCacheStore<LanguageApiResponse>('language');
 export const useMagicSchoolCache = createCacheStore('magic-school');
-export const useSourcebookCache = createCacheStore<SourcebookApiResponse>('sourcebook');
-export const useCreatureCache = createCacheStore<ISpecies>('creature');
+export const useSourcebookCache = createCacheStore<SourceApiResponse>('sourcebook');
+export const useCreatureCache = createCacheStore<CreatureApiResponse>('creature');
 export const useSpellCache = createCacheStore<SpellApiResponse>('spell');
