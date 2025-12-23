@@ -1,6 +1,4 @@
-﻿export const DEFAULT_ABILITY_SCORE: number = 10;
-export const API_URL: string = 'http://localhost:8080/api';
-export const CDN_URL: string = 'https://dnd001.s3.eu-west-2.amazonaws.com';
+﻿
 
 export const DATA_TYPES: Record<string, {
     name: string,
@@ -10,12 +8,17 @@ export const DATA_TYPES: Record<string, {
     campaignSetting: {
         name: 'Campaign Setting',
         plural: 'Campaign Settings',
-        path: '/campaign-settings'
+        path: '/campaign-settings/'
+    },
+    creature: {
+        name: 'Creature',
+        plural: 'Creatures',
+        path: '/creatures/'
     },
     source: {
         name: 'Sourcebook',
         plural: 'Sourcebooks',
-        path: '/sourcebooks'
+        path: '/sources/'
     }
 };
 
@@ -34,14 +37,6 @@ export function toOrdinal(input: string): string {
         default:
             return input + 'th'
     }
-}
-
-export function primaryEdition(item: ISourcebook | ISpell): undefined | ISourcebookEdition | ISpellEdition {
-    if (!item) {
-        return undefined;
-    }
-
-    return item.editions[0];
 }
 
 export function editionToClass(input: string): string {
