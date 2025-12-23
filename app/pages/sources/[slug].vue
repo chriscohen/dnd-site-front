@@ -2,17 +2,18 @@
 import GameEditionBadge from "~/components/badges/GameEditionBadge.vue";
 import PublicationTypeBadge from "~/components/badges/PublicationTypeBadge.vue";
 import SourcebookDetailsList from "~/components/lists/SourcebookDetailsList.vue";
-import MediaLarge from "~/components/media/MediaLarge.vue";
+import MediaApiResponse from "~/components/media/Media.vue";
 import ProductLinkButtonContainer from "~/components/containers/ProductLinkButtonContainer.vue";
 import PageTitle from "~/components/labels/PageTitle.vue";
 import SourcebookContents from "~/components/sourcebooks/SourcebookContents.vue";
 import ProseContainer from "~/components/text/ProseContainer.vue";
 import BottomNavigation from "~/components/navigation/BottomNavigation.vue";
+import SourcebookCredits from "~/components/sourcebooks/SourcebookCredits.vue";
 
 const route = useRoute();
 const store = useSourcebookCache();
 const path = `http://localhost:8080/api/source/${route.params.slug}?mode=full`;
-const item: ISourcebook = await store.get(path) as ISourcebook;
+const item: SourcebookApiResponse = await store.get(path) as SourcebookApiResponse;
 
 useHead({ title: item?.name });
 definePageMeta({ layout: false });
@@ -32,43 +33,36 @@ definePageMeta({ layout: false });
                     <PublicationTypeBadge :type="item?.publicationType as string" />
                 </template>
                 <template #subtitle>
-                    {{ item?.sourcebookTypes?.join(' • ') }}
+                    {{ item?.sourceType }}
                 </template>
             </PageTitle>
             <!-- /Heading -->
         </template>
 
-        <div class="overflow-y-scroll flex flex-col items-start sm:flex-row gap-4 mx-2 my-4 h-full">
-            <a id="overview"/>
-            <!-- Left: Cover Art -->
-            <MediaLarge :media="item.coverImage" :name="item.name"/>
-            <!-- /Left: Cover Art -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 items-start lg:grid-cols-3 gap-4 mx-2 my-4 h-full">
+            <div id="column-left">
+                <a id="overview"/>
+                <Media :media="item.coverImage" :name="item.name"/>
+                <SourcebookDetailsList :sourcebook="item" class="mt-4"/>
+                <ProductLinkButtonContainer
+                    v-if="item.productIds?.length > 1"
+                    :sourcebook="item"
+                />
+            </div>
 
-            <!-- Right Side -->
-            <div class="flex flex-col lg:flex-row gap-2 xl:gap-8 w-full">
-                <!-- Under Heading -->
-                <!-- Left of "Under Heading" -->
-                <div class="sourcebook-details">
-                    <SourcebookDetailsList
-                        :sourcebook="item"
-                    />
-                    <ProductLinkButtonContainer
-                        v-if="item.productIds?.length > 1"
-                        :sourcebook="item"
-                    />
-                </div>
-                <!-- Left of "Under Heading" -->
+            <div id="column-right" class="flex flex-col gap-4 w-full">
+                <!-- Right Side -->
+                <a id="description"/>
+                <ProseContainer v-if="item.description" :prose="item.description"/>
 
-                <!-- Right of "Under Heading -->
-                <section class="flex flex-col gap-4 max-w-192">
-                    <a id="description"/>
-                    <ProseContainer v-if="item.description" :prose="item.description"/>
+                <SourcebookCredits v-if="item?.editions?.[0]?.credits?.length" :edition="item?.editions?.[0]"/>
 
-                    <a id="contents"/>
-                    <SourcebookContents :contents="item.editions[0]?.contents"/>
-                </section>
-                <!-- Right of "Under Heading -->
-                <!-- /Under Heading -->
+                <a id="contents"/>
+                <SourcebookContents
+                    v-if="item?.editions?.[0]?.contents?.length"
+                    :contents="item.editions[0]?.contents"
+                />
+                <!-- /Right Side -->
             </div>
             <!-- /Right Side -->
         </div>
@@ -92,6 +86,12 @@ definePageMeta({ layout: false });
                         icon: 'list',
                         name: 'Contents',
                         disabled: !item.editions?.[0]?.contents?.length
+                    },
+                    {
+                        anchor: 'credits',
+                        icon: 'users',
+                        name: 'Credits',
+                        disabled: !item.editions?.[0]?.credits?.length
                     }
                 ]"
             />

@@ -1,11 +1,10 @@
 ﻿<script setup lang="ts">
-import {useSpeciesCache} from "~/stores/Store";
+import {useCreatureCache} from "~/stores/Store";
 import PageTitle from "~/components/labels/PageTitle.vue";
-import type {TableColumn} from "#ui/components/Table.vue";
 import SpeciesList from "~/components/lists/species/SpeciesList.vue";
 
-const path = API_URL + '/creatures?mode=teaser';
-const store = useSpeciesCache();
+const path = API_URL + '/creatures';
+const store = useCreatureCache();
 const items: ISpecies[] = await store.get(path) as ISpecies[];
 
 useHead({ title: 'Species' });

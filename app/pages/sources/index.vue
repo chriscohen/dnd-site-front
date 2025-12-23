@@ -7,7 +7,7 @@ import TeaserGrid from "~/components/teasers/TeaserGrid.vue";
 
 const path = 'http://localhost:8080/api/sources?mode=teaser';
 const store = useSourcebookCache();
-const items: ISourcebook[] = await store.get(path) as ISourcebook[];
+const items: SourcebookApiResponse[] = await store.get(path) as SourcebookApiResponse[];
 
 useHead({ title: 'Sourcebooks' });
 definePageMeta({

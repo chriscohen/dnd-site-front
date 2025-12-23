@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const props = defineProps({
-    media: { type: Object as () => IMedia, default: null },
+    media: { type: Object as () => MediaApiResponse, default: null },
     name: { type: String, default: null },
     class: { type: String, default: '' },
 });
@@ -10,7 +10,7 @@ const props = defineProps({
     <img
         :src="media?.url"
         :alt="name + ' cover image'"
-        class="media-large block w-full sm:w-1/3"
+        class="media-large block w-full"
     >
 </template>
 

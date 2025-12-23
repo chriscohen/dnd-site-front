@@ -1,28 +1,27 @@
 ﻿<script setup lang="ts">
 import {useCompanyCache} from "~/stores/Store";
 import PageTitle from "~/components/labels/PageTitle.vue";
-import DndSection from "~/components/containers/DndSection.vue";
 import ProductList from "~/components/lists/ProductList.vue";
 
 const route = useRoute();
 const store = useCompanyCache();
 const path = API_URL + '/company/' + route.params.slug + '?mode=full';
-await store.fetch(path);
+const item: CompanyApiResponse = await store.get(path) as CompanyApiResponse;
 
-const item: ComputedRef<ICompany> = computed(() => store.get(path));
-
-useHead({ title: item?.value.name });
+useHead({ title: item?.name ?? 'Loading' });
 definePageMeta({ layout: false });
 </script>
 
 <template>
-    <NuxtLayout v-if="item" name="default">
+    <NuxtLayout name="default">
         <template #pageTitle>
             <PageTitle :title="item?.name" back-to="/companies"/>
         </template>
 
-        <NuxtImg v-if="item?.logo" :src="item.logo.url" :alt="item?.name + 'Logo'"/>
+        <div v-if="item" class="mx-2 md:mx-4 mt-4 flex flex-col items-center gap-4 flex flex-col h-full">
+            <NuxtImg v-if="item?.logo" :src="item.logo.url" :alt="item?.name + 'Logo'"/>
 
-        <ProductList :products="item?.products"/>
+            <ProductList :products="item?.products" class="w-full min-h-0 mb-4"/>
+        </div>
     </NuxtLayout>
 </template>

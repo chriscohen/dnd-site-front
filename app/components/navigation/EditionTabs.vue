@@ -4,9 +4,9 @@ import type {TabsItem} from "#ui/components/Tabs.vue";
 defineEmits(['edition-selected']);
 
 const props = defineProps<{
-    active?: ISpellEdition
+    active?: SpellEditionApiResponse
     class?: string
-    editions: ISpellEdition[],
+    editions: SpellEditionApiResponse[],
     tabData: TabsItem[]
 }>();
 

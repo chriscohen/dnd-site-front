@@ -7,18 +7,18 @@ import CampaignSettingCard from "~/components/cards/CampaignSettingCard.vue";
 
 const path = API_URL + '/campaign-settings?mode=teaser';
 const store = useCampaignSettingCache();
-const items: ICampaignSetting[] = await store.get(path) as ICampaignSetting[];
+const items: CampaignSetting[] = await store.get(path) as CampaignSetting[];
 
 useHead({ title: 'Campaign Settings' });
 definePageMeta({ layout: false })
 
-const selectedItem: Ref<ICampaignSetting | undefined> = ref(undefined);
+const selectedItem: Ref<CampaignSetting | undefined> = ref(undefined);
 const itemSelected: Ref<boolean> = ref(false);
 
-async function handleSelect(item: ICampaignSetting) {
+async function handleSelect(item: CampaignSetting) {
     itemSelected.value = true;
     const itemPath = API_URL + '/campaign-setting/' + item.slug + '?mode=full';
-    selectedItem.value = await store.get(itemPath) as ICampaignSetting;
+    selectedItem.value = await store.get(itemPath) as CampaignSetting;
 }
 
 </script>

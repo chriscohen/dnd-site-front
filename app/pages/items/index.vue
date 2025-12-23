@@ -10,10 +10,10 @@ const store = useItemCache();
 const path = API_URL + '/items?mode=teaser';
 await store.fetch(path);
 
-const items: ComputedRef<IItem[]> = computed(() => store.get(path));
+const items: ComputedRef<ItemApiResponse[]> = computed(() => store.get(path));
 const runtimeConfig = useRuntimeConfig();
 
-const columns: TableColumn<IItem>[] = [
+const columns: TableColumn<ItemApiResponse>[] = [
     {
         accessorKey: 'slug',
         name: 'slug'
@@ -58,7 +58,7 @@ const columnVisibility = ref({ slug: false });
                     </NuxtLink>
                 </template>
                 <template #name-cell="{ row }">
-                    <NuxtLink :to="'/items/' + row.getValue('slug')" class="link">
+                    <NuxtLink :to="'/items/' + row.getValue('slug')" class="link font[mrs-eaves]">
                         {{ row.getValue('name') }}
                     </NuxtLink>
                 </template>
@@ -82,11 +82,3 @@ const columnVisibility = ref({ slug: false });
         </div>
     </div>
 </template>
-
-<style scoped lang="scss">
-@use '~/assets/css/default/fonts';
-
-.link {
-    @include fonts.mrs-eaves;
-}
-</style>

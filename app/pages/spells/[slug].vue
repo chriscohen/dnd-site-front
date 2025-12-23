@@ -11,7 +11,7 @@ const route = useRoute();
 const store = useSpellCache();
 const path = API_URL + '/spell/' + route.params.slug + '?mode=full';
 await store.fetch(path);
-const item: ComputedRef<ISpell> = computed(() => store.get(path));
+const item: ComputedRef<SpellApiResponse> = computed(() => store.get(path));
 
 useHead({ title: item?.value?.name ?? 'Loading' });
 definePageMeta({ layout: false });
@@ -21,43 +21,43 @@ const tabData = ref<TabsItem[]>([
         id: "1e",
         class: "edition-1",
         label: "1st",
-        disabled: !item?.value?.editions?.find((item: ISpellEdition) => item.gameEdition === '1e'),
+        disabled: !item?.value?.editions?.find((item: SpellEditionApiResponse) => item.gameEdition === '1e'),
     },
     {
         id: "2e",
         class: "edition-2",
         label: "2nd",
-        disabled: !item?.value?.editions?.find((item: ISpellEdition) => item.gameEdition === '2e'),
+        disabled: !item?.value?.editions?.find((item: SpellEditionApiResponse) => item.gameEdition === '2e'),
     },
     {
         id: "3e",
         class: "edition-3",
         label: "3rd",
-        disabled: !item?.value?.editions?.find((item: ISpellEdition) => item.gameEdition === '3e'),
+        disabled: !item?.value?.editions?.find((item: SpellEditionApiResponse) => item.gameEdition === '3e'),
     },
     {
         id: "3.5",
         class: "edition-3",
         label: "3.5",
-        disabled: !item?.value?.editions?.find((item: ISpellEdition) => item.gameEdition === '3.5'),
+        disabled: !item?.value?.editions?.find((item: SpellEditionApiResponse) => item.gameEdition === '3.5'),
     },
     {
         id: "4e",
         class: "edition-4",
         label: "4th",
-        disabled: !item?.value?.editions?.find((item: ISpellEdition) => item.gameEdition === '4e'),
+        disabled: !item?.value?.editions?.find((item: SpellEditionApiResponse) => item.gameEdition === '4e'),
     },
     {
         id: "5e (2014)",
         class: "edition-5",
         label: "5th",
-        disabled: !item?.value?.editions?.find((item: ISpellEdition) => item.gameEdition === '5e (2014)'),
+        disabled: !item?.value?.editions?.find((item: SpellEditionApiResponse) => item.gameEdition === '5e (2014)'),
     },
     {
         id: "5e (2024)",
         class: "edition-2024",
         label: "2024",
-        disabled: !item?.value?.editions?.find((item: ISpellEdition) => item.gameEdition === '5e (2024)'),
+        disabled: !item?.value?.editions?.find((item: SpellEditionApiResponse) => item.gameEdition === '5e (2024)'),
     }
 ]);
 </script>

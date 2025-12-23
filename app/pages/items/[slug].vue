@@ -1,5 +1,5 @@
 ﻿<script setup lang="ts">
-import MediaLarge from "~/components/media/MediaLarge.vue";
+import Media from "~/components/media/Media.vue";
 
 const route = useRoute();
 const store = useItemStore();

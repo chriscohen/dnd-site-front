@@ -3,17 +3,18 @@ import SourcebookEditionsTabs from "~/components/sourcebooks/SourcebookEditionsT
 import SourcebookEditionTab from "~/components/sourcebooks/SourcebookEditionTab.vue";
 
 const props = defineProps<{
-    sourcebook: ISourcebook;
+    class?: string
+    sourcebook: SourcebookApiResponse;
 }>();
 </script>
 
 <template>
-    <div class="sourcebook-details-list">
+    <div class="sourcebook-details-list w-full" :class="props.class">
         <!-- Editions -->
         <SourcebookEditionsTabs v-if="props.sourcebook?.editions?.length > 1" :sourcebook="props.sourcebook"/>
         <SourcebookEditionTab
             v-else-if="sourcebook?.editions?.length == 1"
-            :edition="(sourcebook as ISourcebook)?.editions[0] as ISourcebookEdition"
+            :edition="(sourcebook as SourcebookApiResponse)?.editions[0] as SourcebookEditionApiResponse"
             :source="sourcebook"
         />
         <!-- /Editions -->
