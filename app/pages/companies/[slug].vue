@@ -2,6 +2,7 @@
 import {useCompanyCache} from "~/stores/Store";
 import PageTitle from "~/components/labels/PageTitle.vue";
 import ProductList from "~/components/lists/ProductList.vue";
+import type {CompanyApiResponse} from "~/classes/company";
 
 const route = useRoute();
 const store = useCompanyCache();
@@ -18,7 +19,7 @@ definePageMeta({ layout: false });
             <PageTitle :title="item?.name" back-to="/companies"/>
         </template>
 
-        <div v-if="item" class="mx-2 md:mx-4 mt-4 flex flex-col items-center gap-4 flex flex-col h-full">
+        <div v-if="item" class="mx-2 md:mx-4 mt-4 flex flex-col items-center gap-4 h-full">
             <NuxtImg v-if="item?.logo" :src="item.logo.url" :alt="item?.name + 'Logo'"/>
 
             <ProductList :products="item?.products" class="w-full min-h-0 mb-4"/>

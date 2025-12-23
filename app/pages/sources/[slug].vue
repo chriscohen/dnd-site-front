@@ -2,18 +2,19 @@
 import GameEditionBadge from "~/components/badges/GameEditionBadge.vue";
 import PublicationTypeBadge from "~/components/badges/PublicationTypeBadge.vue";
 import SourcebookDetailsList from "~/components/lists/SourcebookDetailsList.vue";
-import MediaApiResponse from "~/components/media/Media.vue";
 import ProductLinkButtonContainer from "~/components/containers/ProductLinkButtonContainer.vue";
 import PageTitle from "~/components/labels/PageTitle.vue";
 import SourcebookContents from "~/components/sourcebooks/SourcebookContents.vue";
 import ProseContainer from "~/components/text/ProseContainer.vue";
 import BottomNavigation from "~/components/navigation/BottomNavigation.vue";
 import SourcebookCredits from "~/components/sourcebooks/SourcebookCredits.vue";
+import SourceApiResponse from "~/classes/sources/sourceApiResponse";
 
 const route = useRoute();
 const store = useSourcebookCache();
 const path = `http://localhost:8080/api/source/${route.params.slug}?mode=full`;
-const item: SourcebookApiResponse = await store.get(path) as SourcebookApiResponse;
+
+const item: SourceApiResponse = await store.get(path) as SourceApiResponse;
 
 useHead({ title: item?.name });
 definePageMeta({ layout: false });

@@ -6,6 +6,7 @@ import PageTitle from "~/components/labels/PageTitle.vue";
 import DndSection from "~/components/containers/DndSection.vue";
 import BottomNavigationEditions from "~/components/navigation/BottomNavigationEditions.vue";
 import type {TabsItem} from "#ui/components/Tabs.vue";
+import type {SpellApiResponse, SpellEditionApiResponse} from "~/classes/spell";
 
 const route = useRoute();
 const store = useSpellCache();

@@ -1,10 +1,11 @@
 ﻿<script setup lang="ts">
-import Media from "~/components/media/Media.vue";
+import {useItemCache} from "~/stores/Store";
+import type {ItemApiResponse} from "~/classes/item";
 
 const route = useRoute();
-const store = useItemStore();
-
-const item = await store.getBySlug(route.params.slug as string, RenderMode.FULL);
+const store = useItemCache();
+const path = API_URL + '/item/' + route.params.slug;
+const item: ItemApiResponse = await store.get(path) as ItemApiResponse;
 </script>
 
 <template>
