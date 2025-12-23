@@ -1,9 +1,9 @@
 ﻿import { useDebounceFn } from '@vueuse/core';
-import type {ISearchResult} from "~/utils";
+import type {SearchResult} from "~/utils/types";
 
 export const useSearchStore = defineStore('search', () => {
     const query: Ref<string> = ref('');
-    const results: Ref<ISearchResult[]> = ref<ISearchResult[]>([]);
+    const results: Ref<SearchResult[]> = ref<SearchResult[]>([]);
     const isLoading: Ref<boolean> = ref(false);
 
     async function performSearch() {
@@ -19,7 +19,7 @@ export const useSearchStore = defineStore('search', () => {
             const { data } = await useFetch(API_URL + '/search', {
                 params: { q: query.value }
             });
-            results.value = data.value as ISearchResult[];
+            results.value = data.value as SearchResult[];
         } finally {
             isLoading.value = false;
         }

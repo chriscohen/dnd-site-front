@@ -10,6 +10,7 @@ export function createCacheStore<T>(storeId: string) {
         const isLoading = computed(() => pendingUrls.value.size > 0);
 
         async function get(key: string): Promise<T | T[] | undefined> {
+            console.log(key);
             // If we have it cached, return it immediately.
             if (has(key)) return items.value[key];
 
@@ -19,7 +20,7 @@ export function createCacheStore<T>(storeId: string) {
             pendingUrls.value.add(key);
 
             try {
-                const { data, error } = await useFetch<T>(key);
+                const { data, error } = await useFetch<PaginatedApiResponse<T>>(key);
 
                 // Handle error or empty response.
                 if (error.value || !data.value) {
@@ -28,7 +29,7 @@ export function createCacheStore<T>(storeId: string) {
                 }
 
                 // Success - store and return.
-                items.value[key] = data.value as T;
+                items.value[key] = data.value.data as T;
                 return items.value[key];
             } finally {
                 // Make sure to always remove the URL from the pending list.
@@ -76,8 +77,8 @@ export const useCampaignSettingCache = createCacheStore('campaign-setting');
 export const useCharacterClassCache = createCacheStore('character-class');
 export const useCompanyCache = createCacheStore('company');
 export const useItemCache = createCacheStore('item');
-export const useLanguageCache = createCacheStore<ILanguage>('language');
+export const useLanguageCache = createCacheStore<LanguageApiResponse>('language');
 export const useMagicSchoolCache = createCacheStore('magic-school');
-export const useSourcebookCache = createCacheStore<ISourcebook>('sourcebook');
-export const useSpeciesCache = createCacheStore<ISpecies>('species');
-export const useSpellCache = createCacheStore<ISpell>('spell');
+export const useSourcebookCache = createCacheStore<SourcebookApiResponse>('sourcebook');
+export const useCreatureCache = createCacheStore<ISpecies>('creature');
+export const useSpellCache = createCacheStore<SpellApiResponse>('spell');
