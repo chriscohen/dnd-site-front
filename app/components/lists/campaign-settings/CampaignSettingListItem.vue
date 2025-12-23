@@ -2,7 +2,7 @@
 import DndListItem from "~/components/lists/DndListItem.vue";
 
 const props = defineProps<{
-    campaignSetting: ICampaignSetting
+    campaignSetting: CampaignSetting
 }>();
 </script>
 

@@ -4,7 +4,7 @@ import PopoverContentBase from "~/components/popovers/PopoverContentBase.vue";
 const props = defineProps<{
     classes?: string
     size: string,
-    school?: IMagicSchool
+    school?: MagicSchoolApiResponse
 }>();
 
 </script>

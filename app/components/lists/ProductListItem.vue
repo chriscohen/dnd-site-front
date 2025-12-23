@@ -2,14 +2,17 @@
 import EditionStrip from "~/components/strips/EditionStrip.vue";
 
 const props = defineProps<{
-    product: ISourcebook
+    class?: string
+    product: SourcebookApiResponse
 }>();
 </script>
 
 <template>
     <ULink
         :to="'/sources/' + product.slug"
-        class="flex flex-row gap-4 items-center hover:bg-gray-800 transition-colors duration-500 ease-in-out p-2"
+        class="flex flex-row gap-4 items-center hover:bg-highlight hover:text-gray-900 transition-colors duration-200
+            ease-in-out p-2"
+        :class="props.class"
     >
         <EditionStrip vertical :edition="product.gameEdition"/>
         <NuxtImg

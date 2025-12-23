@@ -5,7 +5,7 @@ import DndHeading from "~/components/headings/DndHeading.vue";
 
 const props = defineProps<{
     class?: string
-    item?: ICampaignSetting
+    item?: CampaignSetting
 }>();
 </script>
 

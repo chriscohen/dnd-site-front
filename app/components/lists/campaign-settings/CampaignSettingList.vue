@@ -4,7 +4,7 @@ import DndListItem from "~/components/lists/DndListItem.vue";
 
 const props = defineProps<{
     class?: string
-    items?: ICampaignSetting[]
+    items?: CampaignSetting[]
 }>();
 
 const emit = defineEmits(['select']);

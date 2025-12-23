@@ -6,8 +6,8 @@ import SpellComponentsLabel from "~/components/labels/SpellComponentsLabel.vue";
 import HorizontalDivider from "~/components/dividers/HorizontalDivider.vue";
 
 const props = defineProps<{
-    spell?: ISpell
-    edition?: ISpellEdition
+    spell?: SpellApiResponse
+    edition?: SpellEditionApiResponse
 }>();
 
 const editionsWithSavingThrow = [
@@ -20,7 +20,7 @@ const editionsWithSavingThrow = [
 <template>
     <div>
         <div v-if="edition" class="spellbook-upper flex flex-col-reverse sm:flex-row gap-4">
-            <div class="spell-attributes">
+            <div class="spell-attributes font[mrs-eaves]">
                 <span>Components</span>
                 <div class="flex gap-2">
                     <SpellComponentsLabel v-if="edition.spellComponents" :components="edition.spellComponents"/>
@@ -80,7 +80,6 @@ const editionsWithSavingThrow = [
 }
 
 .spell-attributes {
-    @include fonts.mrs-eaves;
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0 2rem;

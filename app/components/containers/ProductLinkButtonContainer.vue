@@ -2,7 +2,7 @@
 import ProductLinkButton from "~/components/buttons/ProductLinkButton.vue";
 
 const props = defineProps({
-    sourcebook: { type: Object as () => ISourcebook, default: null },
+    sourcebook: { type: Object as () => SourcebookApiResponse, default: null },
 });
 </script>
 

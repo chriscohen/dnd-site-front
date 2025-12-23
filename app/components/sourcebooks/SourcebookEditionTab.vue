@@ -4,8 +4,8 @@ import {format, parseISO} from "date-fns";
 import SourceFormatLabel from "~/components/labels/SourceFormatLabel.vue";
 
 const props = defineProps<{
-    edition: ISourcebookEdition
-    source: ISourcebook
+    edition: SourcebookEditionApiResponse
+    source: SourcebookApiResponse
 }>();
 
 let day: string, month: string, year: string;

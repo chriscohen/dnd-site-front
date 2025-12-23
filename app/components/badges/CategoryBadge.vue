@@ -1,7 +1,7 @@
 ﻿<script setup lang="ts">
 
 const props = defineProps<{
-    category: ICategory
+    category: CategoryApiResponse
     color?: string
 }>();
 </script>

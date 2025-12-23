@@ -1,7 +1,7 @@
 ﻿<script setup lang="ts">
 const props = defineProps<{
-    spell?: ISpell
-    edition?: ISpellEdition
+    spell?: SpellApiResponse
+    edition?: SpellEditionApiResponse
 }>();
 </script>
 

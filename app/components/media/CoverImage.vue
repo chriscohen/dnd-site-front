@@ -1,6 +1,6 @@
 ﻿<script lang="ts" setup>
 const props = defineProps<{
-    sourcebook?: ISourcebook
+    sourcebook?: SourcebookApiResponse
 }>();
 </script>
 

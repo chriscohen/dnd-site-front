@@ -1,7 +1,7 @@
 ﻿<script setup lang="ts">
 
 const props = defineProps({
-    productId: { type: Object as () => IProductId, required: true },
+    productId: { type: Object as () => ProductIdApiResponse, required: true },
 });
 
 </script>

@@ -3,7 +3,7 @@ import type {TabsItem} from "#ui/components/Tabs.vue";
 import SourcebookEditionTab from "~/components/sourcebooks/SourcebookEditionTab.vue";
 
 const props = defineProps({
-    sourcebook: { type: Object as () => ISourcebook, default: null },
+    sourcebook: { type: Object as () => SourcebookApiResponse, default: null },
 });
 
 const items = props.sourcebook?.editions?.map((edition) => {

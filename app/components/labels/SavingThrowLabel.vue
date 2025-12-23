@@ -1,6 +1,6 @@
 ﻿<script setup lang="ts">
 const props = defineProps<{
-    edition?: ISpellEdition
+    edition?: SpellEditionApiResponse
 }>();
 </script>
 

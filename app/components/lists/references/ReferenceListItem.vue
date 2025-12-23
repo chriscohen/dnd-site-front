@@ -2,7 +2,7 @@
 import {formatPages} from "#imports";
 
 const props = defineProps<{
-    reference: IReference
+    reference: ReferenceApiResponse
 }>();
 </script>
 

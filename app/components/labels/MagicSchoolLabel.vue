@@ -3,7 +3,7 @@ import PopoverContentBase from "~/components/popovers/PopoverContentBase.vue";
 
 const props = defineProps<{
     link?: boolean
-    school?: IMagicSchool
+    school?: MagicSchoolApiResponse
 }>();
 </script>
 

@@ -4,7 +4,7 @@ import TeaserTitle from "~/components/teasers/TeaserTitle.vue";
 import TeaserTile from "~/components/teasers/TeaserTile.vue";
 
 const props = defineProps<{
-    data?: ISourcebook
+    data?: SourcebookApiResponse
 }>();
 </script>
 
