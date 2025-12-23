@@ -65,13 +65,13 @@ const menuOpen: Ref<boolean> = ref<boolean>(false);
 </script>
 
 <template>
-    <nav role="navigation" class="relative flex space-between">
+    <nav role="navigation" class="relative flex space-between overflow-hidden">
         <!-- Main navigation, full width -->
-        <ul id="main-navigation" class="navigation-menu text-3xl hidden lg:flex">
+        <ul id="main-navigation" class="font-eaves pt-4 mb-4 text-3xl hidden lg:flex">
             <li
                 v-for="item in routeData"
                 :key="item.name"
-                class="group cursor-pointer hover:bg-slate-600 hover:text-gray-50 transition-bg-color duration-500 ease-in-out"
+                class="group cursor-pointer hover:bg-highlight hover:text-gray-900 transition-bg-color duration-500 ease-in-out"
             >
                 <NuxtLink
                     v-if="!item.children"
@@ -85,7 +85,10 @@ const menuOpen: Ref<boolean> = ref<boolean>(false);
                 <template v-else-if="item.children">
                     <span class="px-4 py-2">{{ item.name }}</span>
 
-                    <ul class="absolute min-w-64 bg-slate-800 transition-colors duration-500 ease-in-out">
+                    <ul
+                        class="absolute min-w-64 bg-slate-800 transition-colors duration-500 ease-in-out hidden
+                            group-hover:block group-hover:text-white"
+                    >
                         <li
                             v-for="inner in item.children"
                             :key="inner.name"
@@ -149,19 +152,9 @@ const menuOpen: Ref<boolean> = ref<boolean>(false);
 .navigation-menu {
     color: colors.$gray-400;
 
-    padding-top: 1rem;
-    margin-bottom: 1rem;
-
-    @include fonts.mrs-eaves;
-
     > li {
 
         > ul {
-            position: absolute;
-            @include mixins.lightShadow;
-
-            opacity: 0;
-            visibility: hidden;
 
             transition: opacity variables.$default-delay ease-in-out;
         }

@@ -32,7 +32,6 @@ $height: 17rem;
 }
 
 .teaser-title {
-    @include fonts.modesto;
     position: absolute;
     bottom: 0;
     left: 0;
@@ -52,7 +51,6 @@ $height: 17rem;
         display: block;
         font-size: 1.2rem;
         text-align: center;
-        @include fonts.mrs-eaves;
         margin-top: -0.5rem;
     }
     .edition-strip {

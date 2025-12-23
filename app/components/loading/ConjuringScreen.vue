@@ -1,12 +1,13 @@
 ﻿<script setup lang="ts">
 
+import DndHeading from "~/components/headings/DndHeading.vue";
 </script>
 
 <template>
     <div class="conjuring-wrapper">
         <aside class="conjuring-container">
             <img :src="'/images/rose.svg'" alt="Loading indicator">
-            <h1>Conjuring…</h1>
+            <DndHeading size="1">Conjuring…</DndHeading>
         </aside>
     </div>
 </template>
@@ -27,7 +28,6 @@
     position: relative;
 
     > h1 {
-        @include fonts.mrs-eaves;
         position: absolute;
         top: 3rem;
         font-size: 8rem;

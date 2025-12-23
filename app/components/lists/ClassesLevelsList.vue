@@ -5,7 +5,7 @@ const props = defineProps<{
 </script>
 
 <template>
-    <aside v-if="data" class="classes-levels-list">
+    <aside v-if="data" class="classes-levels-list font[mrs-eaves]">
         <template v-for="item in props.data" :key="item.id">
             <span>
                 <NuxtLink :to="'/' + (item.type == 'feat' ? 'feats/' : 'classes/') + item.slug" class="link">
@@ -26,7 +26,6 @@ const props = defineProps<{
     border-radius: 0.5rem;
     display: grid;
     font-size: 125%;
-    @include fonts.mrs-eaves;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     padding: 0.5rem 1rem;
 

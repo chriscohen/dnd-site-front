@@ -7,7 +7,7 @@ const props = defineProps<{
 
 <template>
     <div
-        class="prose rounded-lg bg-black/50 text-lg lg:text-xl p-4 md:p-8 font-light"
+        class="prose rounded-lg bg-black/50 text-lg lg:text-xl px-4 py-2 md:px-8 md:py-4 font-light"
         :class="props.class"
         v-html="prose"
     />

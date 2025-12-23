@@ -1,6 +1,7 @@
 ﻿<script setup lang="ts">
 import MainNavigation from "~/components/navigation/MainNavigation.vue";
 import DndSearch from "~/components/search/DndSearch.vue";
+import EditionSelector from "~/components/EditionSelector.vue";
 
 useHead({
     bodyAttrs: { class: 'text-md md:text-lg' }
@@ -8,8 +9,8 @@ useHead({
 </script>
 
 <template>
-    <div id="outer">
-        <header class="flex justify-between gap-8 items-center bg-gray-950 min-h-[3rem]">
+    <div id="outer" class="flex flex-col">
+        <header class="bg-debug-red flex justify-between gap-8 items-center bg-gray-950 min-h-[3rem]">
             <slot name="header">
                 <MainNavigation/>
                 <DndSearch/>
@@ -17,9 +18,9 @@ useHead({
             </slot>
         </header>
         <slot name="pageTitle"/>
-        <main class="h-screen max-h-screen overflow-hidden flex gap-8 overflow-y-scroll">
+        <main class="min-h-0 flex flex-col">
             <NuxtLoadingIndicator/>
-            <div class="page-content w-full h-full overflow-hidden pb-4">
+            <div class="page-content overflow-hidden mb-4">
                 <slot/>
             </div>
         </main>

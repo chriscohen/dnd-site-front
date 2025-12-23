@@ -1,5 +1,6 @@
 ﻿<script setup lang="ts">
 import type {IBoxedSetItem} from "~/utils";
+import DndHeading from "~/components/headings/DndHeading.vue";
 
 const props = defineProps<{
     items: IBoxedSetItem[]
@@ -8,7 +9,7 @@ const props = defineProps<{
 
 <template>
     <aside class="in-the-box">
-        <h3>In the Box</h3>
+        <DndHeading size="3">In the Box</DndHeading>
         <dl>
             <template v-for="item in items" :key="item.id">
                 <dd>{{ item.quantity }}x {{ item.name }}</dd>
@@ -30,7 +31,6 @@ const props = defineProps<{
 
     > h3 {
         text-align: center;
-        @include fonts.mrs-eaves;
     }
 
     dd {

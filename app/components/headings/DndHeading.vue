@@ -1,18 +1,21 @@
 ﻿<script setup lang="ts">
 const props = defineProps<{
-    borderColor?: string
+    underlineColor?: string
     class?: string,
-    size?: string
+    loading?: boolean
+    size?: string,
+    underline?: boolean
 }>();
 
-const divClasses = 'border-b';
+const divClasses = props.underline ? 'border-b' : '';
+
 const divVariableClasses = [
-    props.borderColor ? 'border-' + props.borderColor : 'border-gray-400'
-];
-const staticClasses = 'font-[mrs-eaves] uppercase text-3xl';
+    props.class,
+    props.underlineColor ? 'border-' + props.underlineColor : 'border-gray-400'
+].join(' ');
+const staticClasses = 'font-eaves';
 const variableClasses = [
-    staticClasses,
-    props.class
+    staticClasses
 ].join(' ');
 const headingSize = props.size ?? '1';
 </script>
@@ -20,37 +23,55 @@ const headingSize = props.size ?? '1';
 <template>
     <div v-if="headingSize === '1'" :class="divVariableClasses + ' ' + divClasses">
         <h1 :class="variableClasses">
-            <slot/>
+            <template v-if="loading">
+                <USkeleton class="h-[1rem] w-full"/>
+            </template>
+            <template v-else><slot/></template>
         </h1>
         <slot name="subtitle"/>
     </div>
     <div v-else-if="headingSize === '2'" :class="divVariableClasses + ' ' + divClasses">
-        <h2 :class="variableClasses">
-            <slot/>
+        <h2 :class="variableClasses" class="text-4xl">
+            <template v-if="loading">
+                <USkeleton class="h-[1rem] w-full"/>
+            </template>
+            <template v-else><slot/></template>
         </h2>
         <slot name="subtitle"/>
     </div>
     <div v-else-if="headingSize === '3'" :class="divVariableClasses + ' ' + divClasses">
-        <h3 :class="variableClasses">
-            <slot/>
+        <h3 :class="variableClasses" class="text-3xl">
+            <template v-if="loading">
+                <USkeleton class="h-[1rem] w-full"/>
+            </template>
+            <template v-else><slot/></template>
         </h3>
         <slot name="subtitle"/>
     </div>
     <div v-else-if="headingSize === '4'" :class="divVariableClasses + ' ' + divClasses">
-        <h4 :class="variableClasses">
-            <slot/>
+        <h4 :class="variableClasses" class="text-2xl">
+            <template v-if="loading">
+                <USkeleton class="h-[1rem] w-full"/>
+            </template>
+            <template v-else><slot/></template>
         </h4>
         <slot name="subtitle"/>
     </div>
     <div v-else-if="headingSize === '5'" :class="divVariableClasses + ' ' + divClasses">
-        <h5 :class="variableClasses">
-            <slot/>
+        <h5 :class="variableClasses" class="text-xl">
+            <template v-if="loading">
+                <USkeleton class="h-[1rem] w-full"/>
+            </template>
+            <template v-else><slot/></template>
         </h5>
         <slot name="subtitle"/>
     </div>
     <div v-else-if="headingSize === '6'" :class="divVariableClasses + ' ' + divClasses">
-        <h6 :class="variableClasses">
-            <slot/>
+        <h6 :class="variableClasses" class="text-lg">
+            <template v-if="loading">
+                <USkeleton class="h-[1rem] w-full"/>
+            </template>
+            <template v-else><slot/></template>
         </h6>
     </div>
 </template>

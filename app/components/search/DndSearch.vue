@@ -45,17 +45,18 @@ function onFocus() {
         />
 
         <ul
-            v-if="showResults && store.results.length > 0"
-            class="absolute bg-gray-950 block top-full left-0 w-full mt-2 max-h-[75dvh] overflow-y-scroll shadow-md/50"
+            v-if="showResults && store.results?.length > 0"
+            class="absolute bg-gray-950 block top-full left-0 w-full mt-2 max-h-[75dvh] overflow-y-scroll shadow-md/50
+                z-75"
         >
             <li v-for="item in store.results" :key="item.id">
                 <a
-                    href="#"
-                    class="block text-left px-4 py-2 hover:bg-gray-50 hover:text-gray-800 transition-colors duration-200
-                        ease-in-out"
+                    :href="DATA_TYPES[item.type]?.path + item.slug"
+                    class="group block text-left px-4 py-2 hover:bg-gray-50 hover:text-gray-800 transition-colors
+                        duration-200 ease-in-out"
                 >
                     <span class="block text-xl">{{ item.name}}</span>
-                    <span class="block font-[mrs-eaves] uppercase text-sm font-normal text-gray-300">
+                    <span class="block font-eaves text-md font-normal text-gray-400 group-hover:text-gray-800 -mt-2">
                         {{ DATA_TYPES[item.type]?.name }}
                     </span>
                 </a>

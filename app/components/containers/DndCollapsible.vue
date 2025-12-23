@@ -14,7 +14,7 @@ const open: Ref<boolean> = ref(props.startOpen ?? false);
         class="rounded-lg bg-black/50 text-lg px-4 py-2"
         :class="props?.class"
     >
-        <h2 class="font-[mrs-eaves] text-4xl uppercase border-b-2 border-red-800 flex justify-between cursor-pointer">
+        <h2 class="font-eaves text-4xl border-b-2 border-red-800 flex justify-between cursor-pointer">
             {{ title }}
             <UButton
                 leading-icon="i-lucide-chevron-down"
