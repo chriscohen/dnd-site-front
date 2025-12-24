@@ -2,10 +2,12 @@
 
 import {format, parseISO} from "date-fns";
 import SourceFormatLabel from "~/components/labels/SourceFormatLabel.vue";
+import type {Source} from "~/classes/sources/source";
+import type {SourceEdition} from "~/classes/sources/sourceEdition";
 
 const props = defineProps<{
-    edition: SourcebookEditionApiResponse
-    source: SourcebookApiResponse
+    edition: SourceEdition
+    spell: Source
 }>();
 
 let day: string, month: string, year: string;
@@ -25,7 +27,7 @@ try {
                 <dt class="text-right">Publisher</dt>
                 <dd>
                     <NuxtLink :to="'/companies/' + source?.publisher?.slug" class="link">
-                        {{ source.publisher?.name }}
+                        {{ spell.publisher?.name }}
                     </NuxtLink>
                 </dd>
             </template>

@@ -3,6 +3,7 @@ import CharacterClassTeaser from "~/components/characterClasses/CharacterClassTe
 import {useCharacterClassCache} from "~/stores/Store";
 import {API_URL} from "#imports";
 import PageTitle from "~/components/labels/PageTitle.vue";
+import {type CharacterClassApiResponse, createCharacterClass} from "~/classes/characterClasses/characterClass";
 
 useHead({
     title: 'Classes'
@@ -13,8 +14,8 @@ definePageMeta({
 
 const store = useCharacterClassCache();
 const path = API_URL + '/classes?mode=full';
-await store.fetch(path);
-const items: ICharacterClass[] = computed(() => store.get(path));
+const data: CharacterClassApiResponse[] = await store.get(path) as CharacterClassApiResponse[];
+const items = data.map(createCharacterClass);
 </script>
 
 <template>
@@ -26,7 +27,7 @@ const items: ICharacterClass[] = computed(() => store.get(path));
         <div class="page-container my-4 flex flex-col xl:flex-row overflow-y-scroll">
             <div class="left-container grid grid-cols-[repeat(auto-fit,minmax(16rem,1fr))] gap-4 gap-y-8">
                 <CharacterClassTeaser
-                    v-for="item in items.filter(item => !item.is_prestige)"
+                    v-for="item in items.filter(item => !item.isPrestige)"
                     :key="item.id"
                     :data="item"
                 />

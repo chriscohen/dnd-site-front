@@ -38,26 +38,6 @@ export interface IAttackType {
 }
 
 
-
-
-
-
-
-export interface ICharacterClass {
-    id: string
-    slug: string
-    name: string
-    editions: ICharacterClassEdition[]
-    is_prestige: boolean
-}
-
-export interface ICharacterClassEdition {
-    id: string
-    game_edition: string
-    is_prestige: boolean
-    references: ReferenceApiResponse[]
-}
-
 export interface IFeat {
     __typename: "Feat"
     id: string
@@ -102,25 +82,9 @@ export interface SearchResult {
     type: string
 }
 
-export interface ISavingThrow {
-    id: string
-    type: string
-    fail_status?: string
-    multiplier?: string
-}
 
-export interface ISpellEditionCharacterClassLevel {
-    name: string
-    slug: string
-    level: number
-    type: string
-}
 
-export enum RenderMode {
-    SHORT = 'short',
-    TEASER = 'teaser',
-    FULL = 'full',
-}
+
 
 export enum ArmorClassSource {
     BASE = 'base',

@@ -1,6 +1,8 @@
 ﻿<script setup lang="ts">
+import type {Spell} from "~/classes/spells/spell";
+
 const props = defineProps<{
-    spell?: SpellApiResponse
+    spell?: Spell
 }>();
 </script>
 

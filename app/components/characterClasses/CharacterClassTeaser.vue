@@ -1,9 +1,10 @@
 ﻿<script setup lang="ts">
 import TeaserTitle from "~/components/teasers/TeaserTitle.vue";
 import GameEditionBadge from "~/components/badges/GameEditionBadge.vue";
+import type {CharacterClass} from "~/classes/characterClasses/characterClass";
 
 const props = defineProps<{
-    data?: ICharacterClass
+    data?: CharacterClass
 }>();
 </script>
 
@@ -14,7 +15,7 @@ const props = defineProps<{
             <GameEditionBadge
                 v-for="edition in data.editions"
                 :key="edition.id"
-                :edition="edition.game_edition"
+                :edition="edition.gameEdition"
                 rounded-corners="left"
             />
         </BadgesBadgeContainer>

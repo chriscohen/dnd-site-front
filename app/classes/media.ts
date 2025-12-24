@@ -1,10 +1,9 @@
 ﻿export interface MediaApiResponse {
-    __typename: "Media"
-    id: string
-    url: string
+    id?: string
+    url?: string
     collection_name?: string
     name?: string
-    filename: string
+    filename?: string
     size?: number
     mime_type?: string
 }

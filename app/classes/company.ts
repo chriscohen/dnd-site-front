@@ -1,26 +1,25 @@
 ﻿import type {MediaApiResponse} from "~/classes/media";
-import {createSource, type Source, type SourceApiResponse} from "~/classes/sources/source";
+import {createSource, type SourceApiResponse} from "~/classes/sources/source";
 
 export interface CompanyApiResponse {
-    __typename: "Company"
-    id: string
-    slug: string
-    name: string
-    logo?: MediaApiResponse,
-    products: SourceApiResponse[],
-    productUrl: string
+    id?: string
+    logo?: MediaApiResponse
+    name?: string
+    products?: SourceApiResponse[]
+    productUrl?: string
     shortName?: string
+    slug?: string
     website?: string
 }
 
 export type CompanyState = {
-    id?: string,
-    slug?: string,
-    name?: string,
-    logo?: MediaApiResponse,
-    products?: any[],
-    productUrl?: string,
-    shortName?: string,
+    id?: string
+    name?: string
+    logo?: MediaApiResponse
+    products?: any[]
+    productUrl?: string
+    shortName?: string
+    slug?: string
     website?: string
 }
 
@@ -30,7 +29,7 @@ export const createCompany = (data?: CompanyApiResponse) => {
         slug: data?.slug,
         name: data?.name,
         logo: data?.logo,
-        products: data?.products.map(createSource),
+        products: data?.products?.map(createSource),
         productUrl: data?.productUrl,
         shortName: data?.shortName,
         website: data?.website

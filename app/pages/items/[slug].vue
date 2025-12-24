@@ -1,18 +1,19 @@
 ﻿<script setup lang="ts">
 import {useItemCache} from "~/stores/Store";
-import type {ItemApiResponse} from "~/classes/item";
+import {createItem, type ItemApiResponse} from "~/classes/items/item";
 
 const route = useRoute();
 const store = useItemCache();
 const path = API_URL + '/item/' + route.params.slug;
-const item: ItemApiResponse = await store.get(path) as ItemApiResponse;
+const data: ItemApiResponse = await store.get(path) as ItemApiResponse;
+const item = createItem(data);
 </script>
 
 <template>
     <div class="item">
         <!-- Left: Cover Art -->
         <img
-            :src="item.coverImage?.url"
+            :src="item.image?.url"
             :alt="item.name + ' cover image'"
             class="media-large hover:scale-105 transition-all duration-500"
         >

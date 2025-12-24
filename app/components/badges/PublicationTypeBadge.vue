@@ -7,7 +7,7 @@ const props = defineProps({
 </script>
 
 <template>
-    <UTooltip arrow text="An official source" :delay-duration="0.25">
+    <UTooltip arrow text="An official spell" :delay-duration="0.25">
         <BadgeBase :label="props.type"/>
     </UTooltip>
 </template>

@@ -2,10 +2,11 @@
 import DndSection from "~/components/containers/DndSection.vue";
 import ProductListItem from "~/components/lists/ProductListItem.vue";
 import DndHeading from "~/components/headings/DndHeading.vue";
+import type {SourceApiResponse} from "~/classes/sources/source";
 
 const props = defineProps<{
     class?: string
-    products: SourcebookApiResponse[]
+    products: SourceApiResponse[]
 }>();
 </script>
 

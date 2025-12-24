@@ -1,33 +1,34 @@
 ﻿<script setup lang="ts">
 import SourcebookEditionsTabs from "~/components/sourcebooks/SourcebookEditionsTabs.vue";
 import SourcebookEditionTab from "~/components/sourcebooks/SourcebookEditionTab.vue";
+import type {Source} from "~/classes/sources/source";
 
 const props = defineProps<{
     class?: string
-    sourcebook: SourcebookApiResponse;
+    spell: Source;
 }>();
 </script>
 
 <template>
     <div class="sourcebook-details-list w-full" :class="props.class">
         <!-- Editions -->
-        <SourcebookEditionsTabs v-if="props.sourcebook?.editions?.length > 1" :sourcebook="props.sourcebook"/>
+        <SourcebookEditionsTabs v-if="(source.editions?.length ?? 0) > 1" :source="props.source"/>
         <SourcebookEditionTab
-            v-else-if="sourcebook?.editions?.length == 1"
-            :edition="(sourcebook as SourcebookApiResponse)?.editions[0] as SourcebookEditionApiResponse"
-            :source="sourcebook"
+            v-else-if="source?.editions?.length == 1"
+            :edition="source?.editions?.[0]"
+            :source="source"
         />
         <!-- /Editions -->
 
         <!-- Campaign Setting logo -->
         <NuxtLink
-            v-if="sourcebook?.campaignSetting?.logo"
-            :to="'/campaign-settings/' + sourcebook?.campaignSetting?.slug">
+            v-if="source?.campaignSetting?.logo"
+            :to="'/campaign-settings/' + source?.campaignSetting?.slug">
             <img
-                v-if="sourcebook?.campaignSetting?.logo?.url"
+                v-if="source?.campaignSetting?.logo?.url"
                 class="max-w-[50%] mx-auto"
-                :src="sourcebook?.campaignSetting?.logo?.url"
-                :alt="sourcebook?.campaignSetting?.name + ' logo'">
+                :src="source?.campaignSetting?.logo?.url"
+                :alt="source?.campaignSetting?.name + ' logo'">
         </NuxtLink>
         <!-- /Campaign Setting logo -->
     </div>

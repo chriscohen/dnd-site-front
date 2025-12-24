@@ -1,12 +1,14 @@
 ﻿<script lang="ts" setup>
+import type {SourceApiResponse} from "~/classes/sources/source";
+
 const props = defineProps<{
-    sourcebook?: SourcebookApiResponse
+    source?: SourceApiResponse
 }>();
 </script>
 
 <template>
-    <div class="max-h-[320px] max-w-[256px]">
-        <img class="media-cover-image max-h-[320px] max-w-[256px]" :src="sourcebook?.coverImage.url" alt="cover image">
+    <div class="max-h-80 max-w-[256px]">
+        <img class="media-cover-image max-h-80 max-w-[256px]" :src="source?.coverImage?.url" alt="cover image">
     </div>
 </template>
 

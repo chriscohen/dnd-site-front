@@ -2,9 +2,11 @@
 import DndCollapsible from "~/components/containers/DndCollapsible.vue";
 import PersonLabel from "~/components/labels/PersonLabel.vue";
 import DndHeading from "~/components/headings/DndHeading.vue";
+import type {SourceEdition} from "~/classes/sources/sourceEdition";
+import type {Person} from "~/classes/person";
 
 const props = defineProps<{
-    edition?: SourcebookEditionApiResponse
+    edition?: SourceEdition
 }>();
 
 const open = ref(true);
@@ -17,7 +19,7 @@ const open = ref(true);
 
             <div class="mt-2 [&>span:not(:last-child)]:after:content-[','] [&>span:not(:last-child)]:mr-1">
                 <PersonLabel
-                    v-for="person in edition.credits[role] as PersonApiResponse[]"
+                    v-for="person in edition.credits[role] as Person[]"
                     :key="person.slug"
                     :person="person"
                 />

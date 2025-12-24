@@ -1,6 +1,7 @@
 ﻿<script setup lang="ts">
 import DndList from "~/components/lists/DndList.vue";
 import DndListItem from "~/components/lists/DndListItem.vue";
+import type {CampaignSetting} from "~/classes/campaignSetting";
 
 const props = defineProps<{
     class?: string

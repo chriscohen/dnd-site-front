@@ -15,7 +15,7 @@ function onInput(input: string) {
     showResults.value = true;
 }
 
-function onSelect(option) {
+function onSelect(option: { slug: string; }) {
     navigateTo('/campaign-settings/' + option.slug);
 }
 

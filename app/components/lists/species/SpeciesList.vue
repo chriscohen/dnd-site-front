@@ -1,10 +1,11 @@
 ﻿<script setup lang="ts">
 import DndList from "~/components/lists/DndList.vue";
 import DndListItem from "~/components/lists/DndListItem.vue";
+import type {Creature} from "~/classes/creatures/creature";
 
 const props = defineProps<{
     class?: string
-    items?: ISpecies[]
+    items?: Creature[]
 }>();
 </script>
 

@@ -1,15 +1,17 @@
 <script setup lang="ts">
-const props = defineProps({
-    media: { type: Object as () => MediaApiResponse, default: null },
-    name: { type: String, default: null },
-    class: { type: String, default: '' },
-});
+import type {Media} from "~/classes/media";
+
+const props = defineProps<{
+    media: Media
+    name?: string
+    class?: string
+}>();
 </script>
 
 <template>
     <img
         :src="media?.url"
-        :alt="name + ' cover image'"
+        :alt="(name ?? media?.name ?? 'image') + ' cover image'"
         class="media-large block w-full"
     >
 </template>

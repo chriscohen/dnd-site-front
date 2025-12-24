@@ -1,9 +1,10 @@
 ﻿<script setup lang="ts">
 import PopoverContentBase from "~/components/popovers/PopoverContentBase.vue";
+import type {MagicSchool} from "~/classes/magic/magicSchool";
 
 const props = defineProps<{
     link?: boolean
-    school?: MagicSchoolApiResponse
+    school?: MagicSchool
 }>();
 </script>
 
@@ -13,7 +14,7 @@ const props = defineProps<{
             <UPopover mode="hover" :open-delay="500">
                 <NuxtLink
                     v-if="props.link"
-                    :to="'/magic-schools/' + school.parent.name.toLowerCase()"
+                    :to="'/magic-schools/' + school.parent?.name?.toLowerCase()"
                     class="link text-dimmed"
                 >
                     {{ school.parent.name }}
@@ -26,7 +27,7 @@ const props = defineProps<{
             </UPopover>
 
             (<UPopover mode="hover" :open-delay="500">
-                <NuxtLink v-if="props.link" :to="'/magic-schools/' + school.name.toLowerCase()" class="link text-dimmed">
+                <NuxtLink v-if="props.link" :to="'/magic-schools/' + school.name?.toLowerCase()" class="link text-dimmed">
                     {{ school.name }}
                 </NuxtLink>
             <template v-else>{{ school.name }}</template>
@@ -39,7 +40,11 @@ const props = defineProps<{
 
         <template v-else>
             <UPopover mode="hover" :open-delay="500">
-                <NuxtLink v-if="props.link" :to="'/magic-schools/' + school.name.toLowerCase()" class="link text-dimmed">
+                <NuxtLink
+                    v-if="props.link"
+                    :to="'/magic-schools/' + school?.name?.toLowerCase()"
+                    class="link text-dimmed"
+                >
                     {{ school.name }}
                 </NuxtLink>
                 <template v-else>{{ school.name }}</template>

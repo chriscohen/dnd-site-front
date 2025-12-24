@@ -1,10 +1,11 @@
 ﻿<script setup lang="ts">
 import PopoverContentBase from "~/components/popovers/PopoverContentBase.vue";
+import type {MagicSchool} from "~/classes/magic/magicSchool";
 
 const props = defineProps<{
     classes?: string
     size: string,
-    school?: MagicSchoolApiResponse
+    school?: MagicSchool
 }>();
 
 </script>
@@ -16,7 +17,7 @@ const props = defineProps<{
         <img
             class="magic-school-label"
             :class="classes"
-            :src="school.parent ? school.parent.image.url : school.image.url"
+            :src="school.parent ? school?.parent?.image?.url : school?.image?.url"
             :alt="school?.name + ' magic school'"
             :style="{ width: size, height: size }"
         >
@@ -34,7 +35,7 @@ const props = defineProps<{
 @use '~/assets/css/default/colors';
 @use '~/assets/css/default/variables';
 
-div[data='reka-popper-content-wrapper'] {
+div[spell='reka-popper-content-wrapper'] {
     border-radius: 2rem;
 
     > div {

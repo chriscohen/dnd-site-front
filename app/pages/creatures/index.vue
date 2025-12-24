@@ -2,21 +2,23 @@
 import {useCreatureCache} from "~/stores/Store";
 import PageTitle from "~/components/labels/PageTitle.vue";
 import SpeciesList from "~/components/lists/species/SpeciesList.vue";
+import {createCreature, type Creature, type CreatureApiResponse} from "~/classes/creatures/creature";
 
 const path = API_URL + '/creatures';
 const store = useCreatureCache();
-const items: ISpecies[] = await store.get(path) as ISpecies[];
+const data: CreatureApiResponse[] = await store.get(path) as CreatureApiResponse[];
+const items = data.map((item: CreatureApiResponse) => createCreature(item));
 
 useHead({ title: 'Species' });
 definePageMeta({ layout: false });
 
-const selectedItem: Ref<ISpecies | undefined> = ref(undefined);
+const selectedItem: Ref<Creature | undefined> = ref(undefined);
 const itemSelected: Ref<boolean> = ref(false);
 
-async function handleSelect(item: ISpecies) {
+async function handleSelect(item: Creature) {
     itemSelected.value = true;
     const itemPath = API_URL + '/creature/' + item.slug + '?mode=full';
-    selectedItem.value = await store.get(itemPath) as ISpecies;
+    selectedItem.value = await store.get(itemPath) as Creature;
 }
 </script>
 

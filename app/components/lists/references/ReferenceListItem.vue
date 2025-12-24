@@ -1,15 +1,16 @@
 ﻿<script setup lang="ts">
 import {formatPages} from "#imports";
+import type {Reference} from "~/classes/reference";
 
 const props = defineProps<{
-    reference: ReferenceApiResponse
+    reference: Reference
 }>();
 </script>
 
 <template>
     <NuxtLink v-if="reference" :href="'/sources/' + reference.slug" class="reference-list-item item-link">
         <img :src="reference.image?.url" :alt="reference.source + ' thumbnail'">
-        <span>{{ reference.source }}</span>
+        <span>{{ reference.spell }}</span>
         <span class="page-reference">{{ formatPages(reference.pageFrom, reference?.pageTo) }}</span>
     </NuxtLink>
 </template>

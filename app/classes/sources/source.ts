@@ -1,45 +1,48 @@
 ﻿import {createMedia, type Media, type MediaApiResponse} from "~/classes/media";
 import {type Company, type CompanyApiResponse, createCompany} from "~/classes/company";
-import type {ProductIdApiResponse} from "~/classes/product";
+import {createProductId, type ProductIdApiResponse, type ProductIdState} from "~/classes/product";
 import {type CampaignSetting, type CampaignSettingApiResponse, createCampaignSetting} from "~/classes/campaignSetting";
-import type {SourceEditionApiResponse} from "~/classes/sources/sourceEdition";
+import {
+    createSourceEdition,
+    type SourceEditionApiResponse,
+    type SourceEditionState
+} from "~/classes/sources/sourceEdition";
 
 export interface SourceApiResponse {
-    __typename: "Sourcebook",
-    id: string,
-    name: string
-    shortName: string
-    slug: string
+    id?: string
     campaignSetting?: CampaignSettingApiResponse
-    coverImage: MediaApiResponse
-    description: string
-    editions: SourceEditionApiResponse[]
-    gameEdition: string
+    coverImage?: MediaApiResponse
+    description?: string
+    editions?: SourceEditionApiResponse[]
+    gameEdition?: string
+    name?: string
     parent?: SourceApiResponse
-    productCode: string
-    productIds: ProductIdApiResponse[]
-    publicationType: string
+    productCode?: string
+    productIds?: ProductIdApiResponse[]
+    publicationType?: string
     publisher?: CompanyApiResponse
-    sourceType: string
+    shortName?: string
+    slug?: string
+    sourceType?: string
     sourcebookTypes?: string[]
 }
 
 export type SourceState = {
-    id?: string,
-    name?: string,
-    shortName?: string,
-    slug?: string,
-    campaignSetting?: CampaignSetting,
-    coverImage?: Media,
-    description?: string,
-    editions?: SourceEditionApiResponse[],
-    gameEdition?: string,
-    parent?: any,
-    productCode?: string,
-    productIds?: ProductIdApiResponse[],
-    publicationType?: string,
-    publisher?: Company,
-    sourceType?: string,
+    id?: string
+    campaignSetting?: CampaignSetting
+    coverImage?: Media
+    description?: string
+    editions?: SourceEditionState[]
+    gameEdition?: string
+    name?: string
+    parent?: SourceState
+    productCode?: string
+    productIds?: ProductIdState[]
+    publicationType?: string
+    publisher?: Company
+    shortName?: string
+    slug?: string
+    sourceType?: string
     sourcebookTypes?: string[]
 }
 
@@ -52,19 +55,23 @@ export const createSource = (data?: SourceApiResponse) => {
         campaignSetting: createCampaignSetting(data?.campaignSetting),
         coverImage: createMedia(data?.coverImage),
         description: data?.description,
-        editions: data?.editions,
+        editions: data?.editions?.map(createSourceEdition),
         gameEdition: data?.gameEdition,
-        parent: data?.parent,
+        parent: createSource(data?.parent),
         productCode: data?.productCode,
-        productIds: data?.productIds,
+        productIds: data?.productIds?.map(createProductId),
         publicationType: data?.publicationType,
         publisher: createCompany(data?.publisher),
         sourceType: data?.sourceType,
         sourcebookTypes: data?.sourcebookTypes
     };
 
+    const hasEditions = () => (state.editions?.length ?? 0);
+
     return {
-        ...state
+        ...state,
+
+        hasEditions
     }
 }
 

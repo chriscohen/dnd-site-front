@@ -2,6 +2,7 @@
 import DndSection from "~/components/containers/DndSection.vue";
 import ProseSkeleton from "~/components/loading/ProseSkeleton.vue";
 import DndHeading from "~/components/headings/DndHeading.vue";
+import type {CampaignSetting} from "~/classes/campaignSetting";
 
 const props = defineProps<{
     class?: string

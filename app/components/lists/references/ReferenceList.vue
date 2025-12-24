@@ -1,9 +1,10 @@
 ﻿<script setup lang="ts">
 import ReferenceListItem from "~/components/lists/references/ReferenceListItem.vue";
 import DndHeading from "~/components/headings/DndHeading.vue";
+import type {Reference} from "~/classes/reference";
 
 const props = defineProps<{
-    references: ReferenceApiResponse[],
+    references: Reference[],
     showTitle?: boolean
 }>();
 </script>

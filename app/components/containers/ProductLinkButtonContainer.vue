@@ -1,15 +1,16 @@
 ﻿<script setup lang="ts">
 import ProductLinkButton from "~/components/buttons/ProductLinkButton.vue";
+import type {Source} from "~/classes/sources/source";
 
-const props = defineProps({
-    sourcebook: { type: Object as () => SourcebookApiResponse, default: null },
-});
+const props = defineProps<{
+    sourcebook: Source
+}>();
 </script>
 
 <template>
     <aside class="product-link-button-container default-padding">
         <ProductLinkButton
-            v-for="productId in props.sourcebook.product_ids"
+            v-for="productId in props.source.productIds"
             :key="productId.id"
             :product-id="productId"
         />

@@ -6,15 +6,16 @@ import PageTitle from "~/components/labels/PageTitle.vue";
 import DndSection from "~/components/containers/DndSection.vue";
 import BottomNavigationEditions from "~/components/navigation/BottomNavigationEditions.vue";
 import type {TabsItem} from "#ui/components/Tabs.vue";
-import type {SpellApiResponse, SpellEditionApiResponse} from "~/classes/spell";
+import {createSpell, type SpellApiResponse} from "~/classes/spells/spell";
+import type {SpellEdition} from "~/classes/spells/spellEdition";
 
 const route = useRoute();
 const store = useSpellCache();
 const path = API_URL + '/spell/' + route.params.slug + '?mode=full';
-await store.fetch(path);
-const item: ComputedRef<SpellApiResponse> = computed(() => store.get(path));
+const source: SpellApiResponse = await store.get(path) as SpellApiResponse;
+const item = createSpell(data);
 
-useHead({ title: item?.value?.name ?? 'Loading' });
+useHead({ title: item?.name ?? 'Loading' });
 definePageMeta({ layout: false });
 
 const tabData = ref<TabsItem[]>([
@@ -22,43 +23,43 @@ const tabData = ref<TabsItem[]>([
         id: "1e",
         class: "edition-1",
         label: "1st",
-        disabled: !item?.value?.editions?.find((item: SpellEditionApiResponse) => item.gameEdition === '1e'),
+        disabled: !item?.editions?.find((edition: SpellEdition) => edition.gameEdition === '1e'),
     },
     {
         id: "2e",
         class: "edition-2",
         label: "2nd",
-        disabled: !item?.value?.editions?.find((item: SpellEditionApiResponse) => item.gameEdition === '2e'),
+        disabled: !item?.editions?.find((edition: SpellEdition) => edition.gameEdition === '2e'),
     },
     {
         id: "3e",
         class: "edition-3",
         label: "3rd",
-        disabled: !item?.value?.editions?.find((item: SpellEditionApiResponse) => item.gameEdition === '3e'),
+        disabled: !item?.editions?.find((edition: SpellEdition) => edition.gameEdition === '3e'),
     },
     {
         id: "3.5",
         class: "edition-3",
         label: "3.5",
-        disabled: !item?.value?.editions?.find((item: SpellEditionApiResponse) => item.gameEdition === '3.5'),
+        disabled: !item?.editions?.find((edition: SpellEdition) => edition.gameEdition === '3.5'),
     },
     {
         id: "4e",
         class: "edition-4",
         label: "4th",
-        disabled: !item?.value?.editions?.find((item: SpellEditionApiResponse) => item.gameEdition === '4e'),
+        disabled: !item?.editions?.find((edition: SpellEdition) => edition.gameEdition === '4e'),
     },
     {
         id: "5e (2014)",
         class: "edition-5",
         label: "5th",
-        disabled: !item?.value?.editions?.find((item: SpellEditionApiResponse) => item.gameEdition === '5e (2014)'),
+        disabled: !item?.editions?.find((edition: SpellEdition) => edition.gameEdition === '5e (2014)'),
     },
     {
         id: "5e (2024)",
         class: "edition-2024",
         label: "2024",
-        disabled: !item?.value?.editions?.find((item: SpellEditionApiResponse) => item.gameEdition === '5e (2024)'),
+        disabled: !item?.editions?.find((edition: SpellEdition) => edition.gameEdition === '5e (2024)'),
     }
 ]);
 </script>
@@ -77,13 +78,13 @@ const tabData = ref<TabsItem[]>([
                 :tab-data="tabData"
                 @edition-selected="(id: string) => false"
             />
-            <Spell :spell="item" :edition="item?.editions[0]"/>
+            <Spell :spell="item" :edition="item?.editions?.[0]"/>
         </DndSection>
 
         <NuxtImg v-if="item?.image" :src="item.image?.url" :name="item.name" class="w-full rounded-xl"/>
 
         <div class="book-container spellbook-extras">
-            <SpellbookExtra :spell="item" :edition="item?.editions[0]"/>
+            <SpellbookExtra :spell="item" :edition="item?.editions?.[0]"/>
         </div>
 
         <template #bottomNav>

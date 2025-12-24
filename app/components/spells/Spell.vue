@@ -4,10 +4,12 @@ import ReferenceList from "~/components/lists/references/ReferenceList.vue";
 import SavingThrowLabel from "~/components/labels/SavingThrowLabel.vue";
 import SpellComponentsLabel from "~/components/labels/SpellComponentsLabel.vue";
 import HorizontalDivider from "~/components/dividers/HorizontalDivider.vue";
+import type {Spell} from "~/classes/spells/spell";
+import type {SpellEdition} from "~/classes/spells/spellEdition";
 
 const props = defineProps<{
-    spell?: SpellApiResponse
-    edition?: SpellEditionApiResponse
+    spell?: Spell
+    edition?: SpellEdition
 }>();
 
 const editionsWithSavingThrow = [
@@ -37,7 +39,7 @@ const editionsWithSavingThrow = [
                 <span>Casting Time</span>
                 <span>{{ edition.castingTime }}</span>
 
-                <template v-if="editionsWithSavingThrow.includes(edition.gameEdition)">
+                <template v-if="editionsWithSavingThrow.includes(edition?.gameEdition ?? '')">
                     <span>Saving Throw</span>
                     <SavingThrowLabel :edition="edition"/>
                 </template>
@@ -46,7 +48,7 @@ const editionsWithSavingThrow = [
         </div>
 
         <HorizontalDivider/>
-        <div v-html="edition?.description ?? ''" class="spellbook-description mt-2 mb-4"/>
+        <div class="spellbook-description mt-2 mb-4" v-html="edition?.description ?? ''"/>
         <HorizontalDivider/>
 
         <div class="spellbook-lower">

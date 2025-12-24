@@ -1,7 +1,9 @@
 ﻿<script setup lang="ts">
 
+import type {Category} from "~/classes/category";
+
 const props = defineProps<{
-    category: CategoryApiResponse
+    category: Category
     color?: string
 }>();
 </script>

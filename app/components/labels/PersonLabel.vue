@@ -1,8 +1,10 @@
 ﻿<script setup lang="ts">
+import type {Person} from "~/classes/person";
+
 const props = defineProps<{
     class?: string
     link?: boolean
-    person?: PersonApiResponse
+    person?: Person
 }>();
 </script>
 

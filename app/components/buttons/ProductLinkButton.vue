@@ -1,8 +1,10 @@
 ﻿<script setup lang="ts">
 
-const props = defineProps({
-    productId: { type: Object as () => ProductIdApiResponse, required: true },
-});
+import type {ProductId} from "~/classes/product";
+
+const props = defineProps<{
+    productId: ProductId
+}>();
 
 </script>
 

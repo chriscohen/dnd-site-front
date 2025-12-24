@@ -1,10 +1,10 @@
 ﻿<script setup lang="ts">
-import type {ISourcebookContents} from "~/utils";
 import DndCollapsible from "~/components/containers/DndCollapsible.vue";
+import type {SourceContents} from "~/classes/sources/sourceContents";
 
 const props = defineProps<{
     class?: string
-    contents?: ISourcebookContents[]
+    contents?: SourceContents[]
 }>();
 </script>
 

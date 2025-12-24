@@ -1,12 +1,13 @@
 ﻿<script setup lang="ts">
 import type {TabsItem} from "#ui/components/Tabs.vue";
+import type {SpellEdition} from "~/classes/spells/spellEdition";
 
 defineEmits(['edition-selected']);
 
 const props = defineProps<{
-    active?: SpellEditionApiResponse
+    active?: SpellEdition
     class?: string
-    editions: SpellEditionApiResponse[],
+    editions: SpellEdition[],
     tabData: TabsItem[]
 }>();
 

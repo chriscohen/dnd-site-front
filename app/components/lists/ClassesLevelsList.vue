@@ -1,12 +1,14 @@
 ﻿<script setup lang="ts">
+import type {SpellCharacterClassLevel} from "~/classes/spells/SpellCharacterClassLevel";
+
 const props = defineProps<{
-    data?: ISpellEditionCharacterClassLevel[]
+    data?: SpellCharacterClassLevel[]
 }>();
 </script>
 
 <template>
     <aside v-if="data" class="classes-levels-list font[mrs-eaves]">
-        <template v-for="item in props.data" :key="item.id">
+        <template v-for="item in props.data" :key="item.name">
             <span>
                 <NuxtLink :to="'/' + (item.type == 'feat' ? 'feats/' : 'classes/') + item.slug" class="link">
                     {{ item.name }}

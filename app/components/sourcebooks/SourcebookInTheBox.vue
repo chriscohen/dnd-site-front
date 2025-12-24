@@ -1,9 +1,9 @@
 ﻿<script setup lang="ts">
-import type {IBoxedSetItem} from "~/utils";
 import DndHeading from "~/components/headings/DndHeading.vue";
+import type {Source} from "~/classes/sources/source";
 
 const props = defineProps<{
-    items: IBoxedSetItem[]
+    items: Source[]
 }>();
 </script>
 

@@ -1,9 +1,9 @@
 ﻿<script setup lang="ts">
-import {API_URL} from "~/utils/utils";
 import {useCampaignSettingCache} from "~/stores/Store";
 import PageTitle from "~/components/labels/PageTitle.vue";
 import CampaignSettingList from "~/components/lists/campaign-settings/CampaignSettingList.vue";
 import CampaignSettingCard from "~/components/cards/CampaignSettingCard.vue";
+import type {CampaignSetting} from "~/classes/campaignSetting";
 
 const path = API_URL + '/campaign-settings?mode=teaser';
 const store = useCampaignSettingCache();

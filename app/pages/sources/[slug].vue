@@ -8,11 +8,11 @@ import SourcebookContents from "~/components/sourcebooks/SourcebookContents.vue"
 import ProseContainer from "~/components/text/ProseContainer.vue";
 import BottomNavigation from "~/components/navigation/BottomNavigation.vue";
 import SourcebookCredits from "~/components/sourcebooks/SourcebookCredits.vue";
-import SourceApiResponse from "~/classes/sources/sourceApiResponse";
+import type {SourceApiResponse} from "~/classes/sources/source";
 
 const route = useRoute();
 const store = useSourcebookCache();
-const path = `http://localhost:8080/api/source/${route.params.slug}?mode=full`;
+const path = `http://localhost:8080/api/spell/${route.params.slug}?mode=full`;
 
 const item: SourceApiResponse = await store.get(path) as SourceApiResponse;
 
@@ -44,7 +44,7 @@ definePageMeta({ layout: false });
             <div id="column-left">
                 <a id="overview"/>
                 <Media :media="item.coverImage" :name="item.name"/>
-                <SourcebookDetailsList :sourcebook="item" class="mt-4"/>
+                <SourcebookDetailsList :source="item" class="mt-4"/>
                 <ProductLinkButtonContainer
                     v-if="item.productIds?.length > 1"
                     :sourcebook="item"

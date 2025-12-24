@@ -2,15 +2,14 @@
 import {type Company, type CompanyApiResponse, createCompany} from "~/classes/company";
 
 export interface CampaignSettingApiResponse {
-    __typename: "Campaign Setting"
-    id: string
+    id?: string
     description?: string
     logo?: MediaApiResponse
-    name: string
-    publisher: CompanyApiResponse
-    publication_type: string
-    slug: string
-    shortName: string
+    name?: string
+    publisher?: CompanyApiResponse
+    publicationType?: string
+    slug?: string
+    shortName?: string
     startYear?: number
 }
 
@@ -20,7 +19,7 @@ export type CampaignSettingState = {
     logo?: MediaApiResponse,
     name?: string,
     publisher?: Company,
-    publication_type?: string,
+    publicationType?: string,
     slug?: string,
     shortName?: string,
     startYear?: number
@@ -33,7 +32,7 @@ export const createCampaignSetting = (data?: CampaignSettingApiResponse) => {
         logo: data?.logo,
         name: data?.name,
         publisher: createCompany(data?.publisher),
-        publication_type: data?.publication_type,
+        publicationType: data?.publicationType,
         slug: data?.slug,
         shortName: data?.shortName,
         startYear: data?.startYear

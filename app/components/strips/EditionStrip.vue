@@ -1,5 +1,4 @@
 ﻿<script setup lang="ts">
-import {formatEditionShort} from "~/utils/utils";
 
 const props = defineProps<{
     edition: string

@@ -1,18 +1,17 @@
 ﻿<script setup lang="ts">
 import TeaserTitle from "~/components/teasers/TeaserTitle.vue";
 import TeaserTile from "~/components/teasers/TeaserTile.vue";
+import type {Spell} from "~/classes/spells/spell";
 
-interface Props {
-    data?: ISpellTeaser
-}
-
-const { data = undefined } = defineProps<Props>();
+const props = defineProps<{
+    data?: Spell
+}>();
 
 const getSubtitle = computed(() => {
     return [
-        toOrdinal(data?.lowestLevel.toString() ?? ''),
+        toOrdinal(props?.data?.lowestLevel?.toString() ?? ''),
         'level',
-        data?.school
+        props?.data?.school
     ].join(' ');
 });
 </script>
@@ -29,7 +28,7 @@ const getSubtitle = computed(() => {
             <BadgesGameEditionBadge
                 v-for="edition in data?.editions"
                 :key="edition.id"
-                :edition="edition.game_edition"
+                :edition="edition.gameEdition"
                 rounded-corners="left"
             />
         </BadgesBadgeContainer>

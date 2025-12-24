@@ -5,13 +5,16 @@ import {useRuntimeConfig} from "#app";
 import GameEditionBadge from "~/components/badges/GameEditionBadge.vue";
 import BadgeContainer from "~/components/badges/BadgeContainer.vue";
 import {useItemCache} from "~/stores/Store";
+import type {ItemApiResponse} from "~/classes/items/item";
+import type {Media} from "~/classes/media";
+import type {ItemEdition} from "~/classes/items/itemEdition";
+import type {Category} from "~/classes/category";
 
 const store = useItemCache();
 const path = API_URL + '/items?mode=teaser';
 await store.fetch(path);
 
-const items: ComputedRef<ItemApiResponse[]> = computed(() => store.get(path));
-const runtimeConfig = useRuntimeConfig();
+const items: ItemApiResponse[] = await store.get(path) as ItemApiResponse[];
 
 const columns: TableColumn<ItemApiResponse>[] = [
     {
@@ -51,7 +54,7 @@ const columnVisibility = ref({ slug: false });
                     <NuxtLink :to="'/items/' + row.getValue('slug')">
                         <NuxtImg
                             v-if="row.getValue('image')"
-                            :src="row.getValue('image').url"
+                            :src="(row.getValue('image') as Media)?.url"
                             :alt="row.getValue('name') + ' icon'"
                             class="thumbnail"
                         />
@@ -64,7 +67,7 @@ const columnVisibility = ref({ slug: false });
                 </template>
                 <template #categories-cell="{ row }">
                     <CategoryBadge
-                        v-for="category in row.getValue('categories')"
+                        v-for="category in row.getValue('categories') as Category[]"
                         :key="category.id"
                         :category="category"
                     />
@@ -72,7 +75,7 @@ const columnVisibility = ref({ slug: false });
                 <template #editions-cell="{ row }">
                     <BadgeContainer>
                         <GameEditionBadge
-                            v-for="edition in row.getValue('editions')"
+                            v-for="edition in (row.getValue('editions') as ItemEdition[])"
                             :key="edition.gameEdition"
                             :edition="edition.gameEdition"
                         />
