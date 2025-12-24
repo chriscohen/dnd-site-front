@@ -81,6 +81,15 @@ export default defineNuxtConfig({
         '@pinia/nuxt',
         'pinia-plugin-persistedstate'
     ],
+    nitro: {
+        devProxy: {
+            '/api-proxy': {
+                changeOrigin: true,
+                cookieDomainRewrite: 'localhost',
+                target: 'http://localhost:8080'
+            }
+        }
+    },
     postcss: {
         plugins: {
             autoprefixer: {},
@@ -89,6 +98,7 @@ export default defineNuxtConfig({
     },
     runtimeConfig: {
         public: {
+            apiBase: '/api-proxy',
             apiUrl: 'http://localhost:8080/api'
         }
     },
