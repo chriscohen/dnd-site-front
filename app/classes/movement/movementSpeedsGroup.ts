@@ -1,8 +1,7 @@
 ﻿import {
     createMovementSpeed,
     type MovementSpeed,
-    type MovementSpeedApiResponse,
-    type MovementSpeedState
+    type MovementSpeedApiResponse
 } from "~/classes/movement/movementSpeed";
 
 export interface MovementSpeedsGroupApiResponse {
@@ -22,7 +21,7 @@ export type MovementSpeedsGroupState = {
 }
 
 export const createMovementSpeedsGroup = (data?: MovementSpeedsGroupApiResponse) => {
-    const state = {
+    const state: MovementSpeedsGroupState = {
         burrow: createMovementSpeed(data?.burrow),
         climb: createMovementSpeed(data?.climb),
         fly: createMovementSpeed(data?.fly),
@@ -30,21 +29,17 @@ export const createMovementSpeedsGroup = (data?: MovementSpeedsGroupApiResponse)
         walk: createMovementSpeed(data?.walk),
     }
 
+    const toString = (): string => {
+        const output: string[] = [];
+        Object.entries(state).forEach(([key, value]) => value?.value && output.push(`${key} ${value.value}`));
+        return output.join(', ');
+    }
+
     return {
         ...state,
 
-        ...withMovementSpeedsGroup(state)
+        toString,
     }
 }
-
-export const withMovementSpeedsGroup = (state: MovementSpeedsGroupState) => ({
-    toString: () => {
-        const output: string[] = [];
-        Object.entries(state).map(([key, value]) => {
-            return value?.speed && output.push(`${key} ${value.speed}`);
-        });
-        return output.join(', ');
-    }
-});
 
 export type MovementSpeedsGroup = ReturnType<typeof createMovementSpeedsGroup>;

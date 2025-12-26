@@ -65,7 +65,7 @@ const menuOpen: Ref<boolean> = ref<boolean>(false);
 </script>
 
 <template>
-    <nav role="navigation" class="relative flex space-between overflow-hidden">
+    <nav role="navigation" class="relative flex space-between">
         <!-- Main navigation, full width -->
         <ul id="main-navigation" class="font-eaves pt-4 mb-4 text-3xl hidden lg:flex">
             <li
@@ -86,13 +86,13 @@ const menuOpen: Ref<boolean> = ref<boolean>(false);
                     <span class="px-4 py-2">{{ item.name }}</span>
 
                     <ul
-                        class="absolute min-w-64 bg-slate-800 transition-colors duration-500 ease-in-out hidden
-                            group-hover:block group-hover:text-white"
+                        class="absolute min-w-64 bg-slate-800 hidden
+                            group-hover:block group-hover:text-white z-50"
                     >
                         <li
                             v-for="inner in item.children"
                             :key="inner.name"
-                            class="block"
+                            class="block hover:bg-highlight hover:text-gray-900"
                         >
                             <NuxtLink
                                 v-if="inner.path"
@@ -142,36 +142,3 @@ const menuOpen: Ref<boolean> = ref<boolean>(false);
         </div>
     </nav>
 </template>
-
-<style scoped lang="scss">
-@use '~/assets/css/default/colors';
-@use '~/assets/css/default/fonts';
-@use '~/assets/css/default/mixins';
-@use '~/assets/css/default/variables';
-
-.navigation-menu {
-    color: colors.$gray-400;
-
-    > li {
-
-        > ul {
-
-            transition: opacity variables.$default-delay ease-in-out;
-        }
-        &:hover > ul {
-            opacity: 1;
-            visibility: visible;
-            z-index: 1;
-
-            > li {
-                > a {
-                    &:hover {
-                        background-color: colors.$bg-active;
-                        color: colors.$text-dark;
-                    }
-                }
-            }
-        }
-    }
-}
-</style>

@@ -57,7 +57,7 @@ export const createSource = (data?: SourceApiResponse) => {
         description: data?.description,
         editions: data?.editions?.map(createSourceEdition),
         gameEdition: data?.gameEdition,
-        parent: createSource(data?.parent),
+        parent: data?.parent ? createSource(data.parent) : undefined,
         productCode: data?.productCode,
         productIds: data?.productIds?.map(createProductId),
         publicationType: data?.publicationType,

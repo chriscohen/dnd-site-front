@@ -4,11 +4,11 @@
 } from "~/classes/creatures/creatureEdition";
 
 export interface CreatureApiResponse {
-    id: string,
-    name: string,
-    slug: string,
+    id?: string,
+    name?: string,
+    slug?: string,
     children?: CreatureApiResponse[],
-    editions: CreatureEditionApiResponse[],
+    editions?: CreatureEditionApiResponse[],
     parent?: CreatureApiResponse,
 }
 
@@ -24,7 +24,7 @@ export const createCreature = (data?: CreatureApiResponse) => {
         id: data?.id,
         name: data?.name,
         slug: data?.slug,
-        editions: data?.editions.map(createCreatureEdition)
+        editions: data?.editions?.map(createCreatureEdition)
     }
 
     return {

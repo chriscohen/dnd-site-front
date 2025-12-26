@@ -12,7 +12,7 @@ const props = defineProps<{
 <template>
     <DndList v-if="items">
         <DndListItem v-for="item in items" :key="item.id" :item="item">
-            <a href="#" class="group-hover:text-black">
+            <a :href="`/creatures/${item.slug}`" class="group-hover:text-black">
                 {{ item.name }}
             </a>
         </DndListItem>

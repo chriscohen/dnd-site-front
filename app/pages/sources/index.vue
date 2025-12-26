@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import SourcebookTeaser from "~/components/teasers/SourcebookTeaser.vue";
 import PageTitle from "~/components/labels/PageTitle.vue";
-import {useSourcebookCache} from "~/stores/Store";
+import {useSourceCache} from "~/stores/Store";
 import {definePageMeta} from "#imports";
 import TeaserGrid from "~/components/teasers/TeaserGrid.vue";
-import type {SourceApiResponse} from "~/classes/sources/source";
+import {createSource, type Source, type SourceApiResponse} from "~/classes/sources/source";
 
-const path = 'http://localhost:8080/api/sources?mode=teaser';
-const store = useSourcebookCache();
-const items: SourceApiResponse[] = await store.get(path) as SourceApiResponse[];
+const store = useSourceCache();
+const data: SourceApiResponse[] = await store.list() as SourceApiResponse[];
+const items: Source[] = data?.map(item => createSource(item));
 
 useHead({ title: 'Sourcebooks' });
 definePageMeta({

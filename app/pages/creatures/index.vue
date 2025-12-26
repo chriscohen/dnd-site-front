@@ -1,13 +1,12 @@
 ﻿<script setup lang="ts">
 import {useCreatureCache} from "~/stores/Store";
 import PageTitle from "~/components/labels/PageTitle.vue";
-import SpeciesList from "~/components/lists/species/SpeciesList.vue";
+import CreatureList from "~/components/lists/creatures/CreatureList.vue";
 import {createCreature, type Creature, type CreatureApiResponse} from "~/classes/creatures/creature";
 
-const path = API_URL + '/creatures';
 const store = useCreatureCache();
-const data: CreatureApiResponse[] = await store.get(path) as CreatureApiResponse[];
-const items = data.map((item: CreatureApiResponse) => createCreature(item));
+const data: CreatureApiResponse[] = await store.list() as CreatureApiResponse[];
+const items = data?.map((item: CreatureApiResponse) => createCreature(item));
 
 useHead({ title: 'Species' });
 definePageMeta({ layout: false });
@@ -29,7 +28,7 @@ async function handleSelect(item: Creature) {
         </template>
 
         <div class="flex flex-col-reverse sm:flex-row mt-4 gap-4 overflow-hidden h-full">
-            <SpeciesList :items="items"/>
+            <CreatureList :items="items"/>
         </div>
     </NuxtLayout>
 </template>

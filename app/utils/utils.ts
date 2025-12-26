@@ -152,3 +152,18 @@ export function formatIsbn(input: string): string {
 export function formatPages(from?: number, to?: number): string {
     return 'pp. ' + from + (to ? '—' + to : '');
 }
+
+export function orList(items: string[]): string {
+    if (items.length === 1) {
+        return items?.[0] || '';
+    }
+    const last = items.pop();
+    const penultimate = items.pop();
+    const orList = last + ', or ' + penultimate;
+
+    if (items.length === 0) {
+        return orList;
+    }
+
+    return items.join(', ') + orList;
+}

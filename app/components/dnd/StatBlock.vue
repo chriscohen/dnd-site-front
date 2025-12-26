@@ -7,12 +7,16 @@ import DefinitionListItem from "~/components/lists/DefinitionListItem.vue";
 import type {Creature} from "~/classes/creatures/creature";
 import type {CreatureEdition} from "~/classes/creatures/creatureEdition";
 import type {Language} from "~/classes/language";
+import InlineLabel from "~/components/labels/InlineLabel.vue";
+import {orList} from "~/utils/utils";
+import PopoverCreatureType from "~/components/popovers/PopoverCreatureType.vue";
 
 const props = defineProps<{
     creature?: Creature
     edition?: CreatureEdition
     showTitle?: boolean
 }>();
+
 </script>
 
 <template>
@@ -20,10 +24,12 @@ const props = defineProps<{
         <header>
             <DndHeading v-if="showTitle" size="2">{{ creature?.name }}</DndHeading>
             <span class="font-light italic text-md">
-                {{ edition.sizes?.[0] }}
-                {{ edition.type?.name }}
-                (Yugoloth)
-                , {{ 'Unknown Alignment' }}
+                {{ ucFirst(orList(edition.sizes.map((size) => size.toString()))) }}
+
+                <PopoverCreatureType :slug="edition?.type?.majorType?.slug">
+                    {{ ucFirst(edition?.type?.toString() ?? '') }},
+                </PopoverCreatureType>
+                {{ edition?.alignment ?? 'Unknown Alignment' }}
             </span>
         </header>
         <DndHr/>
@@ -31,8 +37,8 @@ const props = defineProps<{
             <DefinitionListItem>
                 <template #label>Armor Class</template>
                 <template #content>
-                    {{ edition.armorClass?.total(edition.abilities?.dex?.modifier() ) }}
-                    (from {{ edition.armorClass?.from() }})
+                    {{ edition.getArmorClass()?.total(edition?.abilities?.dex?.modifier) }}
+                    (from )
                 </template>
             </DefinitionListItem>
 
@@ -57,12 +63,18 @@ const props = defineProps<{
         <DefinitionList>
             <DefinitionListItem>
                 <template #label>Languages</template>
-                <template #content>{{ edition.languages?.map((item: Language) => item.name ).join(', ') }}</template>
+                <template #content>
+                    {{ edition.languages?.map((item: Language) => item.name ).join(', ') }}
+                    <InlineLabel icon="book">test</InlineLabel>
+                </template>
             </DefinitionListItem>
 
             <DefinitionListItem>
                 <template #label>Challenge</template>
-                <template #content>{{ edition?.challengeRating }}</template>
+                <template #content>
+                    {{ edition?.challengeRating }}
+                    ({{ edition.xp() }} XP)
+                </template>
             </DefinitionListItem>
         </DefinitionList>
     </aside>

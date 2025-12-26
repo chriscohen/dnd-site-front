@@ -6,7 +6,7 @@ import type {Source} from "~/classes/sources/source";
 import CoverImage from "~/components/media/CoverImage.vue";
 
 const props = defineProps<{
-    spell?: Source
+    source?: Source
 }>();
 </script>
 
