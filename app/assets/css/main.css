@@ -72,6 +72,9 @@
         font-display: swap;
     }
 
+    p {
+        @apply mb-4;
+    }
     .container {
         @apply bg-black/50 rounded-xl px-4
     }

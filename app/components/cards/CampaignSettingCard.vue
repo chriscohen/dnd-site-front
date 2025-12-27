@@ -8,6 +8,10 @@ const props = defineProps<{
     class?: string
     item?: CampaignSetting
 }>();
+
+const { render } = useMarkdown();
+const mdDescription = computed(() => render(props.item?.description));
+
 </script>
 
 <template>
@@ -24,6 +28,6 @@ const props = defineProps<{
         <NuxtImg v-if="item?.logo?.url" :src="item.logo.url" :alt="item.name + ' logo'" class="mt-4 mx-auto"/>
 
         <ProseSkeleton v-if="!item" class="mt-4"/>
-        <div v-if="item?.description" class="mt-4" v-html="item.description" />
+        <div v-if="item?.description" class="mt-4 prose prose-gray" v-html="mdDescription"/>
     </DndSection>
 </template>
