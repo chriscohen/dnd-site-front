@@ -10,9 +10,7 @@ import {useInfiniteScroll} from "@vueuse/core";
 const store = useSourceCache();
 const containerRef = ref<HTMLElement | null>(null);
 
-const items = computed<Source[]>(() => {
-    return store.listItems.map(createSource);
-});
+const items = computed<Source[]>(() => store.listItems.map(createSource));
 
 const { reset } = useInfiniteScroll(
     containerRef,

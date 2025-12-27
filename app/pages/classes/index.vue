@@ -1,21 +1,20 @@
 ﻿<script setup lang="ts">
 import CharacterClassTeaser from "~/components/characterClasses/CharacterClassTeaser.vue";
 import {useCharacterClassCache} from "~/stores/Store";
-import {API_URL} from "#imports";
 import PageTitle from "~/components/labels/PageTitle.vue";
-import {type CharacterClassApiResponse, createCharacterClass} from "~/classes/characterClasses/characterClass";
-
-useHead({
-    title: 'Classes'
-});
-definePageMeta({
-    layout: false
-});
+import {
+    type CharacterClass,
+    createCharacterClass
+} from "~/classes/characterClasses/characterClass";
 
 const store = useCharacterClassCache();
-const path = API_URL + '/classes?mode=full';
-const data: CharacterClassApiResponse[] = await store.get(path) as CharacterClassApiResponse[];
-const items = data.map(createCharacterClass);
+
+const items = computed<CharacterClass[]>(() => store.listItems.map(createCharacterClass));
+
+onMounted(() => store.loadMore());
+
+useHead({ title: 'Classes' });
+definePageMeta({ layout: false });
 </script>
 
 <template>

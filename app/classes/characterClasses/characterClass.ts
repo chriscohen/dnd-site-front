@@ -1,6 +1,5 @@
 ﻿import {
-    type CharacterClassEdition,
-    type CharacterClassEditionApiResponse, createCharacterClassEdition
+  type CharacterClassEditionApiResponse, type CharacterClassEditionState, createCharacterClassEdition
 } from "~/classes/characterClasses/characterClassEdition";
 import {createMedia, type Media, type MediaApiResponse} from "~/classes/media";
 
@@ -15,7 +14,7 @@ export interface CharacterClassApiResponse {
 
 export type CharacterClassState = {
     id?: string,
-    editions?: CharacterClassEdition[],
+    editions?: CharacterClassEditionState[],
     image?: Media,
     isPrestige?: boolean,
     name?: string,

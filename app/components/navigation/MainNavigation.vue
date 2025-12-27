@@ -10,6 +10,7 @@ watch(
 type RouteData = {
     name: string
     path?: string
+    icon?: string
     children?: RouteData[]
 };
 
@@ -18,6 +19,7 @@ const routeData = ref<RouteData[]>([
     {
         name: 'Spells',
         path: '/spells',
+        icon: 'spell',
         children: [
             { name: 'Magic Schools', path: '/magic-schools' }
         ]
@@ -126,6 +128,7 @@ const menuOpen: Ref<boolean> = ref<boolean>(false);
                         class="block text-nowrap uppercase text-3xl font-[mrs-eaves] px-8 py-4 hover:bg-slate-700"
                         @click="menuOpen = false"
                     >
+                        <UIcon v-if="item.icon" :name="'i-dnd-spellbook'" class="text-white mr-2"/>
                         {{ item.name }}
                     </NuxtLink>
                 </li>
