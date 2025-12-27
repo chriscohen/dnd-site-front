@@ -1,9 +1,9 @@
 ﻿<script setup lang="ts">
 import BadgeBase from "~/components/badges/BadgeBase.vue";
 
-const props = defineProps({
-    type: { type: String, required: true },
-});
+const props = defineProps<{
+    type: string
+}>();
 </script>
 
 <template>

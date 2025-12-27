@@ -17,7 +17,7 @@ const item: Ref<CreatureMajorType | null> = ref<CreatureMajorType | null>(null);
 async function onOpen(isOpen: boolean) {
     if (!isOpen || !props.slug) return;
 
-    const data: CreatureMajorTypeApiResponse = await store.get(props.slug) as CreatureMajorTypeApiResponse;
+    const data: CreatureMajorTypeApiResponse = await store.get({ key: props.slug }) as CreatureMajorTypeApiResponse;
     item.value = createCreatureMajorType(data);
 }
 

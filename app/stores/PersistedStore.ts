@@ -1,6 +1,6 @@
 ﻿import { defineStore } from 'pinia';
 
-interface IEditionButton {
+interface EditionButton {
     id: string
     name: string
     text: string
@@ -11,7 +11,7 @@ interface IEditionButton {
 
 export const usePersistedStore = defineStore('persisted', {
     state: () => ({
-        editions: <IEditionButton[]>[
+        editions: <EditionButton[]>[
             {
                 id: 'all',
                 name: 'all',
@@ -80,7 +80,7 @@ export const usePersistedStore = defineStore('persisted', {
         all: (state) => {
             let ret = true;
 
-            state.editions.forEach((item: IEditionButton) => {
+            state.editions.forEach((item: EditionButton) => {
                 if (item.id !== 'all' && !item.active) {
                     ret = false;
                 }
@@ -92,20 +92,20 @@ export const usePersistedStore = defineStore('persisted', {
          */
         any: (state) => {
             let ret = false;
-            state.editions.forEach((item: IEditionButton) => {
+            state.editions.forEach((item: EditionButton) => {
                 if (item.id !== 'all' && item.active) {
                     ret = true;
                 }
             });
             return ret;
         },
-        get: (state): IEditionButton => {
-            return (id: string) => state.editions.find((item: IEditionButton) => item.id === id);
+        get: (state): EditionButton => {
+            return (id: string) => state.editions.find((item: EditionButton) => item.id === id);
         },
         getEditionsQueryString: (state): string => {
             const enabled: string[] = [];
 
-            state.editions.forEach((item: IEditionButton) => {
+            state.editions.forEach((item: EditionButton) => {
                 if (item.active && item.id !== 'all') {
                     enabled.push(item.name);
                 }
@@ -117,14 +117,14 @@ export const usePersistedStore = defineStore('persisted', {
     actions: {
 
         set(key: string, value: boolean) {
-            this.editions.forEach((item: IEditionButton) => {
+            this.editions.forEach((item: EditionButton) => {
                 if (item.id === key) {
                     item.active = value;
                 }
             });
         },
         setAll(onOrOff: boolean) {
-            this.editions.forEach((item: IEditionButton) => {
+            this.editions.forEach((item: EditionButton) => {
                 item.active = onOrOff;
             });
         },
@@ -134,21 +134,21 @@ export const usePersistedStore = defineStore('persisted', {
             const editionsClone = this.editions.slice();
 
             if (id === 'all') {
-                editionsClone.forEach((item: IEditionButton) => item.active = !currentlyActive);
+                editionsClone.forEach((item: EditionButton) => item.active = !currentlyActive);
             } else {
-                editionsClone.find((item: IEditionButton) => item.id === id).active = !currentlyActive;
+                editionsClone.find((item: EditionButton) => item.id === id).active = !currentlyActive;
             }
 
             // If all the editions have been selected, toggle the "all" button on or off too.
             let allSelected = true;
 
-            editionsClone.forEach((item: IEditionButton) => {
+            editionsClone.forEach((item: EditionButton) => {
                 if (item.id !== 'all' && !item.active) {
                     allSelected = false;
                 }
             });
 
-            editionsClone.find((item: IEditionButton) => item.id === 'all').active = allSelected;
+            editionsClone.find((item: EditionButton) => item.id === 'all').active = allSelected;
 
             this.$patch({editions: editionsClone});
         }

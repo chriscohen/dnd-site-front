@@ -24,7 +24,7 @@ const headingSize = props.size ?? '1';
     <div v-if="headingSize === '1'" :class="divVariableClasses + ' ' + divClasses">
         <h1 :class="variableClasses">
             <template v-if="loading">
-                <USkeleton class="h-[1rem] w-full"/>
+                <USkeleton class="h-4 w-full"/>
             </template>
             <template v-else><slot/></template>
         </h1>
@@ -33,7 +33,7 @@ const headingSize = props.size ?? '1';
     <div v-else-if="headingSize === '2'" :class="divVariableClasses + ' ' + divClasses">
         <h2 :class="variableClasses" class="text-4xl">
             <template v-if="loading">
-                <USkeleton class="h-[1rem] w-full"/>
+                <USkeleton class="h-4 w-full"/>
             </template>
             <template v-else><slot/></template>
         </h2>
@@ -42,7 +42,7 @@ const headingSize = props.size ?? '1';
     <div v-else-if="headingSize === '3'" :class="divVariableClasses + ' ' + divClasses">
         <h3 :class="variableClasses" class="text-3xl">
             <template v-if="loading">
-                <USkeleton class="h-[1rem] w-full"/>
+                <USkeleton class="h-4 w-full"/>
             </template>
             <template v-else><slot/></template>
         </h3>
@@ -51,7 +51,7 @@ const headingSize = props.size ?? '1';
     <div v-else-if="headingSize === '4'" :class="divVariableClasses + ' ' + divClasses">
         <h4 :class="variableClasses" class="text-2xl">
             <template v-if="loading">
-                <USkeleton class="h-[1rem] w-full"/>
+                <USkeleton class="h-4 w-full"/>
             </template>
             <template v-else><slot/></template>
         </h4>
@@ -60,7 +60,7 @@ const headingSize = props.size ?? '1';
     <div v-else-if="headingSize === '5'" :class="divVariableClasses + ' ' + divClasses">
         <h5 :class="variableClasses" class="text-xl">
             <template v-if="loading">
-                <USkeleton class="h-[1rem] w-full"/>
+                <USkeleton class="h-4 w-full"/>
             </template>
             <template v-else><slot/></template>
         </h5>
@@ -69,7 +69,7 @@ const headingSize = props.size ?? '1';
     <div v-else-if="headingSize === '6'" :class="divVariableClasses + ' ' + divClasses">
         <h6 :class="variableClasses" class="text-lg">
             <template v-if="loading">
-                <USkeleton class="h-[1rem] w-full"/>
+                <USkeleton class="h-4 w-full"/>
             </template>
             <template v-else><slot/></template>
         </h6>

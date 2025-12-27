@@ -1,20 +1,20 @@
 ﻿<script setup lang="ts">
 import GameEditionBadge from "~/components/badges/GameEditionBadge.vue";
 import PublicationTypeBadge from "~/components/badges/PublicationTypeBadge.vue";
-import SourcebookDetailsList from "~/components/lists/SourcebookDetailsList.vue";
+import SourceDetailsList from "~/components/sources/SourceDetailsList.vue";
 import ProductLinkButtonContainer from "~/components/containers/ProductLinkButtonContainer.vue";
 import PageTitle from "~/components/labels/PageTitle.vue";
-import SourcebookContents from "~/components/sourcebooks/SourcebookContents.vue";
+import SourcebookContents from "~/components/sources/SourcebookContents.vue";
 import ProseContainer from "~/components/text/ProseContainer.vue";
 import BottomNavigation from "~/components/navigation/BottomNavigation.vue";
-import SourcebookCredits from "~/components/sourcebooks/SourcebookCredits.vue";
-import type {SourceApiResponse} from "~/classes/sources/source";
+import SourcebookCredits from "~/components/sources/SourcebookCredits.vue";
+import MediaImage from "~/components/media/MediaImage.vue";
+import {createSource, type Source, type SourceApiResponse} from "~/classes/sources/source";
 
 const route = useRoute();
-const store = useSourcebookCache();
-const path = `http://localhost:8080/api/spell/${route.params.slug}?mode=full`;
-
-const item: SourceApiResponse = await store.get(path) as SourceApiResponse;
+const store = useSourceCache();
+const data: SourceApiResponse = await store.get({ key: route.params.slug as string }) as SourceApiResponse;
+const item: Source = createSource(data);
 
 useHead({ title: item?.name });
 definePageMeta({ layout: false });
@@ -40,18 +40,18 @@ definePageMeta({ layout: false });
             <!-- /Heading -->
         </template>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 items-start lg:grid-cols-3 gap-4 mx-2 my-4 h-full">
+        <div class="grid grid-cols-1 sm:grid-cols-2 items-start lg:grid-cols-3 gap-4 mx-2 my-4 h-full overflow-auto">
             <div id="column-left">
                 <a id="overview"/>
-                <Media :media="item.coverImage" :name="item.name"/>
-                <SourcebookDetailsList :source="item" class="mt-4"/>
+                <MediaImage :media="item.coverImage" :name="item.name"/>
+                <SourceDetailsList :source="item" class="mt-4"/>
                 <ProductLinkButtonContainer
-                    v-if="item.productIds?.length > 1"
-                    :sourcebook="item"
+                    v-if="(item?.productIds?.length ?? 0) > 1"
+                    :source="item"
                 />
             </div>
 
-            <div id="column-right" class="flex flex-col gap-4 w-full">
+            <div id="column-right" class="flex flex-col w-full">
                 <!-- Right Side -->
                 <a id="description"/>
                 <ProseContainer v-if="item.description" :prose="item.description"/>

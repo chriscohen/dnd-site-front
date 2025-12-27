@@ -3,11 +3,14 @@ import SpellTeaser from "~/components/teasers/SpellTeaser.vue";
 import {useSpellCache} from "~/stores/Store";
 import PageTitle from "~/components/labels/PageTitle.vue";
 import TeaserGrid from "~/components/teasers/TeaserGrid.vue";
-import {createSpell, type Spell, type SpellApiResponse} from "~/classes/spells/spell";
+import {createSpell, type Spell} from "~/classes/spells/spell";
 
 const store = useSpellCache();
-const data: SpellApiResponse[] = await store.list() as SpellApiResponse[];
-const items: Spell[] = data?.map(item => createSpell(item));
+const containerRef = ref<HTMLElement | null>(null);
+
+const items = computed<Spell[]>(() => store.listItems.map(createSpell));
+
+onMounted(() => store.loadMore());
 
 useHead({ title: 'Spells' });
 definePageMeta({ layout: false });
@@ -19,7 +22,7 @@ definePageMeta({ layout: false });
             <PageTitle title="Spells" back-to="/" :underline="true"/>
         </template>
 
-        <TeaserGrid v-if="items">
+        <TeaserGrid v-if="items.length > 0" ref="containerRef">
             <SpellTeaser
                 v-for="item in items"
                 :key="item.id"

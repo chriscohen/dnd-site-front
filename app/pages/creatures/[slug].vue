@@ -1,14 +1,12 @@
 ﻿<script setup lang="ts">
-import {ArmorClassSource} from "#imports";
 import PageTitle from "~/components/labels/PageTitle.vue";
 import BottomNavigation from "~/components/navigation/BottomNavigation.vue";
-import DndHeading from "~/components/headings/DndHeading.vue";
 import StatBlock from "~/components/dnd/StatBlock.vue";
 import {createCreature, type CreatureApiResponse} from "~/classes/creatures/creature";
 
 const route = useRoute();
 const store = useCreatureCache();
-const data: CreatureApiResponse = await store.get(route.params.slug as string) as CreatureApiResponse;
+const data: CreatureApiResponse = await store.get({ key: route.params.slug as string }) as CreatureApiResponse;
 const item = createCreature(data);
 
 useHead({ title: item.name ?? 'Loading' });
@@ -23,9 +21,10 @@ definePageMeta({ layout: false });
             </PageTitle>
         </template>
 
-        <div v-if="item" class="flex flex-col">
-            <DndHeading size="2" :loading="!item">Title</DndHeading>
-            <StatBlock :creature="item" :edition="item?.editions?.[0]"/>
+        <div class="grid grid-cols-1 md:grid-cols-2 mt-4 md:px-4">
+            <div v-if="item" class="">
+                <StatBlock :creature="item" :edition="item?.editions?.[0]"/>
+            </div>
         </div>
 
         <template #bottomNav>

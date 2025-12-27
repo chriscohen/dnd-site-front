@@ -22,7 +22,7 @@ const item = createItem(data);
         <!-- Right Side -->
         <div>
             <!-- Heading -->
-            <div class="flex items-end border-b-1 border-gray-400 mb-4">
+            <div class="flex items-end border-b border-gray-400 mb-4">
                 <NuxtLink to="/items">
                     <Icon name="lucide:chevron-left" class="text-gray-500 hover:text-gray-200 hover:animate-bounce-left" size="3rem" />
                 </NuxtLink>

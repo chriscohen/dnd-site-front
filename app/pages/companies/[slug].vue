@@ -2,12 +2,12 @@
 import {useCompanyCache} from "~/stores/Store";
 import PageTitle from "~/components/labels/PageTitle.vue";
 import ProductList from "~/components/lists/ProductList.vue";
-import type {CompanyApiResponse} from "~/classes/company";
+import {createCompany, type CompanyApiResponse} from "~/classes/company";
 
 const route = useRoute();
 const store = useCompanyCache();
-const path = API_URL + '/company/' + route.params.slug + '?mode=full';
-const item: CompanyApiResponse = await store.get(path) as CompanyApiResponse;
+const data: CompanyApiResponse = await store.get({ key: route.params.slug as string}) as CompanyApiResponse;
+const item = createCompany(data);
 
 useHead({ title: item?.name ?? 'Loading' });
 definePageMeta({ layout: false });
@@ -16,13 +16,15 @@ definePageMeta({ layout: false });
 <template>
     <NuxtLayout name="default">
         <template #pageTitle>
-            <PageTitle :title="item?.name" back-to="/companies"/>
+            <PageTitle :title="item?.name" back-to="/companies">
+                <template #subtitle>Company</template>/
+            </PageTitle>
         </template>
 
-        <div v-if="item" class="mx-2 md:mx-4 mt-4 flex flex-col items-center gap-4 h-full">
+        <div v-if="item" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
             <NuxtImg v-if="item?.logo" :src="item.logo.url" :alt="item?.name + 'Logo'"/>
 
-            <ProductList :products="item?.products" class="w-full min-h-0 mb-4"/>
+            <ProductList :publisher="item.slug" class="w-full"/>
         </div>
     </NuxtLayout>
 </template>

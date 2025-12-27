@@ -1,6 +1,6 @@
 ﻿<script setup lang="ts">
 
-import type {ProductId} from "~/classes/product";
+import type {ProductId} from "~/classes/productId";
 
 const props = defineProps<{
     productId: ProductId

@@ -10,7 +10,7 @@ const props = defineProps<{
 </script>
 
 <template>
-    <section v-if="references" class="reference-list">
+    <section v-if="references" class="reference-loadMore">
         <DndHeading v-if="showTitle" size="3" class="">References</DndHeading>
         <ReferenceListItem
             v-for="reference in references"
@@ -23,7 +23,7 @@ const props = defineProps<{
 <style scoped lang="scss">
 @use '~/assets/css/default/fonts';
 
-.reference-list {
+.reference-loadMore {
     margin-top: 0.5rem;
 
     > h3 {

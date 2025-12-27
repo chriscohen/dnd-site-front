@@ -3,7 +3,7 @@
 import TeaserTitle from "~/components/teasers/TeaserTitle.vue";
 import TeaserTile from "~/components/teasers/TeaserTile.vue";
 import type {Source} from "~/classes/sources/source";
-import CoverImage from "~/components/media/CoverImage.vue";
+import MediaImage from "~/components/media/MediaImage.vue";
 
 const props = defineProps<{
     source?: Source
@@ -12,7 +12,7 @@ const props = defineProps<{
 
 <template>
     <TeaserTile :href="'/sources/' + source?.slug">
-        <CoverImage v-if="source?.coverImage" :source="source" />
+        <MediaImage v-if="source?.coverImage" :media="source.coverImage" />
         <TeaserTitle :title="source?.name" :edition="source?.gameEdition"/>
     </TeaserTile>
 </template>

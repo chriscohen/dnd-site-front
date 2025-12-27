@@ -24,7 +24,7 @@ switch (props.type.toLowerCase()) {
 <template>
     <span class="flex flex-row items-center">
         <UIcon v-if="iconName?.length > 0" :name="'lucide:' + iconName" class="mr-1"/>
-        <NuxtImg v-if="iconPath?.length > 0" :src="iconPath" class="mr-1 w-[16px]"/>
+        <NuxtImg v-if="iconPath?.length > 0" :src="iconPath" class="mr-1 w-4"/>
         <slot/>
     </span>
 </template>

@@ -15,7 +15,7 @@ const props = defineProps<{
                 {{ item.name }}
             </h3>
 
-            <ul v-if="item.headers?.length" class="list-none">
+            <ul v-if="item.headers?.length" class="loadMore-none">
                 <li v-for="header in item.headers"  :key="header.header">
                     {{ header.header }}
                 </li>

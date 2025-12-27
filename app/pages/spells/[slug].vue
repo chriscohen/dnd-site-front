@@ -12,7 +12,7 @@ import type {SpellEdition} from "~/classes/spells/spellEdition";
 const route = useRoute();
 const store = useSpellCache();
 const path = API_URL + '/spell/' + route.params.slug + '?mode=full';
-const source: SpellApiResponse = await store.get(path) as SpellApiResponse;
+const data: SpellApiResponse = await store.get(path) as SpellApiResponse;
 const item = createSpell(data);
 
 useHead({ title: item?.name ?? 'Loading' });
@@ -94,7 +94,6 @@ const tabData = ref<TabsItem[]>([
 </template>
 
 <style scoped lang="scss">
-@use '~/assets/css/default/books';
 @use '~/assets/css/default/mixins';
 
 .spell-container {

@@ -6,8 +6,8 @@ import type {Source} from "~/classes/sources/source";
 import type {SourceEdition} from "~/classes/sources/sourceEdition";
 
 const props = defineProps<{
-    edition: SourceEdition
-    spell: Source
+    edition?: SourceEdition
+    source?: Source
 }>();
 
 let day: string, month: string, year: string;
@@ -27,17 +27,17 @@ try {
                 <dt class="text-right">Publisher</dt>
                 <dd>
                     <NuxtLink :to="'/companies/' + source?.publisher?.slug" class="link">
-                        {{ spell.publisher?.name }}
+                        {{ source?.publisher?.name }}
                     </NuxtLink>
                 </dd>
             </template>
 
-            <template v-if="edition.pages">
+            <template v-if="edition?.pages">
                 <dt class="text-right">Pages</dt>
                 <dd>{{edition.pages}}</dd>
             </template>
 
-            <template v-if="edition.formats">
+            <template v-if="edition?.formats">
                 <dt class="text-right">Formats</dt>
                 <dd>
                     <SourceFormatLabel
@@ -52,22 +52,22 @@ try {
 
             <dt class="text-right">First Released</dt>
             <dd>
-                <template v-if="!edition.releaseDateMonthOnly">{{ day }}</template>
+                <template v-if="!edition?.releaseDateMonthOnly">{{ day }}</template>
                 {{ month }}
                 {{ year }}
             </dd>
 
-            <template v-if="edition.binding">
+            <template v-if="edition?.binding">
                 <dt class="text-right">Binding</dt>
-                <dd class="capitalize">{{ edition.binding }}</dd>
+                <dd class="capitalize">{{ edition?.binding }}</dd>
             </template>
 
-            <template v-if="edition.isbn10">
+            <template v-if="edition?.isbn10">
                 <dt class="text-right">ISBN-10</dt>
                 <dd>{{ formatIsbn(edition.isbn10) }}</dd>
             </template>
 
-            <template v-if="edition.isbn13">
+            <template v-if="edition?.isbn13">
                 <dt class="text-right">ISBN-13</dt>
                 <dd>{{ formatIsbn(edition.isbn13) }}</dd>
             </template>

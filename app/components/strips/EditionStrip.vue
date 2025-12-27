@@ -11,9 +11,8 @@ const classNameActive: string = className + '-active';
 
 <template>
     <aside v-if="!vertical" class="edition-strip block mt-auto h-2" :class="classNameActive"/>
-    <aside v-else class="relative edition-strip block h-16">
-        <div class="absolute top-0 left-1/2 w-2 h-full" :class="classNameActive"/>
-    </aside>
+
+        <div v-else class="top-0 left-1/2 w-2 h-12" :class="classNameActive"/>
 </template>
 
 <style lang="scss">

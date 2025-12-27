@@ -10,6 +10,11 @@ export const DATA_TYPES: Record<string, {
         plural: 'Campaign Settings',
         path: '/campaign-settings/'
     },
+    company: {
+        name: 'Company',
+        plural: 'Companies',
+        path: '/companies/'
+    },
     creature: {
         name: 'Creature',
         plural: 'Creatures',

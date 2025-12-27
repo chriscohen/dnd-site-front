@@ -16,7 +16,7 @@ await store.fetch(path);
 
 const items: ItemApiResponse[] = await store.get(path) as ItemApiResponse[];
 
-const columns: TableColumn<ItemApiResponse>[] = [
+const columns = [
     {
         accessorKey: 'slug',
         name: 'slug'

@@ -8,9 +8,9 @@ const props = defineProps<{
 </script>
 
 <template>
-    <NuxtLink v-if="reference" :href="'/sources/' + reference.slug" class="reference-list-item item-link">
+    <NuxtLink v-if="reference" :href="'/sources/' + reference.slug" class="reference-loadMore-item item-link">
         <img :src="reference.image?.url" :alt="reference.source + ' thumbnail'">
-        <span>{{ reference.spell }}</span>
+        <span>{{ reference.source }}</span>
         <span class="page-reference">{{ formatPages(reference.pageFrom, reference?.pageTo) }}</span>
     </NuxtLink>
 </template>
@@ -19,7 +19,7 @@ const props = defineProps<{
 @use '~/assets/css/default/colors';
 @use '~/assets/css/default/variables';
 
-.reference-list-item {
+.reference-loadMore-item {
     display: flex;
     align-items: center;
     gap: 1rem;
@@ -35,7 +35,7 @@ const props = defineProps<{
     }
 }
 
-a.reference-list-item {
+a.reference-loadMore-item {
     background-color: transparent;
     color: colors.$text;
     transition: all variables.$default-delay ease-in-out;

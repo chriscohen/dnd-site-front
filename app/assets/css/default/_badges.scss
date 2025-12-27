@@ -2,11 +2,6 @@
 @use 'variables';
 
 .badge {
-    font-size: 60%;
-    padding: 0 0.5rem;
-    text-transform: uppercase;
-    white-space: nowrap;
-
     &.rounded {
         border-radius: 50vh;
     }

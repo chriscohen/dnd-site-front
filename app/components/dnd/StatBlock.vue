@@ -10,6 +10,7 @@ import type {Language} from "~/classes/language";
 import InlineLabel from "~/components/labels/InlineLabel.vue";
 import {orList} from "~/utils/utils";
 import PopoverCreatureType from "~/components/popovers/PopoverCreatureType.vue";
+import AlignmentLabel from "~/components/labels/AlignmentLabel.vue";
 
 const props = defineProps<{
     creature?: Creature
@@ -20,16 +21,16 @@ const props = defineProps<{
 </script>
 
 <template>
-    <aside v-if="creature && edition" class="stat-block p-4 bg-black/50 max-w-5xl rounded-xl flex flex-col gap-2">
+    <aside v-if="creature && edition" class="stat-block p-4 bg-black/50 max-w-5xl md:rounded-xl flex flex-col gap-2">
         <header>
             <DndHeading v-if="showTitle" size="2">{{ creature?.name }}</DndHeading>
-            <span class="font-light italic text-md">
+            <span class="font-light italic">
                 {{ ucFirst(orList(edition.sizes.map((size) => size.toString()))) }}
 
                 <PopoverCreatureType :slug="edition?.type?.majorType?.slug">
-                    {{ ucFirst(edition?.type?.toString() ?? '') }},
-                </PopoverCreatureType>
-                {{ edition?.alignment ?? 'Unknown Alignment' }}
+                    {{ ucFirst(edition?.type?.toString() ?? '') }}
+                </PopoverCreatureType>,
+                <AlignmentLabel v-for="alignment in edition?.alignment ?? []" :key="alignment.alignment" :alignment="alignment"/>
             </span>
         </header>
         <DndHr/>

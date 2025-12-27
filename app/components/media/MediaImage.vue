@@ -2,7 +2,7 @@
 import type {Media} from "~/classes/media";
 
 const props = defineProps<{
-    media: Media
+    media?: Media
     name?: string
     class?: string
 }>();
@@ -10,6 +10,7 @@ const props = defineProps<{
 
 <template>
     <img
+        v-if="media"
         :src="media?.url"
         :alt="(name ?? media?.name ?? 'image') + ' cover image'"
         class="media-large block w-full"

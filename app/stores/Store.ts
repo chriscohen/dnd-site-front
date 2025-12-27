@@ -1,4 +1,4 @@
-﻿import {defineStore} from "pinia";
+﻿import {defineStore, skipHydrate} from "pinia";
 import {ref, type Ref} from "vue";
 import type {LanguageApiResponse} from "~/classes/language";
 import type {SourceApiResponse} from "~/classes/sources/source";
@@ -10,74 +10,94 @@ import type {CampaignSettingApiResponse} from "~/classes/campaignSetting";
 import type {CharacterClass} from "~/classes/characterClasses/characterClass";
 import type {CreatureMajorTypeApiResponse} from "~/classes/creatures/creatureMajorType";
 
+interface GetProps {
+    key: string
+    params?: Record<string, string>
+    disableSSR?: boolean
+}
+interface ListProps {
+    params?: Record<string, string>
+    disableSSR?: boolean
+}
+
 export function createCacheStore<T>(
     storeId: string,
     useGetPath: string,
     useListPath: string
 ) {
     return defineStore(storeId, () => {
-        const items = ref({}) as Ref<Record<string, T>>;
-        const lists = ref({}) as Ref<Record<string, T[]>>;
+        const getResponses = ref({}) as Ref<Record<string, T>>;
+        const listItems = ref([]) as Ref<T[]>;
+        const lastUrl = ref<string>('');
+        const nextUrl = ref<string | null>(null);
         const pendingUrls = ref(new Set<string>());
         const isLoading = computed(() => pendingUrls.value.size > 0);
         const getPath = useGetPath;
-        const listPath = useListPath;
 
-        async function get(key: string): Promise<T | undefined> {
-            const url = API_URL + '/' + getPath + '/' + key;
-            console.log(url);
+        const hasItems = computed(() => listItems.value.length > 0);
+        const isFinished = computed(() => nextUrl.value === null);
+
+        async function get(props: GetProps = { key: '' }): Promise<T | undefined> {
+            if (props.disableSSR && !import.meta.client) return; // Force client-side only.
+            const url = getUrl(useGetPath + '/' + props.key, props.params);
 
             // If we have it cached, return it immediately.
-            if (has(url)) return items.value[url];
+            if (has(url)) return getResponses.value[url];
 
             // Don't allow a second request for an item we're already fetching.
             if (pendingUrls.value.has(url)) return undefined;
             pendingUrls.value.add(url);
 
             try {
-                const { data, error } = await useFetch<T>(url);
-
-                // Handle error or empty response.
-                if (error.value || !data.value) {
-                    console.error(`Failed to fetch ${url}`, error.value);
-                    return undefined;
-                }
+                const data = await $fetch<T>(url);
 
                 // Success - store and return.
-                items.value[url] = data.value as T;
-                return items.value[url];
+                getResponses.value[url] = data as T;
+                return getResponses.value[url];
+            } catch (error: any) {
+                console.error(`Failed to fetch ${url}`, error.value);
+                return undefined;
             } finally {
-                // Make sure to always remove the URL from the pending list.
+                // Make sure to always remove the URL from the pending loadMore.
                 pendingUrls.value.delete(url);
             }
         }
 
-        async function list(): Promise<T[] | undefined> {
-            const url = API_URL + '/' + listPath;
-
-            // If we have it cached, return it immediately.
-            if (has(url)) return lists.value[url];
+        async function loadMore(props: ListProps = {}) {
+            if (props.disableSSR && !import.meta.client) return; // Force client-side only.
+            nextUrl.value = getUrl(useListPath, props.params);
 
             // Don't allow a second request for an item we're already fetching.
-            if (pendingUrls.value.has(url)) return undefined;
-            pendingUrls.value.add(url);
+            if (pendingUrls.value.has(nextUrl.value)) return;
+            pendingUrls.value.add(nextUrl.value);
 
             try {
-                const { data, error } = await useFetch<PaginatedApiResponse<T>>(url);
+                const data = await $fetch<PaginatedApiResponse<T>>(nextUrl.value);
 
-                // Handle error or empty response.
-                if (error.value || !data.value) {
-                    console.error(`Failed to fetch ${url}`, error.value);
-                    return undefined;
-                }
+                // Success - append data.
+                listItems.value.push(...data.data as T[]);
 
-                // Success - store and return.
-                lists.value[url] = data.value.data as T[];
-                return lists.value[url];
+                // Update the pointer URL to the next page.
+                lastUrl.value = nextUrl.value;
+                nextUrl.value = data.next_page_url;
+            } catch (error) {
+                console.error(`Failed to fetch ${nextUrl.value}`, error);
             } finally {
-                // Make sure to always remove the URL from the pending list.
-                pendingUrls.value.delete(url);
+                // Make sure to always remove the URL from the pending loadMore.
+                pendingUrls.value.delete(lastUrl.value);
             }
+        }
+
+        /**
+         * Build a URL for the given path and query string parameters.
+         *
+         * @param path   The relative path, for example, "creature/ogre"
+         * @param params A map of query string parameters as key/value pairs.
+         */
+        function getUrl(path: string, params: Record<string, string> = {}): string {
+            return API_URL + '/' + path + '?' + Object.entries(params).map(([key, value]) => {
+                return key + '=' + value;
+            }).join('&');
         }
 
         function isFetching(url: string): boolean {
@@ -85,40 +105,39 @@ export function createCacheStore<T>(
         }
 
         function setItem(key: string, item: T) {
-            items.value[key] = item;
+            getResponses.value[key] = item;
         }
 
         function setList(key: string, items: T[]) {
-            lists.value[key] = items;
+            listItems.value.push(...items);
         }
 
         function has(key: string): boolean {
-            return !!items.value[key];
+            return !!getResponses.value[key];
         }
 
         function clear() {
-            items.value = {};
-        }
-
-        async function fetch(url: string) {
-            // This is the old method with no "isLoading" logic. We will keep it here just until we are sure it's not
-            // being used anywhere.
+            getResponses.value = {};
         }
 
         return {
             getPath,
-            items,
+            getResponses,
+            isFinished,
             isLoading,
-            listPath,
-            lists,
-            pendingUrls,
+            listItems,
+            nextUrl,
+            // Don't allow the server to hydrate the pending URLs, because this could happen after the server initiated
+            // a request, but before it received a response, leading to a "stuck" pendingUrl on the client with no
+            // request being made.
+            pendingUrls: skipHydrate(pendingUrls),
 
-            fetch,
             get,
-            list,
+            has,
+            hasItems,
+            loadMore,
             setItem,
             setList,
-            has
         };
     });
 }

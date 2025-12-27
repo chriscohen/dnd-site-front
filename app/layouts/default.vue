@@ -9,8 +9,8 @@ useHead({
 </script>
 
 <template>
-    <div id="outer" class="flex flex-col">
-        <header class="bg-debug-red flex justify-between gap-8 items-center bg-gray-950 min-h-[3rem]">
+    <div id="outer" class="flex flex-col h-dvh w-full overflow-hidden">
+        <header class="bg-debug-red flex justify-between items-center gap-8 bg-gray-950 min-h-12">
             <slot name="header">
                 <MainNavigation/>
                 <DndSearch/>
@@ -18,9 +18,9 @@ useHead({
             </slot>
         </header>
         <slot name="pageTitle"/>
-        <main class="min-h-0 flex flex-col">
+        <main class="flex-1 min-h-0 sm:px-4 flex flex-col">
             <NuxtLoadingIndicator/>
-            <div class="page-content overflow-hidden mb-4">
+            <div id="page-content" class="flex-1 flex flex-col min-h-0 w-full overflow-hidden my-4">
                 <slot/>
             </div>
         </main>

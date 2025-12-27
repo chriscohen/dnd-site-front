@@ -5,10 +5,10 @@ import CreatureList from "~/components/lists/creatures/CreatureList.vue";
 import {createCreature, type Creature, type CreatureApiResponse} from "~/classes/creatures/creature";
 
 const store = useCreatureCache();
-const data: CreatureApiResponse[] = await store.list() as CreatureApiResponse[];
+const data: CreatureApiResponse[] = await store.loadMore() as CreatureApiResponse[];
 const items = data?.map((item: CreatureApiResponse) => createCreature(item));
 
-useHead({ title: 'Species' });
+useHead({ title: 'Creatures' });
 definePageMeta({ layout: false });
 
 const selectedItem: Ref<Creature | undefined> = ref(undefined);
@@ -24,7 +24,7 @@ async function handleSelect(item: Creature) {
 <template>
     <NuxtLayout name="default">
         <template #pageTitle>
-            <PageTitle title="Species" back-to="/"/>
+            <PageTitle title="Creatures" back-to="/"/>
         </template>
 
         <div class="flex flex-col-reverse sm:flex-row mt-4 gap-4 overflow-hidden h-full">

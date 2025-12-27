@@ -59,7 +59,6 @@ const editionsWithSavingThrow = [
 
 <style scoped lang="scss">
 @use '~/assets/css/default/animations';
-@use '~/assets/css/default/books';
 @use '~/assets/css/default/fonts';
 @use '~/assets/css/default/colors';
 @use '~/assets/css/default/layout';
@@ -77,7 +76,7 @@ const editionsWithSavingThrow = [
     margin-top: 1.5rem;
 }
 
-.classes-levels-list {
+.classes-levels-loadMore {
     margin-left: auto;
 }
 

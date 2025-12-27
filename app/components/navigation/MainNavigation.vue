@@ -19,7 +19,6 @@ const routeData = ref<RouteData[]>([
         name: 'Spells',
         path: '/spells',
         children: [
-            { name: 'Spells', path: '/spells' },
             { name: 'Magic Schools', path: '/magic-schools' }
         ]
     },
@@ -28,7 +27,6 @@ const routeData = ref<RouteData[]>([
         name: 'Classes',
         path: '/classes',
         children: [
-            { name: 'Classes', path: '/classes' },
             { name: 'Feats', path: '/' },
             { name: 'Skills', path: '/'}
         ]
@@ -36,15 +34,11 @@ const routeData = ref<RouteData[]>([
     {
         name: 'Creatures',
         path: '/creatures',
-        children: [
-            { name: 'Creatures', path: '/creatures' }
-        ]
     },
     {
         name: 'Sources',
         path: '/sources',
         children: [
-            { name: 'Sourcebooks', path: '/sources' },
             { name: 'Magazines', path: '/' },
             { name: 'Websites', path: '/' }
         ]
@@ -74,7 +68,6 @@ const menuOpen: Ref<boolean> = ref<boolean>(false);
                 class="group cursor-pointer hover:bg-highlight hover:text-gray-900 transition-bg-color duration-500 ease-in-out"
             >
                 <NuxtLink
-                    v-if="!item.children"
                     :to="item.path"
                     :class="getActive(item) ? 'active' : ''"
                     class="text-nowrap px-4 py-2"
@@ -82,9 +75,7 @@ const menuOpen: Ref<boolean> = ref<boolean>(false);
                     {{ item.name }}
                 </NuxtLink>
 
-                <template v-else-if="item.children">
-                    <span class="px-4 py-2">{{ item.name }}</span>
-
+                <template v-if="item.children">
                     <ul
                         class="absolute min-w-64 bg-slate-800 hidden
                             group-hover:block group-hover:text-white z-50"

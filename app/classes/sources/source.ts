@@ -1,6 +1,6 @@
 ﻿import {createMedia, type Media, type MediaApiResponse} from "~/classes/media";
 import {type Company, type CompanyApiResponse, createCompany} from "~/classes/company";
-import {createProductId, type ProductIdApiResponse, type ProductIdState} from "~/classes/product";
+import {createProductId, type ProductIdApiResponse, type ProductIdState} from "~/classes/productId";
 import {type CampaignSetting, type CampaignSettingApiResponse, createCampaignSetting} from "~/classes/campaignSetting";
 import {
     createSourceEdition,
@@ -53,7 +53,7 @@ export const createSource = (data?: SourceApiResponse) => {
         shortName: data?.shortName,
         slug: data?.slug,
         campaignSetting: createCampaignSetting(data?.campaignSetting),
-        coverImage: createMedia(data?.coverImage),
+        coverImage: data?.coverImage ? createMedia(data?.coverImage) : undefined,
         description: data?.description,
         editions: data?.editions?.map(createSourceEdition),
         gameEdition: data?.gameEdition,

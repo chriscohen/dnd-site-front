@@ -5,23 +5,24 @@ const props = defineProps<{
     bgColor?: string
     label?: string
     extraText?: string
-    roundedCorners?: string
 }>();
 
 const classes = [
     'badge',
     props.type ? props.type + '-badge' : null,
     props.bgColor ? 'bg-' + props.bgColor : null,
-    props.roundedCorners == 'all' ? 'rounded' : null,
-    props.roundedCorners == 'left' ? 'rounded-left' : null,
-    props.roundedCorners == 'right' ? 'rounded-right' : null,
 ];
 </script>
 
 <template>
-    <span :class="classes">
-        {{ label }}
-    </span>
+    <UTooltip :disabled="!extraText" :text="extraText" :ui="{ content: 'text-gray-800' }">
+        <span
+            :class="classes"
+            class="text-sm px-2 uppercase text-nowrap"
+        >
+            {{ label }}
+        </span>
+    </UTooltip>
 </template>
 
 <style scoped lang="scss">

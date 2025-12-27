@@ -1,19 +1,34 @@
 <script setup lang="ts">
-import SourcebookTeaser from "~/components/teasers/SourcebookTeaser.vue";
+import SourceTeaser from "~/components/sources/SourceTeaser.vue";
 import PageTitle from "~/components/labels/PageTitle.vue";
 import {useSourceCache} from "~/stores/Store";
 import {definePageMeta} from "#imports";
 import TeaserGrid from "~/components/teasers/TeaserGrid.vue";
-import {createSource, type Source, type SourceApiResponse} from "~/classes/sources/source";
+import {createSource, type Source} from "~/classes/sources/source";
+import {useInfiniteScroll} from "@vueuse/core";
 
 const store = useSourceCache();
-const data: SourceApiResponse[] = await store.list() as SourceApiResponse[];
-const items: Source[] = data?.map(item => createSource(item));
+const containerRef = ref<HTMLElement | null>(null);
+
+const items = computed<Source[]>(() => {
+    return store.listItems.map(createSource);
+});
+
+const { reset } = useInfiniteScroll(
+    containerRef,
+    () => {
+        store.loadMore();
+    },
+    {
+        distance: 10,
+        canLoadMore: () => !store.isFinished
+    }
+);
+
+onMounted(() => store.loadMore());
 
 useHead({ title: 'Sourcebooks' });
-definePageMeta({
-    layout: false
-})
+definePageMeta({ layout: false });
 </script>
 
 <template>
@@ -22,9 +37,11 @@ definePageMeta({
             <PageTitle title="Sourcebooks" back-to="/" :underline="true"/>
         </template>
 
-        <TeaserGrid v-if="items">
-            <SourcebookTeaser v-for="item in items" :key="item.id" :source="item"/>
-        </TeaserGrid>
+        <div class="h-full overflow-y-scroll">
+            <TeaserGrid v-if="items.length > 0" ref="containerRef">
+                <SourceTeaser v-for="item in items" :key="item.id" :source="item"/>
+            </TeaserGrid>
+        </div>
     </NuxtLayout>
 </template>
 

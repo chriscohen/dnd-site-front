@@ -82,10 +82,6 @@ export interface SearchResult {
     type: string
 }
 
-
-
-
-
 export enum ArmorClassSource {
     BASE = 'base',
     NATURAL = 'natural',

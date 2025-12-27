@@ -2,53 +2,12 @@
 @use 'fonts';
 @use 'variables';
 
-:root {
-    background: colors.$black;
-    color: colors.$gray-200;
-
-    font-size: 14px;
-
-    @include fonts.bookmania;
-}
-
-html, body {
-    margin: 0;
-    padding: 0;
-    height: 100vh;
-    width: 100vw;
-    overflow: hidden;
-    font-size: 16px;
-}
-
-body {
-    background: radial-gradient(colors.$gray-800, colors.$gray-950);
-}
-
-#__nuxt {
-    height: 100dvh;
-    width: 100vw;
-    overflow: hidden;
-}
-
-.page-container-outer{
-    width: 100%;
-}
 .page-container {
     width: 100%;
     overflow: auto;
 }
 
-.container {
-    background: colors.$black-50;
-    border-radius: 1rem;
-    padding: 0 1rem;
-}
-
 button {
     background: none;
     border: none;
-}
-
-.page-content {
-    width: 100%;
 }

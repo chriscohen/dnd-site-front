@@ -12,12 +12,12 @@ const props = defineProps<{
 
 <template>
     <DndSection :class="props.class">
-        <DndHeading>
+        <DndHeading size="2" underline>
             <USkeleton v-if="!item" class="w-full h-8 mb-2"/>
             <template v-else>{{ item.name }}</template>
 
             <template v-if="item?.publisher" #subtitle>
-                <h5 class="font-[mrs-eaves] uppercase">{{ item.publisher?.name }}</h5>
+                <NuxtLink :to="'/company/' + item.publisher?.slug" class="italic">{{ item.publisher?.name }}</NuxtLink>
             </template>
         </DndHeading>
 

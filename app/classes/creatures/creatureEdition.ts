@@ -24,6 +24,7 @@ import type {
     AbilityScoreModifierGroupApiResponse,
     AbilityScoreModifierGroupState
 } from "~/classes/abilities/abilityScoreModifierGroup";
+import {type AlignmentApiResponse, type AlignmentState, createAlignment} from "~/classes/alignment/alignment";
 
 export interface CreatureEditionApiResponse {
     id: string
@@ -31,7 +32,7 @@ export interface CreatureEditionApiResponse {
     abilities?: AbilityScoreApiResponse[]
     abilityScoreModifiers?: AbilityScoreModifierGroupApiResponse
     ages?: Record<CreatureAgeType, number>
-    alignment?: string
+    alignment?: AlignmentApiResponse[]
     armorClass?: ArmorClassApiResponse[]
     challengeRating?: number
     conditionImmune?: string[]
@@ -40,8 +41,9 @@ export interface CreatureEditionApiResponse {
     hitPoints: CreatureHitPoints
     immune?: string[]
     isPlayable?: boolean
+    lairXp?: boolean
     languages?: LanguageApiResponse[]
-    speed?: MovementSpeedApiResponse[]
+    movementSpeeds?: MovementSpeedApiResponse[]
     proficiencyBonus?: number
     refrences?: ReferenceApiResponse[]
     resist?: string[]
@@ -57,7 +59,7 @@ export type CreatureEditionState = {
     id?: string
     abilities?: AbilityScoresState
     abilityScoreModifiers?: AbilityScoreModifierGroupState
-    alignment?: string
+    alignment?: AlignmentState[]
     armorClass?: ArmorClass[]
     challengeRating?: number
     conditionImmunities?: string[]
@@ -66,6 +68,7 @@ export type CreatureEditionState = {
     damageVulnerabilities?: string[]
     hitPoints?: CreatureHitPoints
     isPlayable?: boolean
+    lairXp?: boolean
     languages?: Language[]
     movementSpeeds?: MovementSpeedsGroup
     proficiencyBonus?: number
@@ -85,7 +88,7 @@ export const createCreatureEdition = (data?: CreatureEditionApiResponse) => {
             wis: createAbilityScore(data?.abilities?.find((item: AbilityScoreApiResponse) => item.type === 'WIS')),
             cha: createAbilityScore(data?.abilities?.find((item: AbilityScoreApiResponse) => item.type === 'CHA')),
         },
-        alignment: data?.alignment,
+        alignment: data?.alignment?.map(createAlignment),
         armorClass: data?.armorClass?.map(createArmorClass),
         challengeRating: data?.challengeRating,
         conditionImmunities: data?.conditionImmune,
@@ -93,6 +96,7 @@ export const createCreatureEdition = (data?: CreatureEditionApiResponse) => {
         damageResistances: data?.resist,
         hitPoints: data?.hitPoints,
         isPlayable: data?.isPlayable,
+        lairXp: data?.lairXp,
         languages: data?.languages?.map(createLanguage),
         movementSpeeds: createMovementSpeedsGroup({
             burrow: createMovementSpeed(data?.movementSpeeds?.find(

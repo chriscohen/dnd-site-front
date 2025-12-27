@@ -13,7 +13,3 @@ const props = defineProps<{
         dasflkjklj
     </div>
 </template>
-
-<style scoped lang="scss">
-@use '~/assets/css/default/books';
-</style>

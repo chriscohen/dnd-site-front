@@ -2,6 +2,39 @@
 @import '@nuxt/ui';
 
 @layer base {
+    html {
+        font-family: 'Bookmania', serif;
+        font-size: 12px;
+        color: var(--color-gray-200);
+    }
+
+    body {
+        background: radial-gradient(
+            var(--color-gray-800),
+            var(--color-gray-950)
+        );
+    }
+
+    html, body, #__nuxt {
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        width: 100vw;
+        overflow: hidden;
+    }
+
+    @media --md {
+        html {
+            font-size: 14px;
+        }
+    }
+
+    @media --xl {
+        html {
+            font-size: 16px;
+        }
+    }
+
     @font-face {
         font-family: 'Mrs Eaves';
         src: url('/fonts/mrs-eaves-small-caps-400.otf') format('opentype');
@@ -38,6 +71,13 @@
         font-style: italic;
         font-display: swap;
     }
+
+    .container {
+        @apply bg-black/50 rounded-xl px-4
+    }
+    .router-link-active {
+        @apply border-b-3 bg-gray-800 border-b-primary-800;
+    }
 }
 
 @theme {
@@ -45,4 +85,5 @@
     --font-scaly: 'Scaly Sans', sans-serif;
     --color-primary: oklch(63.7% 0.237 25.331);
     --color-highlight: oklch(70.7% 0.022 261.325);
+    --color-highlighted: rgba(0,0,0,1);
 }
