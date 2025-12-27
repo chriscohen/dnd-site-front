@@ -14,7 +14,8 @@ export default {
         extend: {},
     },
     plugins: [
-        // ✅ Add the plugin here
+        // eslint-disable-next-line @typescript-eslint/no-require-imports
+        require('tailwindcss-animated'),
         // eslint-disable-next-line @typescript-eslint/no-require-imports
         require('@tailwindcss/typography'),
     ],

@@ -41,7 +41,7 @@ async function handleSelect(item: CampaignSetting) {
 
             <template v-if="itemSelected">
                 <div class="w-full md:w-initial">
-                    <CampaignSettingCard v-if="!store.isLoading" :item="selectedItem"/>
+                    <CampaignSettingCard v-if="!store.isLoading" :item="selectedItem" class="animate-fade"/>
                     <CampaignSettingCard v-else/>
                 </div>
             </template>

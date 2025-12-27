@@ -5,7 +5,7 @@ const props = defineProps<{
 </script>
 
 <template>
-    <NuxtLink v-if="href" :to="href" class="teaser block aspect-square">
+    <NuxtLink v-if="href" :to="href" class="teaser block aspect-square animate-fade">
         <slot/>
     </NuxtLink>
 
