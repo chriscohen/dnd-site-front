@@ -3,12 +3,17 @@
 @import '@nuxt/ui';
 @import '~/assets/css/default/_fonts.css';
 
+@tailwind utilities;
+
+:root {
+    --ui-text: var(--color-gray-300);
+}
 
 @layer base {
     html {
-        font-family: 'Bookmania', serif;
+        @apply font-bookmania text-gray-800;
         font-size: 12px;
-        color: var(--color-gray-200);
+        color: var(--color-red-500);
     }
 
     body {
@@ -26,70 +31,85 @@
         overflow: hidden;
     }
 
-    @media --md {
+    @media (min-width: theme('screens.lg')) {
         html {
             font-size: 14px;
         }
     }
 
-    @media --xl {
+    @media (min-width: theme('screens.xl')) {
         html {
-            font-size: 16px;
+            font-size: 15px;
         }
     }
 
-    @font-face {
-        font-family: 'Mrs Eaves';
-        src: url('/fonts/mrs-eaves-small-caps-400.otf') format('opentype');
-        font-weight: 400;
-        font-style: normal;
-        font-display: swap;
-        font-feature-settings: 'scmp';
-    }
-    @font-face {
-        font-family: 'Scaly Sans';
-        src: url('/fonts/scaly-sans-400.otf') format('opentype');
-        font-weight: 400;
-        font-style: normal;
-        font-display: swap;
-    }
-    @font-face {
-        font-family: 'Scaly Sans';
-        src: url('/fonts/scaly-sans-400-italic.otf') format('opentype');
-        font-weight: 400;
-        font-style: italic;
-        font-display: swap;
-    }
-    @font-face {
-        font-family: 'Scaly Sans';
-        src: url('/fonts/scaly-sans-700.otf') format('opentype');
-        font-weight: 700;
-        font-style: normal;
-        font-display: swap;
-    }
-    @font-face {
-        font-family: 'Scaly Sans';
-        src: url('/fonts/scaly-sans-700-italic.otf') format('opentype');
-        font-weight: 700;
-        font-style: italic;
-        font-display: swap;
-    }
-
     p {
-        @apply mb-4;
+        @apply mb-4 font-light;
     }
+    ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+    h1 { @apply font-eaves text-6xl text-white; }
+    h2 { @apply font-eaves text-4xl text-white; }
+    h3 { @apply font-eaves text-xl text-white; }
+    h4 { @apply font-eaves text-lg text-white; }
+    h5 { @apply font-eaves text-base text-white; }
+    h6 { @apply font-eaves text-sm text-white; }
+
     .container {
         @apply bg-black/50 rounded-xl px-4
     }
     .router-link-active {
         @apply border-b-3 bg-gray-800 border-b-primary-800;
     }
+
+    /**
+     * Scrollbar styling.
+     */
+    .scrollbar {
+        overflow-y: hidden;
+        padding-right: 0.5rem;
+        scrollbar-gutter: stable both-edges;
+
+        &:hover {
+            overflow-y: auto;
+        }
+    }
+    ::-webkit-scrollbar {
+        @apply w-2 h-2
+    }
+    /* Track */
+    ::-webkit-scrollbar-track {
+        @apply: text-black;
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        @apply bg-gray-500 rounded-lg;
+    }
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        @apply bg-gray-700;
+    }
 }
 
 @theme {
+    --font-bookmania: 'Bookmania', serif;
     --font-eaves: 'Mrs Eaves', sans-serif;
     --font-scaly: 'Scaly Sans', sans-serif;
     --color-primary: oklch(63.7% 0.237 25.331);
-    --color-highlight: oklch(70.7% 0.022 261.325);
+    --color-highlight: var(--color-gray-300);
     --color-highlighted: rgba(0,0,0,1);
+
+    --color-common: oklch(87.2% 0.01 258.338);
+    --color-uncommon: oklch(64.8% 0.2 131.684);
+    --color-rare: oklch(54.6% 0.245 262.881);
+    --color-very-rare: oklch(55.8% 0.288 302.321);
+    --color-legendary: oklch(66.6% 0.179 58.318);
+
+    --default-font-family: var(--font-bookmania);
+    --ui-text: var(--color-red-200);
 }
