@@ -18,12 +18,3 @@ const item = createMagicSchool(data);
         </div>
     </div>
 </template>
-
-<style lang="scss" scoped>
-@use '~/assets/css/default/layout';
-
-.prose {
-    margin-top: 1rem;
-    margin-bottom: 2rem;
-}
-</style>

@@ -21,7 +21,7 @@ const props = defineProps<{
 
 <style scoped lang="scss">
 @use '~/assets/css/default/colors';
-@use '~/assets/css/default/fonts';
+@use '_fonts.css';
 
 .classes-levels-loadMore {
     background: colors.$black-80;

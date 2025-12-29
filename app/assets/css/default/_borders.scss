@@ -22,19 +22,3 @@
             transparent 100%
     );
 }
-
-.border-common {
-    border-top: solid variables.$rarity-width colors.$rarity-common;
-}
-.border-uncommon {
-    border-top: solid variables.$rarity-width colors.$rarity-uncommon;
-}
-.border-rare {
-    border-top: solid variables.$rarity-width colors.$rarity-rare;
-}
-.border-very-rare {
-    border-top: solid variables.$rarity-width colors.$rarity-very-rare;
-}
-.border-legendary {
-    border-top: solid variables.$rarity-width colors.$rarity-legendary;
-}

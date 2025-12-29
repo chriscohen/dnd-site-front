@@ -15,7 +15,7 @@ const props = defineProps({
 
 <style scoped lang="scss">
 @use '~/assets/css/default/colors';
-@use '~/assets/css/default/fonts';
+@use '_fonts.css';
 
 aside.label {
     background-color: colors.$white-10;

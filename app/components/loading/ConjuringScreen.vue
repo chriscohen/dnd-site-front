@@ -13,7 +13,7 @@ import DndHeading from "~/components/headings/DndHeading.vue";
 </template>
 
 <style scoped lang="scss">
-@use '~/assets/css/default/fonts';
+@use '_fonts.css';
 
 .conjuring-wrapper {
     width: 100%;

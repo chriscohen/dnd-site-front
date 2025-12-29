@@ -12,31 +12,6 @@ a {
     }
 }
 
-.underline {
-    text-decoration: underline;
-}
-
-.text-active {
-    color: colors.$text-active;
-}
-.text-dark {
-    color: colors.$text-dark;
-
-    &.active {
-        color: colors.$text-dark-active;
-    }
-    &:hover {
-        color: colors.$text-dark-hover;
-    }
-}
-.text-muted {
-    color: colors.$text-muted;
-}
-
-p {
-    font-weight: 300;
-}
-
 .prose {
     > p:not(:first-child) {
         margin-top: 1rem;

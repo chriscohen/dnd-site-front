@@ -24,7 +24,3 @@ const classes = [
         </span>
     </UTooltip>
 </template>
-
-<style scoped lang="scss">
-@use '~/assets/css/default/badges';
-</style>

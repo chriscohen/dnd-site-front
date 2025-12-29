@@ -21,7 +21,7 @@ const props = defineProps<{
 </template>
 
 <style scoped lang="scss">
-@use '~/assets/css/default/fonts';
+@use '_fonts.css';
 
 .reference-loadMore {
     margin-top: 0.5rem;

@@ -2,9 +2,12 @@
 import type {Media} from "~/classes/media";
 
 const props = defineProps<{
+    class?: string
+    loading?: boolean
     media?: Media
     name?: string
-    class?: string
+    placeholder?: string
+    rounded?: boolean
 }>();
 </script>
 
@@ -16,14 +19,3 @@ const props = defineProps<{
         class="media-large block w-full"
     >
 </template>
-
-<style scoped lang="scss">
-@use '~/assets/css/default/mixins';
-@use '~/assets/css/default/variables';
-
-.media-large {
-    border-radius: 0.5rem;
-    height: initial;
-    @include mixins.drop-shadow;
-}
-</style>

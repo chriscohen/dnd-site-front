@@ -58,10 +58,8 @@ const editionsWithSavingThrow = [
 </template>
 
 <style scoped lang="scss">
-@use '~/assets/css/default/animations';
-@use '~/assets/css/default/fonts';
+@use '_fonts.css';
 @use '~/assets/css/default/colors';
-@use '~/assets/css/default/layout';
 @use '~/assets/css/default/variables';
 @use '~/assets/css/default/mixins';
 

@@ -30,13 +30,3 @@ const props = defineProps<{
         <HorizontalDivider/>
     </div>
 </template>
-
-<style scoped lang="scss">
-@use '~/assets/css/default/colors';
-@use '~/assets/css/default/fonts';
-@use '~/assets/css/default/mixins';
-
-.loading {
-    height: 3rem;
-}
-</style>

@@ -10,7 +10,7 @@ useHead({
 
 <template>
     <div id="outer" class="flex flex-col h-dvh w-full overflow-hidden">
-        <header class="bg-debug-red flex justify-between items-center gap-8 bg-gray-950 min-h-12">
+        <header class="bg-debug-red flex justify-between items-center gap-8 bg-gray-950 min-h-12 px-4">
             <slot name="header">
                 <MainNavigation/>
                 <DndSearch/>
@@ -28,7 +28,3 @@ useHead({
         <slot name="bottomNav"/>
     </div>
 </template>
-
-<style lang="scss">
-@use '~/assets/css/default/styles';
-</style>
