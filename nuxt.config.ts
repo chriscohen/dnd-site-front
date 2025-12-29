@@ -48,19 +48,8 @@ export default defineNuxtConfig({
     compatibilityDate: '2025-07-15',
     css: [
         '~/assets/css/main.css',
-        '~/assets/css/default/styles.scss'
     ],
-    devtools: { enabled: true },
-    fonts: {
-        defaults: {
-            weights: [400, 700],
-            styles: ['normal', 'italic'],
-            subsets: ['latin', 'latin-ext'],
-        },
-        families: [
-            { name: 'Roboto', provider: 'google', weights: [400, 700], styles: ['normal'] },
-        ]
-    },
+    devtools: { enabled: false },
     icon: {
         customCollections: [
             {
