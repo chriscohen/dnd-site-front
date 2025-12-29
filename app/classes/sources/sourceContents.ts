@@ -29,8 +29,12 @@ export const createSourceContents = (data?: SourceContentsApiResponse) => {
         headers: data?.headers
     }
 
+    const hasHeaders = () => (state.headers?.length ?? 0) > 0;
+
     return {
-        ...state
+        ...state,
+
+        hasHeaders
     }
 }
 
