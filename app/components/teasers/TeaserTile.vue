@@ -1,33 +1,40 @@
 ﻿<script setup lang="ts">
+import type {Media} from "~/classes/media";
+import MediaImage from "~/components/media/MediaImage.vue";
+import {NuxtLink} from "#components";
+import TeaserTitle from "~/components/teasers/TeaserTitle.vue";
+import EditionStrip from "~/components/strips/EditionStrip.vue";
+
 const props = defineProps<{
+    edition?: string
     href?: string
+    media?: Media
+    name?: string
 }>();
 </script>
 
 <template>
-    <NuxtLink v-if="href" :to="href" class="teaser block aspect-square animate-fade">
-        <slot/>
-    </NuxtLink>
+    <component
+        :is="href ? NuxtLink : 'div'"
+        :to="href"
+        class="bg-black/50 flex flex-col items-center justify-center animate-fade shadow relative group rounded-xl"
+    >
+        <template v-if="media">
+            <MediaImage
+                v-if="media"
+                :media="media"
+                class="m-auto"
+            />
+            <TeaserTitle :title="name" hide/>
+        </template>
 
-    <div v-else class="teaser block aspect-square">
+        <template v-else>
+            <header class="mx-4 my-8 flex flex-col items-center text-muted group-hover:text-white transition:colors duration-200 ease-in-out">
+                <UIcon name="i-dnd-book" class="text-8xl"/>
+                <div class="text-center uppercase font-bold">{{ name }}</div>
+            </header>
+        </template>
         <slot/>
-    </div>
+        <EditionStrip v-if="edition" :edition="edition"/>
+    </component>
 </template>
-
-<style scoped lang="scss">
-@use '~/assets/css/default/colors';
-@use 'sass:color';
-
-.teaser {
-    box-shadow: 5px 5px 15px 5px rgba(0, 0, 0, 0.75);
-
-    transition:
-        color 250ms ease-in-out,
-        background 500ms ease-in-out;
-
-    &:hover {
-        background: color.scale(colors.$gray-950, $alpha: -20%);
-        color: colors.$text-hover;
-    }
-}
-</style>
