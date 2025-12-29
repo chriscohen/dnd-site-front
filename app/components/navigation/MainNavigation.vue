@@ -63,7 +63,7 @@ const menuOpen: Ref<boolean> = ref<boolean>(false);
 <template>
     <nav role="navigation" class="relative flex space-between">
         <!-- Main navigation, full width -->
-        <ul id="main-navigation" class="font-eaves pt-4 mb-4 text-3xl hidden lg:flex">
+        <ul id="main-navigation" class="font-eaves pt-4 mb-4 text-xl hidden lg:flex">
             <li
                 v-for="item in routeData"
                 :key="item.name"
