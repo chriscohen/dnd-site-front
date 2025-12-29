@@ -23,7 +23,7 @@ const { reset } = useInfiniteScroll(
     }
 );
 
-onMounted(() => store.loadMore());
+callOnce(() => store.loadMore());
 
 useHead({ title: 'Sourcebooks' });
 definePageMeta({ layout: false });
@@ -36,13 +36,10 @@ definePageMeta({ layout: false });
         </template>
 
         <div class="h-full overflow-y-scroll">
-            <TeaserGrid v-if="items.length > 0" ref="containerRef">
+            <TeaserGrid v-if="items.length > 0">
                 <SourceTeaser v-for="item in items" :key="item.id" :source="item"/>
             </TeaserGrid>
         </div>
+        <div ref="containerRef"/>
     </NuxtLayout>
 </template>
-
-<style scoped lang="scss">
-@use '~/assets/css/default/teasers';
-</style>

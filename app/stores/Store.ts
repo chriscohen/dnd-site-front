@@ -26,13 +26,14 @@ export function createCacheStore<T>(
     useListPath: string
 ) {
     return defineStore(storeId, () => {
+        const getPath = useGetPath;
         const getResponses = ref({}) as Ref<Record<string, T>>;
+        const isLoading = computed(() => pendingUrls.value.size > 0);
         const listItems = ref([]) as Ref<T[]>;
         const lastUrl = ref<string>('');
         const nextUrl = ref<string | null>(null);
+
         const pendingUrls = ref(new Set<string>());
-        const isLoading = computed(() => pendingUrls.value.size > 0);
-        const getPath = useGetPath;
 
         const hasItems = computed(() => listItems.value.length > 0);
         const isFinished = computed(() => nextUrl.value === null);
@@ -65,7 +66,11 @@ export function createCacheStore<T>(
 
         async function loadMore(props: ListProps = {}) {
             if (props.disableSSR && !import.meta.client) return; // Force client-side only.
-            nextUrl.value = getUrl(useListPath, props.params);
+            if (!useListPath) throw new Error('Cannot use loadMore() with no list URL (useListPath)');
+
+            if (nextUrl.value === null) {
+                nextUrl.value = getUrl(useListPath, undefined, props.params);
+            }
 
             // Don't allow a second request for an item we're already fetching.
             if (pendingUrls.value.has(nextUrl.value)) return;

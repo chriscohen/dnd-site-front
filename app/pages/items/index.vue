@@ -1,20 +1,17 @@
 <script setup lang="ts">
-import type {TableColumn} from "#ui/components/Table.vue";
 import CategoryBadge from "~/components/badges/CategoryBadge.vue";
-import {useRuntimeConfig} from "#app";
 import GameEditionBadge from "~/components/badges/GameEditionBadge.vue";
 import BadgeContainer from "~/components/badges/BadgeContainer.vue";
 import {useItemCache} from "~/stores/Store";
-import type {ItemApiResponse} from "~/classes/items/item";
+import {createItem, type Item} from "~/classes/items/item";
 import type {Media} from "~/classes/media";
 import type {ItemEdition} from "~/classes/items/itemEdition";
 import type {Category} from "~/classes/category";
 
 const store = useItemCache();
-const path = API_URL + '/items?mode=teaser';
-await store.fetch(path);
+await callOnce(() => store.loadMore());
 
-const items: ItemApiResponse[] = await store.get(path) as ItemApiResponse[];
+const items: Item[] = computed(() => store.listItems.map(createItem));
 
 const columns = [
     {
