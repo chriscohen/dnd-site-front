@@ -1,10 +1,7 @@
-﻿<script setup lang="ts">
-import MainNavigation from "~/components/navigation/MainNavigation.vue";
-</script>
-
-<template>
+﻿<template>
     <div id="outer" class="admin">
         <div id="header">
+            Placeholder
         </div>
         <div id="page">
             <NuxtLoadingIndicator/>

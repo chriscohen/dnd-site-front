@@ -20,10 +20,16 @@ interface ListProps {
     disableSSR?: boolean
 }
 
+/**
+ *
+ * @param storeId
+ * @param useGetPath  Relative to the API base URL. Should contain {key} where the key of the item is to be replaced.
+ * @param useListPath
+ */
 export function createCacheStore<T>(
     storeId: string,
     useGetPath: string,
-    useListPath: string
+    useListPath?: string
 ) {
     return defineStore(storeId, () => {
         const getPath = useGetPath;
@@ -40,7 +46,7 @@ export function createCacheStore<T>(
 
         async function get(props: GetProps = { key: '' }): Promise<T | undefined> {
             if (props.disableSSR && !import.meta.client) return; // Force client-side only.
-            const url = getUrl(useGetPath + '/' + props.key, props.params);
+            const url = getUrl(useGetPath, props.key, props.params);
 
             // If we have it cached, return it immediately.
             if (has(url)) return getResponses.value[url];
@@ -96,17 +102,15 @@ export function createCacheStore<T>(
         /**
          * Build a URL for the given path and query string parameters.
          *
-         * @param path   The relative path, for example, "creature/ogre"
+         * @param path   The relative path containing a replacement key, for example, "creature/{key}"
+         * @param key    The key to replace in the path.
          * @param params A map of query string parameters as key/value pairs.
          */
-        function getUrl(path: string, params: Record<string, string> = {}): string {
-            return API_URL + '/' + path + '?' + Object.entries(params).map(([key, value]) => {
+        function getUrl(path: string, key?: string, params: Record<string, string> = {}): string {
+            const myPath = path.replace('{key}', key ?? '');
+            return API_URL + '/' + myPath + '?' + Object.entries(params).map(([key, value]) => {
                 return key + '=' + value;
             }).join('&');
-        }
-
-        function isFetching(url: string): boolean {
-            return pendingUrls.value.has(url);
         }
 
         function setItem(key: string, item: T) {
@@ -149,51 +153,56 @@ export function createCacheStore<T>(
 
 export const useCampaignSettingCache = createCacheStore<CampaignSettingApiResponse>(
     'campaign-setting',
-    'campaign-setting',
+    'campaign-setting/{key}',
     'campaign-settings'
 );
 export const useCharacterClassCache = createCacheStore<CharacterClass>(
     'character-class',
-    'character-class',
+    'character-class/{key}',
     'character-classes'
 );
 export const useCompanyCache = createCacheStore<CompanyApiResponse>(
     'company',
-    'company',
+    'company/{key}',
     'companies'
 );
 export const useCreatureCache = createCacheStore<CreatureApiResponse>(
     'creature',
-    'creature',
+    'creature/{key}',
     'creatures'
 );
 export const useCreatureMajorTypeCache = createCacheStore<CreatureMajorTypeApiResponse>(
     'creature-major-type',
-    'creature-type',
+    'creature-type/{key}',
     'creature-types'
 );
 export const useItemCache = createCacheStore<ItemApiResponse>(
     'item',
-    'item',
+    'item/{key}',
     'items'
 );
 export const useLanguageCache = createCacheStore<LanguageApiResponse>(
     'language',
-    'language',
+    'language/{key}',
     'languages'
 );
 export const useMagicSchoolCache = createCacheStore(
     'magic-school',
-    'magic-school',
+    'magic-school/{key}',
     'magic-schools'
 );
 export const useSourceCache = createCacheStore<SourceApiResponse>(
     'source',
-    'source',
+    'source/{key}',
     'sources'
+);
+
+export const useSourceContentsCache = createCacheStore(
+    'source-contents',
+    'source/{key}/contents'
 );
 export const useSpellCache = createCacheStore<SpellApiResponse>(
     'spell',
-    'spell',
+    'spell/{key}',
     'spells'
 );

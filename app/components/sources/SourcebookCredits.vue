@@ -8,8 +8,6 @@ import type {Person} from "~/classes/person";
 const props = defineProps<{
     edition?: SourceEdition
 }>();
-
-const open = ref(true);
 </script>
 
 <template>

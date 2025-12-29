@@ -32,9 +32,7 @@ definePageMeta({ layout: false });
                 />
             </div>
 
-            <div class="right-container md:w-1/2">
-
-            </div>
+            <div class="right-container md:w-1/2"/>
         </div>
     </NuxtLayout>
 </template>

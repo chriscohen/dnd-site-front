@@ -19,9 +19,7 @@ const props = defineProps<{
         <DndHeading size="2" underline-color="red-800" underline class="flex w-full justify-between cursor-pointer">
             {{ title }}
 
-            <template #controls>
-
-            </template>
+            <template #controls/>
         </DndHeading>
 
         <template #content>

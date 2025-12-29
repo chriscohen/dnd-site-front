@@ -1,5 +1,5 @@
 ﻿<script lang="ts" setup>
-import type {Source, SourceApiResponse} from "~/classes/sources/source";
+import type {Source} from "~/classes/sources/source";
 
 const props = defineProps<{
     source?: Source

@@ -8,7 +8,7 @@ import {useSourceContentsCache} from "~/stores/Store";
 
 const props = defineProps<{
     class?: string
-    contents?: SourceContents[]
+    source?: string
 }>();
 const store = useSourceContentsCache();
 

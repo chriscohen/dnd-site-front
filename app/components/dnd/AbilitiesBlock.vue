@@ -1,6 +1,6 @@
 ﻿<script setup lang="ts">
 
-import type {AbilityScore, AbilityScoresState} from "~/classes/abilities/abilityScore";
+import type {AbilityScore} from "~/classes/abilities/abilityScore";
 
 const props = defineProps<{
     abilities?: Record<string, AbilityScore>

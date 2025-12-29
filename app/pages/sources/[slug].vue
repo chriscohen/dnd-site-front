@@ -14,10 +14,14 @@ import BaseCard from "~/components/cards/BaseCard.vue";
 
 const route = useRoute();
 const store = useSourceCache();
-const data: SourceApiResponse = await store.get({ key: route.params.slug as string }) as SourceApiResponse;
-const item: Source = createSource(data);
 
-useHead({ title: item?.name });
+const { pending, data } = useLazyAsyncData(
+    'source',
+    async () => await store.get({ key: route.params.slug as string }) as Promise<SourceApiResponse|undefined>
+);
+const item = computed(() => createSource(data.value));
+
+useHead({ title: item.value?.name });
 definePageMeta({ layout: false });
 </script>
 
@@ -26,6 +30,7 @@ definePageMeta({ layout: false });
         <template #pageTitle>
             <!-- Heading -->
             <PageTitle
+                :loading="pending"
                 :title="item?.name ?? ''"
                 back-to="/sources"
                 :underline="true"
@@ -44,8 +49,8 @@ definePageMeta({ layout: false });
         <div class="grid grid-cols-1 sm:grid-cols-2 items-start lg:grid-cols-3 gap-4 mx-2 my-4 h-full overflow-auto">
             <div id="column-left">
                 <a id="overview"/>
-                <MediaImage :media="item.coverImage" :name="item.name"/>
-                <SourceDetailsList :source="item" class="mt-4"/>
+                <MediaImage :loading="pending" :media="item.coverImage" :name="item.name" rounded/>
+                <SourceDetailsList :loading="pending" :source="item" class="mt-4"/>
                 <ProductLinkButtonContainer
                     v-if="(item?.productIds?.length ?? 0) > 1"
                     :source="item"

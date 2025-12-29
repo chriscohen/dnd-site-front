@@ -3,8 +3,9 @@ import BackButton from "~/components/buttons/BackButton.vue";
 import HorizontalDivider from "~/components/dividers/HorizontalDivider.vue";
 
 const props = defineProps<{
-    title?: string
     backTo?: string
+    loading?: boolean
+    title?: string
 }>();
 </script>
 
@@ -15,9 +16,11 @@ const props = defineProps<{
         </UFieldGroup>
 
         <div class="w-full mb-2">
-            <h1 class="font-[Modesto] overflow-ellipsis text-4xl md:text-6xl mt-1 md:mt-2">
+            <h1 v-if="!loading" class="font-[Modesto] overflow-ellipsis text-4xl md:text-6xl mt-1 md:mt-2">
                 {{ title }}
             </h1>
+            <USkeleton v-else class="h-16 md:h-24 w-lg"/>
+
             <h3 v-if="$slots.subtitle" class="text-sm sm:text-md lg:text-xl font-[mrs eaves] uppercase">
                 <slot name="subtitle"/>
             </h3>

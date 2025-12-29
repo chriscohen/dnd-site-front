@@ -1,9 +1,7 @@
 ﻿<script lang="ts" setup>
 
-import TeaserTitle from "~/components/teasers/TeaserTitle.vue";
 import TeaserTile from "~/components/teasers/TeaserTile.vue";
 import type {Source} from "~/classes/sources/source";
-import EditionStrip from "~/components/strips/EditionStrip.vue";
 
 const props = defineProps<{
     source?: Source
