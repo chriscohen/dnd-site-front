@@ -7,7 +7,7 @@ const store = useSearchStore();
 const isOpen: Ref<boolean> = ref(false);
 
 // Local state.
-const containerRef = ref(null);
+const searchClickOutsideRef = ref(null);
 const showResults = ref<boolean>(false);
 
 function onInput(input: string) {
@@ -19,7 +19,7 @@ function onSelect(option: { slug: string; }) {
     navigateTo('/campaign-settings/' + option.slug);
 }
 
-onClickOutside(containerRef, () => {
+onClickOutside(searchClickOutsideRef, () => {
     showResults.value = false;
 });
 
@@ -30,11 +30,10 @@ function onFocus() {
 </script>
 
 <template>
-    <div ref="containerRef" class="relative w-full max-w-md my-2">
+    <div ref="searchClickOutsideRef" class="relative max-w-md my-2">
         <UInput
             variant="none"
-            class="w-full bg-gray-800 text-lg border-b-2 border-b-red-800 [&_input]:text-lg md:[&_input]:text-2xl
-                font-light"
+            class="w-full bg-gray-800 text-base border-b-2 border-b-red-800 [&_input]:text-base font-light"
             :model-value="store.query"
             icon="i-lucide-search"
             placeholder="Search anything..."
@@ -46,16 +45,16 @@ function onFocus() {
 
         <ul
             v-if="showResults && store.results?.length > 0"
-            class="absolute bg-gray-950 block top-full left-0 w-full mt-2 max-h-[75dvh] overflow-y-scroll shadow-md/50
+            class="absolute bg-gray-950 block top-full right-0 max-w-lg mt-2 max-h-[75dvh] overflow-y-scroll shadow-md/50
                 z-75"
         >
             <li v-for="item in store.results" :key="item.id">
                 <a
                     :href="DATA_TYPES[item.type]?.path + item.slug"
-                    class="group block text-left px-4 py-2 hover:bg-gray-50 hover:text-gray-800 transition-colors
-                        duration-200 ease-in-out"
+                    class="group block text-left px-4 py-2 hover:bg-highlight hover:text-gray-800 transition-colors
+                        duration-200 ease-in-out rounded-lg"
                 >
-                    <span class="block text-xl">{{ item.name}}</span>
+                    <span class="block text-lg text-nowrap">{{ item.name}}</span>
                     <span class="block font-eaves text-md font-normal text-gray-400 group-hover:text-gray-800 -mt-2">
                         {{ DATA_TYPES[item.type]?.name }}
                     </span>
