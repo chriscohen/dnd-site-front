@@ -9,7 +9,8 @@ import ProseContainer from "~/components/text/ProseContainer.vue";
 import BottomNavigation from "~/components/navigation/BottomNavigation.vue";
 import SourcebookCredits from "~/components/sources/SourcebookCredits.vue";
 import MediaImage from "~/components/media/MediaImage.vue";
-import {createSource, type Source, type SourceApiResponse} from "~/classes/sources/source";
+import {createSource, type SourceApiResponse} from "~/classes/sources/source";
+import BaseCard from "~/components/cards/BaseCard.vue";
 
 const route = useRoute();
 const store = useSourceCache();
@@ -51,18 +52,18 @@ definePageMeta({ layout: false });
                 />
             </div>
 
-            <div id="column-right" class="flex flex-col w-full">
-                <!-- Right Side -->
+            <div id="column-mid">
                 <a id="description"/>
-                <ProseContainer v-if="item.description" :prose="item.description"/>
+                <ProseContainer v-if="item.description" :loading="pending" :markdown="item.description"/>
+            </div>
 
+            <div id="column-right" class="flex flex-col w-full">
                 <SourcebookCredits v-if="item?.editions?.[0]?.credits?.length" :edition="item?.editions?.[0]"/>
 
                 <a id="contents"/>
-                <SourcebookContents
-                    v-if="item?.editions?.[0]?.contents?.length"
-                    :contents="item.editions[0]?.contents"
-                />
+                <BaseCard v-if="item?.editions?.[0]?.contents?.length">
+                    <SourcebookContents :source="item.slug"/>
+                </BaseCard>
                 <!-- /Right Side -->
             </div>
             <!-- /Right Side -->

@@ -1,14 +1,22 @@
 ﻿<script setup lang="ts">
+import BaseCard from "~/components/cards/BaseCard.vue";
+import ProseSkeleton from "~/components/loading/ProseSkeleton.vue";
+
 const props = defineProps<{
     class?: string
-    prose: string
+    loading?: boolean
+    markdown?: string
+    prose?: string
 }>();
+
+const { render } = useMarkdown();
+const mdProse = computed(() => render(props.markdown));
+
 </script>
 
 <template>
-    <div
-        class="prose rounded-lg bg-black/50 text-lg lg:text-xl px-4 py-2 md:px-8 md:py-4 font-light"
-        :class="props.class"
-        v-html="prose"
-    />
+    <BaseCard :class="props.class">
+        <ProseSkeleton v-if="loading"/>
+        <div v-else v-html="markdown ? mdProse : prose || ''"/>
+    </BaseCard>
 </template>
