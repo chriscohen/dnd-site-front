@@ -11,15 +11,8 @@ const props = defineProps<{
 }>();
 
 const edition = props.source?.editions?.[0];
+const parsed = parseISO(edition?.releaseDate ?? '');
 
-let day: string, month: string, year: string;
-
-try {
-    const parsed = parseISO(edition?.releaseDate ?? '');
-    day = format(parsed, "dd");
-    month = format(parsed, "MMMM");
-    year = format(parsed, "y");
-} catch (e) { console.error(`Error parsing date ${edition?.releaseDate}: ${e}`); }
 </script>
 
 <template>
@@ -64,9 +57,9 @@ try {
 
                 <dt class="text-right">First Released</dt>
                 <dd>
-                    <template v-if="!edition?.releaseDateMonthOnly">{{ day }}</template>
-                    {{ month }}
-                    {{ year }}
+                    <template v-if="!edition?.releaseDateMonthOnly">{{ format(parsed, 'dd') }}</template>
+                    {{ format(parsed, 'MMMM') }}
+                    {{ format(parsed, 'y') }}
                 </dd>
 
                 <template v-if="edition?.binding">
@@ -76,12 +69,12 @@ try {
 
                 <template v-if="edition?.isbn10">
                     <dt class="text-right">ISBN-10</dt>
-                    <dd>{{ formatIsbn(edition.isbn10) }}</dd>
+                    <dd>{{ formatIsbn(edition?.isbn10) }}</dd>
                 </template>
 
                 <template v-if="edition?.isbn13">
                     <dt class="text-right">ISBN-13</dt>
-                    <dd>{{ formatIsbn(edition.isbn13) }}</dd>
+                    <dd>{{ formatIsbn(edition?.isbn13) }}</dd>
                 </template>
             </dl>
         </div>

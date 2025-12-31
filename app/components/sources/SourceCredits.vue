@@ -12,12 +12,12 @@ const props = defineProps<{
 
 <template>
     <DndCollapsible v-if="edition?.credits" :start-open="true" title="Credits">
-        <div v-for="role in Object.keys(edition.credits)" :key="role">
+        <div v-for="role in Object.keys(edition.creditsByRole())" :key="role">
             <DndHeading size="3" underline class="mt-2">{{ role }}</DndHeading>
 
             <div class="mt-2 [&>span:not(:last-child)]:after:content-[','] [&>span:not(:last-child)]:mr-1">
                 <PersonLabel
-                    v-for="person in edition.credits[role] as Person[]"
+                    v-for="person in edition.creditsByRole()[role] as Person[]"
                     :key="person.slug"
                     :person="person"
                 />

@@ -9,6 +9,7 @@ import type {CompanyApiResponse} from "~/classes/company";
 import type {CampaignSettingApiResponse} from "~/classes/campaignSetting";
 import type {CharacterClass} from "~/classes/characterClasses/characterClass";
 import type {CreatureMajorTypeApiResponse} from "~/classes/creatures/creatureMajorType";
+import type {PersonApiResponse} from "~/classes/person";
 
 interface GetProps {
     key: string
@@ -190,6 +191,11 @@ export const useMagicSchoolCache = createCacheStore(
     'magic-school',
     'magic-school/{key}',
     'magic-schools'
+);
+export const usePersonCache = createCacheStore<PersonApiResponse>(
+    'person',
+    'person/{key}',
+    'people'
 );
 export const useSourceCache = createCacheStore<SourceApiResponse>(
     'source',

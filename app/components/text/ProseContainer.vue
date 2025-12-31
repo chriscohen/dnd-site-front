@@ -7,6 +7,7 @@ const props = defineProps<{
     loading?: boolean
     markdown?: string
     prose?: string
+    size?: string
 }>();
 
 const { render } = useMarkdown();
@@ -17,6 +18,10 @@ const mdProse = computed(() => render(props.markdown));
 <template>
     <BaseCard :class="props.class">
         <ProseSkeleton v-if="loading"/>
-        <div v-else v-html="markdown ? mdProse : prose || ''"/>
+        <div
+            v-else
+            :class="size ? 'text-' + size : ''"
+            v-html="markdown ? mdProse : prose || ''"
+        />
     </BaseCard>
 </template>

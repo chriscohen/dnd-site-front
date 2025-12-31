@@ -38,6 +38,7 @@ export interface CreatureEditionApiResponse {
     conditionImmune?: string[]
     height?: number
     heightModifier?: string
+    hitDieFaces?: number
     hitPoints: CreatureHitPoints
     immune?: string[]
     isPlayable?: boolean
@@ -66,6 +67,7 @@ export type CreatureEditionState = {
     damageImmunities?: string[]
     damageResistances?: string[]
     damageVulnerabilities?: string[]
+    hitDieFaces?: number
     hitPoints?: CreatureHitPoints
     isPlayable?: boolean
     lairXp?: boolean
@@ -94,6 +96,7 @@ export const createCreatureEdition = (data?: CreatureEditionApiResponse) => {
         conditionImmunities: data?.conditionImmune,
         damageImmunities: data?.immune,
         damageResistances: data?.resist,
+        hitDieFaces: data?.hitDieFaces,
         hitPoints: data?.hitPoints,
         isPlayable: data?.isPlayable,
         lairXp: data?.lairXp,

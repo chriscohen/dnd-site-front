@@ -1,10 +1,11 @@
 ﻿import {createSource, type Source, type SourceApiResponse} from "~/classes/sources/source";
-import type {Person, PersonApiResponse} from "~/classes/person";
 import {
     createSourceContents,
     type SourceContents,
     type SourceContentsApiResponse
 } from "~/classes/sources/sourceContents";
+import type {BookCredit, BookCreditApiResponse} from "~/classes/sources/bookCredit";
+import type {Person} from "~/classes/person";
 
 export interface SourceEditionApiResponse {
     id: string
@@ -13,7 +14,7 @@ export interface SourceEditionApiResponse {
     binding?: string
     boxSetItems?: SourceApiResponse[]
     contents?: SourceContentsApiResponse[],
-    credits?: Record<string, PersonApiResponse[]>
+    credits?: BookCreditApiResponse[]
     formats: string[]
     isbn10?: string
     isbn13?: string
@@ -29,7 +30,7 @@ export type SourceEditionState = {
     binding?: string,
     boxSetItems?: Source[],
     contents?: SourceContents[],
-    credits?: Record<string, Person[]>,
+    credits?: BookCredit[],
     formats?: string[],
     isbn10?: string,
     isbn13?: string,
@@ -55,8 +56,30 @@ export const createSourceEdition = (data?: SourceEditionApiResponse) => {
         releaseDateMonthOnly: data?.releaseDateMonthOnly
     };
 
+    const creditsByRole = () => {
+        const roles: Record<string, Person[]> = {};
+
+        // Build an object keyed by each role.
+        state.credits?.forEach((credit: BookCredit) => {
+            if (credit.role) roles[credit.role] = [];
+        });
+
+        // Add people from the list of credits to each role key in the roles object.
+        Object.keys(roles).forEach((role: string) => {
+            roles[role] = state.credits?.filter(
+                (credit: BookCredit) => credit?.role === role && credit.person
+            )?.map(
+                (credit: BookCredit) => credit.person ?? {}
+            ) ?? [];
+        });
+
+        return roles;
+    }
+
     return {
-        ...state
+        ...state,
+
+        creditsByRole
     }
 }
 

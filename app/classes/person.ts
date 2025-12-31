@@ -1,5 +1,6 @@
 ﻿export interface PersonApiResponse {
     id: string
+    artstation?: string
     firstName: string
     initials?: string[]
     instagram?: string
@@ -11,6 +12,7 @@
 
 export type PersonState = {
     id?: string,
+    artstation?: string
     firstName?: string,
     initials?: string[],
     instagram?: string,
@@ -23,6 +25,7 @@ export type PersonState = {
 export const createPerson = (data?: PersonApiResponse) => {
     const state: PersonState = {
         id: data?.id,
+        artstation: data?.artstation,
         firstName: data?.firstName,
         initials: data?.initials,
         instagram: data?.instagram,

@@ -7,7 +7,7 @@ import PageTitle from "~/components/labels/PageTitle.vue";
 import SourcebookContents from "~/components/sources/SourcebookContents.vue";
 import ProseContainer from "~/components/text/ProseContainer.vue";
 import BottomNavigation from "~/components/navigation/BottomNavigation.vue";
-import SourcebookCredits from "~/components/sources/SourcebookCredits.vue";
+import SourceCredits from "~/components/sources/SourceCredits.vue";
 import MediaImage from "~/components/media/MediaImage.vue";
 import {createSource, type SourceApiResponse} from "~/classes/sources/source";
 import BaseCard from "~/components/cards/BaseCard.vue";
@@ -21,7 +21,8 @@ const { pending, data } = useLazyAsyncData(
 );
 const item = computed(() => createSource(data.value));
 
-useHead({ title: item.value?.name });
+const pageTitle = computed(() => (pending ? 'Loading' : item.value?.name) + ' | ' + SITE_NAME);
+useHead({ title: pageTitle });
 definePageMeta({ layout: false });
 </script>
 
@@ -36,8 +37,8 @@ definePageMeta({ layout: false });
                 :underline="true"
             >
                 <template #labels>
-                    <GameEditionBadge :edition="item?.gameEdition as string"/>
-                    <PublicationTypeBadge :type="item?.publicationType as string" />
+                    <GameEditionBadge v-if="item?.gameEdition" :edition="item?.gameEdition as string"/>
+                    <PublicationTypeBadge v-if="item?.publicationType" :type="item?.publicationType as string" />
                 </template>
                 <template #subtitle>
                     {{ item?.sourceType }}
@@ -47,7 +48,7 @@ definePageMeta({ layout: false });
         </template>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 items-start lg:grid-cols-3 gap-4 mx-2 my-4 h-full overflow-auto">
-            <div id="column-left">
+            <div id="column-left flex flex-col gap-4">
                 <a id="overview"/>
                 <MediaImage :loading="pending" :media="item.coverImage" :name="item.name" rounded/>
                 <SourceDetailsList :loading="pending" :source="item" class="mt-4"/>
@@ -57,13 +58,18 @@ definePageMeta({ layout: false });
                 />
             </div>
 
-            <div id="column-mid">
+            <div id="column-mid gap-4">
                 <a id="description"/>
-                <ProseContainer v-if="item.description" :loading="pending" :markdown="item.description"/>
+                <ProseContainer
+                    v-if="item.description"
+                    :loading="pending"
+                    :markdown="item.description"
+                    size="xl"
+                />
             </div>
 
-            <div id="column-right" class="flex flex-col w-full">
-                <SourcebookCredits v-if="item?.editions?.[0]?.credits?.length" :edition="item?.editions?.[0]"/>
+            <div id="column-right" class="flex flex-col w-full gap-4">
+                <SourceCredits v-if="item?.editions?.[0]?.credits?.length" :edition="item?.editions?.[0]"/>
 
                 <a id="contents"/>
                 <BaseCard v-if="item?.editions?.[0]?.contents?.length">
