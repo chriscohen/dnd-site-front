@@ -10,7 +10,10 @@ const props = defineProps<{
 </script>
 
 <template>
-    <div id="page-title" class="w-full flex justify-between items-center border-b bg-gray-900">
+    <div
+        id="page-title"
+        class="w-full flex justify-between items-center border-b-2 border-red-800 bg-black/50 backdrop-blur-md"
+    >
         <UFieldGroup v-if="backTo" class="mr-4">
             <BackButton :to="backTo" size="3rem"/>
         </UFieldGroup>

@@ -3,22 +3,25 @@ import {ref, type Ref} from "vue";
 import type {LanguageApiResponse} from "~/classes/language";
 import type {SourceApiResponse} from "~/classes/sources/source";
 import type {SpellApiResponse} from "~/classes/spells/spell";
-import type {CreatureApiResponse} from "~/classes/creatures/creature";
+import type {CreatureTypeApiResponse} from "~/classes/creatures/creatureType";
 import type {ItemApiResponse} from "~/classes/items/item";
 import type {CompanyApiResponse} from "~/classes/company";
 import type {CampaignSettingApiResponse} from "~/classes/campaignSetting";
 import type {CharacterClass} from "~/classes/characterClasses/characterClass";
-import type {CreatureMajorTypeApiResponse} from "~/classes/creatures/creatureMajorType";
+import type {CreatureMainTypeApiResponse} from "~/classes/creatures/creatureMainType";
 import type {PersonApiResponse} from "~/classes/person";
 
 interface GetProps {
+    disableSSR?: boolean
     key: string
     params?: Record<string, string>
-    disableSSR?: boolean
+    path?: string
 }
 interface ListProps {
-    params?: Record<string, string>
     disableSSR?: boolean
+    key?: string
+    params?: Record<string, string>
+    path?: string
 }
 
 /**
@@ -35,22 +38,23 @@ export function createCacheStore<T>(
     return defineStore(storeId, () => {
         const getPath = useGetPath;
         const getResponses = ref({}) as Ref<Record<string, T>>;
+        const listResponses = ref({}) as Ref<Record<string, T[]>>;
         const isLoading = computed(() => pendingUrls.value.size > 0);
-        const listItems = ref([]) as Ref<T[]>;
+        const pagedItems: Ref<T[]> = ref([]) as Ref<T[]>;
         const lastUrl = ref<string>('');
         const nextUrl = ref<string | null>(null);
 
         const pendingUrls = ref(new Set<string>());
 
-        const hasItems = computed(() => listItems.value.length > 0);
+        const hasItems = computed(() => pagedItems.value.length > 0);
         const isFinished = computed(() => nextUrl.value === null);
 
         async function get(props: GetProps = { key: '' }): Promise<T | undefined> {
             if (props.disableSSR && !import.meta.client) return; // Force client-side only.
-            const url = getUrl(useGetPath, props.key, props.params);
+            const url = getUrl(props.path ?? useGetPath, props.key, props.params);
 
             // If we have it cached, return it immediately.
-            if (has(url)) return getResponses.value[url];
+            if (hasGetResponse(url)) return getResponses.value[url];
 
             // Don't allow a second request for an item we're already fetching.
             if (pendingUrls.value.has(url)) return undefined;
@@ -66,17 +70,47 @@ export function createCacheStore<T>(
                 console.error(`Failed to fetch ${url}`, error.value);
                 return undefined;
             } finally {
-                // Make sure to always remove the URL from the pending loadMore.
+                // Make sure to always remove the URL from the pending page.
                 pendingUrls.value.delete(url);
             }
         }
 
-        async function loadMore(props: ListProps = {}) {
+        /**
+         * Call an API method that returns a list that is not paginated.
+         */
+        async function list(props: ListProps = {}): Promise<T[] | undefined> {
             if (props.disableSSR && !import.meta.client) return; // Force client-side only.
-            if (!useListPath) throw new Error('Cannot use loadMore() with no list URL (useListPath)');
+            const url = getUrl(props.path ?? useListPath ?? '', props.key, props.params);
+            console.log(url);
+
+            // Check if it's already cached.
+            if (hasListResponse(url)) return listResponses.value[url];
+
+            // Don't allow a second reuqest for an item we're already fetching.
+            if (pendingUrls.value.has(url)) return undefined;
+            pendingUrls.value.add(url);
+
+            try {
+                const data = await $fetch<T[]>(url);
+                listResponses.value[url] = data as T[];
+                return listResponses.value[url];
+            } catch (error: any) {
+                console.error(`Failed to fetch ${url}`, error.value);
+                return undefined;
+            } finally {
+                pendingUrls.value.delete(url);
+            }
+        }
+
+        /**
+         * Call an API method that returns a PaginatedApiResponse.
+         */
+        async function page(props: ListProps = {}) {
+            if (props.disableSSR && !import.meta.client) return; // Force client-side only.
+            if (!useListPath) throw new Error('Cannot use page() with no list URL (useListPath)');
 
             if (nextUrl.value === null) {
-                nextUrl.value = getUrl(useListPath, undefined, props.params);
+                nextUrl.value = getUrl(useListPath, props.key, props.params);
             }
 
             // Don't allow a second request for an item we're already fetching.
@@ -87,7 +121,7 @@ export function createCacheStore<T>(
                 const data = await $fetch<PaginatedApiResponse<T>>(nextUrl.value);
 
                 // Success - append data.
-                listItems.value.push(...data.data as T[]);
+                pagedItems.value.push(...data.data as T[]);
 
                 // Update the pointer URL to the next page.
                 lastUrl.value = nextUrl.value;
@@ -95,7 +129,7 @@ export function createCacheStore<T>(
             } catch (error) {
                 console.error(`Failed to fetch ${nextUrl.value}`, error);
             } finally {
-                // Make sure to always remove the URL from the pending loadMore.
+                // Make sure to always remove the URL from the pending page.
                 pendingUrls.value.delete(lastUrl.value);
             }
         }
@@ -114,20 +148,18 @@ export function createCacheStore<T>(
             }).join('&');
         }
 
-        function setItem(key: string, item: T) {
-            getResponses.value[key] = item;
-        }
-
-        function setList(key: string, items: T[]) {
-            listItems.value.push(...items);
-        }
-
-        function has(key: string): boolean {
+        function hasGetResponse(key: string): boolean {
             return !!getResponses.value[key];
+        }
+
+        function hasListResponse(key: string): boolean {
+            return !!listResponses.value[key];
         }
 
         function clear() {
             getResponses.value = {};
+            listResponses.value = {};
+            pagedItems.value = [];
         }
 
         return {
@@ -135,23 +167,30 @@ export function createCacheStore<T>(
             getResponses,
             isFinished,
             isLoading,
-            listItems,
+            listResponses,
+            pagedItems,
             nextUrl,
             // Don't allow the server to hydrate the pending URLs, because this could happen after the server initiated
             // a request, but before it received a response, leading to a "stuck" pendingUrl on the client with no
             // request being made.
             pendingUrls: skipHydrate(pendingUrls),
 
-            get,
-            has,
+            hasGetResponse,
+            hasListResponse,
             hasItems,
-            loadMore,
-            setItem,
-            setList,
+
+            get,
+            list,
+            page
         };
     });
 }
 
+export const useBookCreditCache = createCacheStore(
+    'book-credit',
+    'book-credit/{key}',
+    'person/{key}/credits'
+);
 export const useCampaignSettingCache = createCacheStore<CampaignSettingApiResponse>(
     'campaign-setting',
     'campaign-setting/{key}',
@@ -167,15 +206,15 @@ export const useCompanyCache = createCacheStore<CompanyApiResponse>(
     'company/{key}',
     'companies'
 );
-export const useCreatureCache = createCacheStore<CreatureApiResponse>(
-    'creature',
-    'creature/{key}',
-    'creatures'
-);
-export const useCreatureMajorTypeCache = createCacheStore<CreatureMajorTypeApiResponse>(
-    'creature-major-type',
+export const useCreatureTypeCache = createCacheStore<CreatureTypeApiResponse>(
+    'creature-type',
     'creature-type/{key}',
     'creature-types'
+);
+export const useCreatureMainTypeCache = createCacheStore<CreatureMainTypeApiResponse>(
+    'creature-main-type',
+    'creature-main-type/{key}',
+    'creature-main-types'
 );
 export const useItemCache = createCacheStore<ItemApiResponse>(
     'item',

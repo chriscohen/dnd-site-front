@@ -47,8 +47,11 @@ definePageMeta({ layout: false });
             <!-- /Heading -->
         </template>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 items-start lg:grid-cols-3 gap-4 mx-2 my-4 h-full overflow-auto">
-            <div id="column-left flex flex-col gap-4">
+        <div
+            class="grid grid-cols-1 sm:grid-cols-2 sm:grid-rows-1 items-start lg:grid-cols-3 gap-4 mx-2 sm:h-full
+                overflow-y-scroll sm:overflow-y-hidden"
+        >
+            <div id="column-left" class="gap-4 sm:h-full">
                 <a id="overview"/>
                 <MediaImage :loading="pending" :media="item.coverImage" :name="item.name" rounded/>
                 <SourceDetailsList :loading="pending" :source="item" class="mt-4"/>
@@ -58,18 +61,21 @@ definePageMeta({ layout: false });
                 />
             </div>
 
-            <div id="column-mid gap-4">
+            <div id="column-mid" class="h-full">
                 <a id="description"/>
                 <ProseContainer
                     v-if="item.description"
+                    class="sm:max-h-full flex flex-col"
                     :loading="pending"
                     :markdown="item.description"
                     size="xl"
                 />
             </div>
 
-            <div id="column-right" class="flex flex-col w-full gap-4">
-                <SourceCredits v-if="item?.editions?.[0]?.credits?.length" :edition="item?.editions?.[0]"/>
+            <div id="column-right" class="flex flex-col w-full gap-4 sm:h-full">
+                <BaseCard>
+                    <SourceCredits :source="item?.slug"/>
+                </BaseCard>
 
                 <a id="contents"/>
                 <BaseCard v-if="item?.editions?.[0]?.contents?.length">

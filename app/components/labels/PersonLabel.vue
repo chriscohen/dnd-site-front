@@ -9,7 +9,7 @@ const props = defineProps<{
 </script>
 
 <template>
-    <span v-if="person" :class="props.class" class="text-gray-300">
+    <span v-if="person" :class="props.class">
         {{ person.firstName }}
         {{ person.lastName }}
     </span>

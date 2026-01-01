@@ -35,9 +35,12 @@ export const createMovementSpeedsGroup = (data?: MovementSpeedsGroupApiResponse)
         return output.join(', ');
     }
 
+    const can = (type: MovementType) => state[type]?.value !== undefined && state[type]?.value > 0;
+
     return {
         ...state,
 
+        can,
         toString,
     }
 }

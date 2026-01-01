@@ -1,6 +1,6 @@
-﻿import type {CreatureEditionState} from "~/classes/creatures/creatureEdition";
+﻿import type {CreatureTypeEditionState} from "~/classes/creatures/creatureTypeEdition";
 
-export const withChallengeRating = (state: CreatureEditionState) => ({
+export const withChallengeRating = (state: CreatureTypeEditionState) => ({
     xp: () => {
         switch (state.challengeRating) {
             default:

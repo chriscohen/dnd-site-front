@@ -1,23 +1,44 @@
 ﻿<script setup lang="ts">
-import {useCreatureCache} from "~/stores/Store";
+import {useCreatureTypeCache} from "~/stores/Store";
 import PageTitle from "~/components/labels/PageTitle.vue";
-import CreatureList from "~/components/lists/creatures/CreatureList.vue";
-import {createCreature, type Creature, type CreatureApiResponse} from "~/classes/creatures/creature";
+import {createCreatureType, type CreatureType, type CreatureTypeApiResponse} from "~/classes/creatures/creatureType";
+import {useInfiniteScroll} from "@vueuse/core";
+import DndList from "~/components/lists/DndList.vue";
+import DndListItem from "~/components/lists/DndListItem.vue";
+import {INFINITE_SCROLL_DISTANCE, INFINITE_SCROLL_INTERVAL} from "~/utils/constants";
+import {useUiStore} from "~/stores/uiStore";
+import BaseCard from "~/components/cards/BaseCard.vue";
 
-const store = useCreatureCache();
-const data: CreatureApiResponse[] = await store.loadMore() as CreatureApiResponse[];
-const items = data?.map((item: CreatureApiResponse) => createCreature(item));
+const store = useCreatureTypeCache();
+const uiStore = useUiStore();
+uiStore.setBackgroundImage('demon.avif');
 
 useHead({ title: 'Creatures' });
 definePageMeta({ layout: false });
 
-const selectedItem: Ref<Creature | undefined> = ref(undefined);
+const selectedItem: Ref<CreatureType | undefined> = ref(undefined);
 const itemSelected: Ref<boolean> = ref(false);
+const dndListComponent = ref(null);
 
-async function handleSelect(item: Creature) {
+const { pending, data } = await useLazyAsyncData(
+    'creatures',
+    async () => await store.page()
+);
+const items = computed(() => store.pagedItems.map((item: CreatureTypeApiResponse) => createCreatureType(item)) ?? []);
+
+useInfiniteScroll(
+    () => dndListComponent.value?.dndListMoreRef,
+    () => store.page(),
+    { distance: INFINITE_SCROLL_DISTANCE, interval: INFINITE_SCROLL_INTERVAL }
+);
+
+onMounted(() => store.page());
+
+async function handleSelect(item: CreatureType) {
     itemSelected.value = true;
     const itemPath = API_URL + '/creature/' + item.slug + '?mode=full';
-    selectedItem.value = await store.get(itemPath) as Creature;
+    const response = await store.get({ key: itemPath }) as CreatureTypeApiResponse;
+    selectedItem.value = createCreatureType(response);
 }
 </script>
 
@@ -28,7 +49,15 @@ async function handleSelect(item: Creature) {
         </template>
 
         <div class="flex flex-col-reverse sm:flex-row mt-4 gap-4 overflow-hidden h-full">
-            <CreatureList :items="items"/>
+            <BaseCard>
+                <DndList v-if="items" ref="dndListComponent">
+                    <DndListItem v-for="item in items" :key="item.id" :item="item">
+                        <a :href="`/creatures/${item.slug}`" class="group-hover:text-black">
+                            {{ item.name }}
+                        </a>
+                    </DndListItem>
+                </DndList>
+            </BaseCard>
         </div>
     </NuxtLayout>
 </template>

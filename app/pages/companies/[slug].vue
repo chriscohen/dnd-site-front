@@ -21,10 +21,16 @@ definePageMeta({ layout: false });
             </PageTitle>
         </template>
 
-        <div v-if="item" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-            <NuxtImg v-if="item?.logo" :src="item.logo.url" :alt="item?.name + 'Logo'"/>
+        <div v-if="item" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 h-full">
+            <div id="column-left flex flex-col">
+                <NuxtImg v-if="item?.logo" :src="item.logo.url" :alt="item?.name + 'Logo'"/>
+            </div>
 
-            <ProductList :publisher="item.slug" class="w-full"/>
+            <div id="column-mid" class="flex flex-col min-h-0">
+                <ProductList :publisher="item.slug" class="w-full min-h-0"/>
+            </div>
+
+            <div id="column-right" class="flex flex-col"/>
         </div>
     </NuxtLayout>
 </template>

@@ -55,8 +55,6 @@ const props = defineProps<{
 </template>
 
 <style scoped lang="scss">
-@use '~/assets/css/default/colors';
-@use '_fonts.css';
 
 ul {
     display: flex;

@@ -7,7 +7,7 @@ const props = defineProps<{
 </script>
 
 <template>
-    <aside v-if="data" class="classes-levels-loadMore font[mrs-eaves]">
+    <aside v-if="data" class="classes-levels-page font[mrs-eaves]">
         <template v-for="item in props.data" :key="item.name">
             <span>
                 <NuxtLink :to="'/' + (item.type == 'feat' ? 'feats/' : 'classes/') + item.slug" class="link">
@@ -23,7 +23,7 @@ const props = defineProps<{
 @use '~/assets/css/default/colors';
 @use '_fonts.css';
 
-.classes-levels-loadMore {
+.classes-levels-page {
     background: colors.$black-80;
     border-radius: 0.5rem;
     display: grid;

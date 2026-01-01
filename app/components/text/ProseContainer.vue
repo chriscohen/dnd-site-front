@@ -21,6 +21,7 @@ const mdProse = computed(() => render(props.markdown));
         <div
             v-else
             :class="size ? 'text-' + size : ''"
+            class="h-full overflow-y-scroll"
             v-html="markdown ? mdProse : prose || ''"
         />
     </BaseCard>

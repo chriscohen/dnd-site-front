@@ -1,47 +1,34 @@
 ﻿<script setup lang="ts">
-import {useCreatureMajorTypeCache} from "~/stores/Store";
+import {useCreatureMainTypeCache} from "~/stores/Store";
 import {
-    createCreatureMajorType,
-    type CreatureMajorType,
-    type CreatureMajorTypeApiResponse
-} from "~/classes/creatures/creatureMajorType";
-import DndHeading from "~/components/headings/DndHeading.vue";
+    createCreatureMainType,
+    type CreatureMainType,
+    type CreatureMainTypeApiResponse
+} from "~/classes/creatures/creatureMainType";
+import PopoverBase from "~/components/popovers/PopoverBase.vue";
 
 const props = defineProps<{
     slug?: string
 }>();
 
-const store = useCreatureMajorTypeCache();
-const item: Ref<CreatureMajorType | null> = ref<CreatureMajorType | null>(null);
+const store = useCreatureMainTypeCache();
+const item: Ref<CreatureMainType | null> = ref<CreatureMainType | null>(null);
 
 async function onOpen(isOpen: boolean) {
-    if (!isOpen || !props.slug) return;
-
-    const data: CreatureMajorTypeApiResponse = await store.get({ key: props.slug }) as CreatureMajorTypeApiResponse;
-    item.value = createCreatureMajorType(data);
+    if (!props.slug) return;
+    const data: CreatureMainTypeApiResponse = await store.get({ key: props.slug }) as CreatureMainTypeApiResponse;
+    item.value = createCreatureMainType(data);
 }
 
 </script>
 
 <template>
-    <UPopover
-        arrow
-        mode="hover"
-        :content="{ side: 'top' }"
-        :ui="{ content: 'bg-yellow-100 text-gray-900 max-w-128' }"
-        @update:open="onOpen"
+    <PopoverBase
+        :title="item?.name"
+        :content="item?.description()"
+        :loading="store.isLoading"
+        @popover-open="onOpen"
     >
-        <span class="cursor-pointer"><slot/></span>
-
-        <template #content>
-            <div v-if="store.isLoading">
-                <UIcon name="i-lucide-loader-circle" class="animate-spin"/>
-            </div>
-
-            <template v-if="item">
-                <DndHeading underline size="3" class="mb-2">{{ item.name }}</DndHeading>
-                {{ item.description() }}
-            </template>
-        </template>
-    </UPopover>
+        <slot/>
+    </PopoverBase>
 </template>

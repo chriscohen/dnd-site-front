@@ -1,5 +1,5 @@
 ﻿<script setup lang="ts">
-import PopoverContentBase from "~/components/popovers/PopoverContentBase.vue";
+import PopoverBase from "~/components/popovers/PopoverBase.vue";
 import type {MagicSchool} from "~/classes/magic/magicSchool";
 
 const props = defineProps<{
@@ -23,10 +23,10 @@ const props = defineProps<{
         >
 
         <template #content>
-            <PopoverContentBase>
+            <PopoverBase>
                 <h3>{{ school?.name }}</h3>
                 <p>{{ school?.description }}</p>
-            </PopoverContentBase>
+            </PopoverBase>
         </template>
     </UPopover>
 </template>

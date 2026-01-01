@@ -1,4 +1,4 @@
-﻿import type {CreatureEditionState} from "~/classes/creatures/creatureEdition";
+﻿import type {CreatureTypeEditionState} from "~/classes/creatures/creatureTypeEdition";
 
 export interface AbilityScoreApiResponse {
     isProficient?: boolean,

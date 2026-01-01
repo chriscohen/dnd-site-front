@@ -45,6 +45,10 @@
     p {
         @apply mb-4 font-light;
     }
+    .link {
+        @apply underline decoration-dotted hover:decoration-solid hover:decoration-3 hover:decoration-red-500
+            hover:text-white transition-all duration-300 ease-in-out;
+    }
     ul {
         list-style: none;
         margin: 0;
@@ -81,17 +85,17 @@
     }
     /* Track */
     ::-webkit-scrollbar-track {
-        @apply: text-black;
+        @apply: bg-black;
     }
 
     /* Handle */
     ::-webkit-scrollbar-thumb {
-        @apply bg-gray-500 rounded-lg;
+        @apply bg-red-800 rounded-lg;
     }
 
     /* Handle on hover */
     ::-webkit-scrollbar-thumb:hover {
-        @apply bg-gray-700;
+        @apply bg-red-500;
     }
 }
 

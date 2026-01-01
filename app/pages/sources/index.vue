@@ -6,16 +6,20 @@ import {definePageMeta} from "#imports";
 import TeaserGrid from "~/components/teasers/TeaserGrid.vue";
 import {createSource, type Source} from "~/classes/sources/source";
 import {useInfiniteScroll} from "@vueuse/core";
+import {useUiStore} from "~/stores/uiStore";
 
 const store = useSourceCache();
-const containerRef = ref<HTMLElement | null>(null);
+const uiStore = useUiStore();
+uiStore.setBackgroundImage('tower.avif');
 
-const items = computed<Source[]>(() => store.listItems.map(createSource));
+const sourceMoreRef = ref<HTMLElement | null>(null);
+
+const items = computed<Source[]>(() => store.pagedItems.map(createSource));
 
 const { reset } = useInfiniteScroll(
-    containerRef,
+    sourceMoreRef,
     () => {
-        store.loadMore();
+        store.page();
     },
     {
         distance: 10,
@@ -23,7 +27,7 @@ const { reset } = useInfiniteScroll(
     }
 );
 
-callOnce(() => store.loadMore());
+callOnce(() => store.page());
 
 useHead({ title: 'Sourcebooks' });
 definePageMeta({ layout: false });
@@ -40,6 +44,6 @@ definePageMeta({ layout: false });
                 <SourceTeaser v-for="item in items" :key="item.id" :source="item"/>
             </TeaserGrid>
         </div>
-        <div ref="containerRef"/>
+        <div ref="sourceMoreRef"/>
     </NuxtLayout>
 </template>

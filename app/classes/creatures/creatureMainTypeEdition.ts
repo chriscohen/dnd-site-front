@@ -1,19 +1,19 @@
-﻿export interface CreatureMajorTypeEditionApiResponse {
+﻿export interface CreatureMainTypeEditionApiResponse {
     id?: string
     alternateName?: string
     description?: string
     gameEdition?: string
 }
 
-export type CreatureMajorTypeEditionState = {
+export type CreatureMainTypeEditionState = {
     id?: string
     alternateName?: string
     description?: string
     gameEdition?: string
 }
 
-export const createCreatureMajorTypeEdition = (data?: CreatureMajorTypeEditionApiResponse) => {
-    const state: CreatureMajorTypeEditionState = {
+export const createCreatureMainTypeEdition = (data?: CreatureMainTypeEditionApiResponse) => {
+    const state: CreatureMainTypeEditionState = {
         id: data?.id,
         alternateName: data?.alternateName,
         description: data?.description,
@@ -25,4 +25,4 @@ export const createCreatureMajorTypeEdition = (data?: CreatureMajorTypeEditionAp
     }
 }
 
-export type CreatureMajorTypeEdition = ReturnType<typeof createCreatureMajorTypeEdition>;
+export type CreatureMainTypeEdition = ReturnType<typeof createCreatureMainTypeEdition>;

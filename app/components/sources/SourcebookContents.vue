@@ -16,10 +16,7 @@ const store = useSourceContentsCache();
 const open: Ref<boolean> = ref(false);
 
 watch (open, (isNowOpen) => {
-    if (isNowOpen && !data.value) {
-        console.log('executing');
-        execute();
-    }
+    if (isNowOpen && !data.value) execute();
 });
 
 // useLazyAsyncData to only populate the source contents if the user opens the collapsible.
@@ -33,9 +30,7 @@ const contents = computed(() => data.value?.map(createSourceContents));
 </script>
 
 <template>
-    <UCollapsible
-        v-model:open="open"
-         title="Contents" :start-open="true" class="h-full group">
+    <UCollapsible v-model:open="open" class="h-full group">
         <DndHeading size="2" underline-color="red-800" underline class="flex w-full justify-between cursor-pointer group">
             Contents
 
@@ -45,10 +40,7 @@ const contents = computed(() => data.value?.map(createSourceContents));
                     name="i-lucide-chevron-up"
                     class="group group-data-[state=open]:rotate-180 text-4xl transition-transform duration-300"
                 />
-                <UIcon
-                    v-else
-                    name="i-lucide-loader-circle"
-                    class="animate-spin"
+                <UIcon v-else name="i-lucide-loader-circle" class="animate-spin"
                 />
             </template>
         </DndHeading>

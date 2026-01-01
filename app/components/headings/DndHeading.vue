@@ -7,8 +7,6 @@ const props = defineProps<{
     underline?: boolean
 }>();
 
-if (props.underline) { console.log('underline is true')} else { console.log('underline is false')}
-
 const divClasses = [
     props.underline && 'border-b',
     props.class,

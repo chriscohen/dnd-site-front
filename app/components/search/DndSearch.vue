@@ -45,14 +45,14 @@ function onFocus() {
 
         <ul
             v-if="showResults && store.results?.length > 0"
-            class="absolute bg-gray-950 block top-full right-0 max-w-lg mt-2 max-h-[75dvh] overflow-y-scroll shadow-md/50
-                z-75"
+            class="absolute bg-gray-950 block top-full right-0 max-w-lg mt-2 max-h-[75dvh] overflow-y-scroll
+                shadow-md/50 z-125"
         >
             <li v-for="item in store.results" :key="item.id">
                 <a
                     :href="DATA_TYPES[item.type]?.path + item.slug"
                     class="group block text-left px-4 py-2 hover:bg-highlight hover:text-gray-800 transition-colors
-                        duration-200 ease-in-out rounded-lg"
+                        duration-200 ease-in-out rounded-lg min-w-sm"
                 >
                     <span class="block text-lg text-nowrap">{{ item.name}}</span>
                     <span class="block font-eaves text-md font-normal text-gray-400 group-hover:text-gray-800 -mt-2">

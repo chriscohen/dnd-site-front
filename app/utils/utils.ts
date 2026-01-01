@@ -16,9 +16,14 @@ export const DATA_TYPES: Record<string, {
         path: '/companies/'
     },
     creature: {
-        name: 'Creature',
+        name: 'CreatureType',
         plural: 'Creatures',
         path: '/creatures/'
+    },
+    person: {
+        name: 'Person',
+        plural: 'People',
+        path: '/people/'
     },
     source: {
         name: 'Sourcebook',

@@ -74,7 +74,7 @@ const editionsWithSavingThrow = [
     margin-top: 1.5rem;
 }
 
-.classes-levels-loadMore {
+.classes-levels-page {
     margin-left: auto;
 }
 

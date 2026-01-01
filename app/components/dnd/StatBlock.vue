@@ -4,17 +4,18 @@ import DndHeading from "~/components/headings/DndHeading.vue";
 import DndHr from "~/components/DndHr.vue";
 import DefinitionList from "~/components/lists/DefinitionList.vue";
 import DefinitionListItem from "~/components/lists/DefinitionListItem.vue";
-import type {Creature} from "~/classes/creatures/creature";
-import type {CreatureEdition} from "~/classes/creatures/creatureEdition";
+import type {CreatureType} from "~/classes/creatures/creatureType";
+import type {CreatureTypeEdition} from "~/classes/creatures/creatureTypeEdition";
 import type {Language} from "~/classes/language";
 import InlineLabel from "~/components/labels/InlineLabel.vue";
 import {orList} from "~/utils/utils";
 import PopoverCreatureType from "~/components/popovers/PopoverCreatureType.vue";
 import AlignmentLabel from "~/components/labels/AlignmentLabel.vue";
+import MovementSpeedsLabel from "~/components/movement/MovementSpeedsLabel.vue";
 
 const props = defineProps<{
-    creature?: Creature
-    edition?: CreatureEdition
+    creature?: CreatureType
+    edition?: CreatureTypeEdition
     showTitle?: boolean
 }>();
 
@@ -54,7 +55,7 @@ const props = defineProps<{
             <DefinitionListItem>
                 <template #label>Speed</template>
                 <template #content>
-                    {{ edition.movementSpeeds?.toString() }} ft.
+                    <MovementSpeedsLabel :movement-speeds="edition.movementSpeeds"/>
                 </template>
             </DefinitionListItem>
         </DefinitionList>
@@ -66,7 +67,6 @@ const props = defineProps<{
                 <template #label>Languages</template>
                 <template #content>
                     {{ edition.languages?.map((item: Language) => item.name ).join(', ') }}
-                    <InlineLabel icon="book">test</InlineLabel>
                 </template>
             </DefinitionListItem>
 

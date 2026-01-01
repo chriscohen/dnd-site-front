@@ -1,41 +1,35 @@
-﻿import type {CreatureTypeEdition} from "~/classes/creatures/creatureTypeEdition";
-import {
-    createCreatureMajorType,
-    type CreatureMajorType,
-    type CreatureMajorTypeApiResponse
-} from "~/classes/creatures/creatureMajorType";
+﻿import {
+    createCreatureTypeEdition, type CreatureTypeEdition,
+    type CreatureTypeEditionApiResponse
+} from "~/classes/creatures/creatureTypeEdition";
 
 export interface CreatureTypeApiResponse {
-    id?: string
-    gameEdition?: string
-    majorType?: CreatureMajorTypeApiResponse
-    origin?: string
+    id?: string,
+    name?: string,
+    slug?: string,
+    children?: CreatureTypeApiResponse[],
+    editions?: CreatureTypeEditionApiResponse[],
+    parent?: CreatureTypeApiResponse,
 }
 
 export type CreatureTypeState = {
     id?: string
-    gameEdition?: string,
-    majorType?: CreatureMajorType,
-    origin?: string
+    name?: string
+    slug?: string
+    editions?: CreatureTypeEdition[]
 }
 
 export const createCreatureType = (data?: CreatureTypeApiResponse) => {
     const state: CreatureTypeState = {
         id: data?.id,
-        gameEdition: data?.gameEdition,
-        majorType: createCreatureMajorType(data?.majorType),
-        origin: data?.origin
-    }
-
-    const toString = (): string | undefined => {
-        return state?.majorType?.name;
+        name: data?.name,
+        slug: data?.slug,
+        editions: data?.editions?.map(createCreatureTypeEdition)
     }
 
     return {
-        ...state,
-
-        toString
+        ...state
     }
-};
+}
 
 export type CreatureType = ReturnType<typeof createCreatureType>;
