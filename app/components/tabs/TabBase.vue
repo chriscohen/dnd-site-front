@@ -12,7 +12,7 @@ const classes = computed(() => {
     return [
         props.class ?? '',
         props.active ? 'bg-black/80' : '',
-        props.disabled ? 'cursor-not-allowed text-gray-600 bg-gray-800/50' : 'cursor-pointer'
+        props.disabled ? 'cursor-not-allowed text-gray-600 bg-black-800/50' : 'cursor-pointer'
     ].join(' ');
 });
 

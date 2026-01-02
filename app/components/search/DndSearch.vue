@@ -2,9 +2,7 @@
 import { onClickOutside } from "@vueuse/core";
 import {DATA_TYPES} from "~/utils/utils";
 
-const router = useRouter();
 const store = useSearchStore();
-const isOpen: Ref<boolean> = ref(false);
 
 // Local state.
 const searchClickOutsideRef = ref(null);
@@ -33,7 +31,7 @@ function onFocus() {
     <div ref="searchClickOutsideRef" class="relative max-w-md my-2">
         <UInput
             variant="none"
-            class="w-full bg-gray-800 text-base border-b-2 border-b-red-800 [&_input]:text-base font-light"
+            class="w-full bg-gray-950 text-base border-b-2 border-b-red-800 [&_input]:text-base font-light"
             :model-value="store.query"
             icon="i-lucide-search"
             placeholder="Search anything..."
@@ -41,7 +39,17 @@ function onFocus() {
             :loading="store.isLoading"
             @update:model-value="onInput"
             @focus="onFocus"
-        />
+        >
+            <template v-if="store.query.length > 0" #trailing>
+                <UButton
+                    variant="link"
+                    size="lg"
+                    icon="i-lucide-x"
+                    class="text-gray-300 hover:text-white cursor-pointer"
+                    @click="store.query = ''"
+                />
+            </template>
+        </UInput>
 
         <ul
             v-if="showResults && store.results?.length > 0"

@@ -12,7 +12,8 @@ const props = defineProps<{
 <template>
     <div
         id="page-title"
-        class="w-full flex justify-between items-center border-b-2 border-red-800 bg-black/50 backdrop-blur-md"
+        class="flex justify-between items-center border-b-2 border-red-800 backdrop-blur-md pr-64
+            bg-linear-to-r from-black/80 from-50% to-black/0"
     >
         <UFieldGroup v-if="backTo" class="mr-4">
             <BackButton :to="backTo" size="3rem"/>
