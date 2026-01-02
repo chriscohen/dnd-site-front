@@ -67,6 +67,7 @@ export type CreatureTypeEditionState = {
     damageImmunities?: string[]
     damageResistances?: string[]
     damageVulnerabilities?: string[]
+    gameEdition?: string
     hitDieFaces?: number
     hitPoints?: CreatureHitPoints
     isPlayable?: boolean
@@ -96,6 +97,7 @@ export const createCreatureTypeEdition = (data?: CreatureTypeEditionApiResponse)
         conditionImmunities: data?.conditionImmune,
         damageImmunities: data?.immune,
         damageResistances: data?.resist,
+        gameEdition: data?.gameEdition,
         hitDieFaces: data?.hitDieFaces,
         hitPoints: data?.hitPoints,
         isPlayable: data?.isPlayable,

@@ -28,7 +28,7 @@ const props = defineProps<{
             <span class="font-light italic">
                 {{ ucFirst(orList(edition.sizes.map((size) => size.toString()))) }}
 
-                <PopoverCreatureType :slug="edition?.type?.majorType?.slug">
+                <PopoverCreatureType :slug="edition?.type?.mainType?.slug">
                     {{ ucFirst(edition?.type?.toString() ?? '') }}
                 </PopoverCreatureType>,
                 <AlignmentLabel v-for="alignment in edition?.alignment ?? []" :key="alignment.alignment" :alignment="alignment"/>

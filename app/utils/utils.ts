@@ -18,7 +18,7 @@ export const DATA_TYPES: Record<string, {
     creature: {
         name: 'CreatureType',
         plural: 'Creatures',
-        path: '/creatures/'
+        path: '/creature-types/'
     },
     person: {
         name: 'Person',

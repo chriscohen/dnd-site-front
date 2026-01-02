@@ -35,7 +35,7 @@ const routeData = ref<RouteData[]>([
     },
     {
         name: 'Creatures',
-        path: '/creatures',
+        path: '/creature-types',
     },
     {
         name: 'Sources',

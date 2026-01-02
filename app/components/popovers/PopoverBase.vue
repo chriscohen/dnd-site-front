@@ -22,7 +22,7 @@ function onOpen (isOpen: boolean) {
         mode="hover"
         :content="{ side: side ?? 'top' }"
         :ui="{
-            content: 'bg-black text-neutral text-base border-2 border-gray-400 pb-4'
+            content: 'bg-black text-neutral text-base border-2 border-gray-400 pb-4 max-w-md sm:max-w-lg'
         }"
         :open-delay="openDelay ?? 500"
         @update:open="onOpen"

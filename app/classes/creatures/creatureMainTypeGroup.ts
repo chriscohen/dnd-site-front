@@ -7,14 +7,14 @@
 export interface CreatureMainTypeGroupApiResponse {
     id?: string
     gameEdition?: string
-    majorType?: CreatureMainTypeApiResponse
+    mainType?: CreatureMainTypeApiResponse
     origin?: string
 }
 
 export type CreatureMainTypeGroupState = {
     id?: string
     gameEdition?: string,
-    majorType?: CreatureMainType,
+    mainType?: CreatureMainType,
     origin?: string
 }
 
@@ -22,12 +22,12 @@ export const createCreatureMainTypeGroup = (data?: CreatureMainTypeGroupApiRespo
     const state: CreatureMainTypeGroupState = {
         id: data?.id,
         gameEdition: data?.gameEdition,
-        majorType: createCreatureMainType(data?.majorType),
+        mainType: createCreatureMainType(data?.mainType),
         origin: data?.origin
     }
 
     const toString = (): string | undefined => {
-        return state?.majorType?.name;
+        return state?.mainType?.name;
     }
 
     return {

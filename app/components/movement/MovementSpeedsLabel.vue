@@ -1,5 +1,6 @@
 ﻿<script setup lang="ts">
 import type {MovementSpeedsGroup} from "~/classes/movement/movementSpeedsGroup";
+import {MovementType} from "~/utils/enums";
 
 const props = defineProps<{
     movementSpeeds?: MovementSpeedsGroup

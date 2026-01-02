@@ -1,4 +1,5 @@
 ﻿import type {ReferenceApiResponse} from "~/classes/reference";
+import { GameEdition } from "./enums";
 
 export type BottomNavItem = {
     anchor: string
@@ -70,9 +71,46 @@ export interface IPrerequisiteValue {
     value: string
 }
 
-export interface IQueryString {
-    editions?: string
-    mode?: string
+export interface GameEditionDataItem {
+    name: string,
+    shortName: string,
+    exclude?: boolean
+}
+
+export const GameEditionData: Record<string, GameEditionDataItem> = {
+    '0e': {
+        name: 'Original Edition',
+        shortName: '0th',
+        exclude: true
+    },
+    '1e': {
+        name: 'First Edition',
+        shortName: '1st'
+    },
+    '2e': {
+        name: 'Second Edition',
+        shortName: '2nd'
+    },
+    '3e': {
+        name: 'Third Edition',
+        shortName: '3rd'
+    },
+    '3.5': {
+        name: 'Third Edition, Revised',
+        shortName: '3.5'
+    },
+    '4e': {
+        name: 'Fourth Edition',
+        shortName: '4th'
+    },
+    '5e': {
+        name: 'Fifth Edition',
+        shortName: '5th'
+    },
+    '5.5': {
+        name: 'Fifth Edition, Revised',
+        shortName: '5.5'
+    }
 }
 
 export interface SearchResult {
@@ -80,68 +118,4 @@ export interface SearchResult {
     name: string
     slug: string
     type: string
-}
-
-export enum ArmorClassSource {
-    BASE = 'base',
-    NATURAL = 'natural',
-    EQUIPMENT = 'equipment'
-
-}
-
-export enum CreatureSizeUnit {
-    TINY = 'tiny',
-    SMALL = 'small',
-    MEDIUM = 'medium',
-    LARGE = 'large',
-    HUGE = 'huge',
-    GARGANTUAN = 'gargantuan'
-}
-
-export enum DistanceUnit {
-    INCH = 'inch',
-    FOOT = 'foot',
-    YARD = 'yard',
-    METER = 'meter',
-    MILE = 'mile'
-}
-
-export enum CreatureAgeType {
-    WYRMLING = 'wyrmling',
-    VERY_YOUNG = 'very young',
-    YOUNG = 'young',
-    JUVENILE = 'juvenile',
-    YOUNG_ADULT = 'young adult',
-    ADULT = 'adult',
-    MATURE_ADULT = 'mature adult',
-    OLD = 'old',
-    VERY_OLD = 'very old',
-    ANCIENT = 'ancient',
-    WYRM = 'wyrm',
-    GREAT_WYRM = 'great wyrm',
-    MAXIMUM = 'maximum'
-}
-
-export enum MovementType {
-    BURROW = 'burrow',
-    CLIMB = 'climb',
-    FLY = 'fly',
-    SWIM = 'swim',
-    WALK = 'walk'
-}
-
-export enum SenseType {
-    BLINDSENSE = 'blindsense',
-    BLINDSIGHT = 'blindsight',
-    DARKVISION = 'darkvision',
-    GREENSIGHT = 'greensight',
-    INFRAVISION = 'infravision',
-    LOW_LIGHT_VISION = 'low light vision',
-    MINDSIGHT = 'mindsight',
-    SCENT = 'scent',
-    TOUCHSIGHT = 'touchsight',
-    TREMORSENSE = 'tremorsense',
-    TRUESIGHT = 'truesight',
-    ULTRAVISION = 'ultravision',
-    XRAY_VISION = 'xray vision'
 }

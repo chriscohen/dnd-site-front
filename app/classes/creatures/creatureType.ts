@@ -2,6 +2,7 @@
     createCreatureTypeEdition, type CreatureTypeEdition,
     type CreatureTypeEditionApiResponse
 } from "~/classes/creatures/creatureTypeEdition";
+import type {TabsItem} from "#ui/components/Tabs.vue";
 
 export interface CreatureTypeApiResponse {
     id?: string,
@@ -27,8 +28,40 @@ export const createCreatureType = (data?: CreatureTypeApiResponse) => {
         editions: data?.editions?.map(createCreatureTypeEdition)
     }
 
+    const toTabs = (): TabsItem[] => {
+        const tabs: TabsItem[] = [];
+
+        Object.entries(GameEditionData).forEach(([key, data]) => {
+            if (data.exclude) return;
+
+            const tab: TabsItem = {
+                label: data.shortName,
+            };
+
+            // Do we have this edition for our creatureType?
+            const item = state.editions?.find((edition: CreatureTypeEdition) => edition.gameEdition === key);
+            tab.disabled = !item;
+
+            tabs.push(tab);
+        });
+
+        // Set the most recent edition that exists, as active.
+        let mostRecentDone = false;
+
+        tabs.reverse().forEach((tab) => {
+            if (!mostRecentDone && !tab.disabled) {
+                tab.active = true;
+                mostRecentDone = true;
+            }
+        });
+
+        return tabs;
+    }
+
     return {
-        ...state
+        ...state,
+
+        toTabs,
     }
 }
 

@@ -20,8 +20,8 @@ const selectedItem: Ref<CreatureType | undefined> = ref(undefined);
 const itemSelected: Ref<boolean> = ref(false);
 const dndListComponent = ref(null);
 
-const { pending, data } = await useLazyAsyncData(
-    'creatures',
+await useLazyAsyncData(
+    'creature-types',
     async () => await store.page()
 );
 const items = computed(() => store.pagedItems.map((item: CreatureTypeApiResponse) => createCreatureType(item)) ?? []);
@@ -36,7 +36,7 @@ onMounted(() => store.page());
 
 async function handleSelect(item: CreatureType) {
     itemSelected.value = true;
-    const itemPath = API_URL + '/creature/' + item.slug + '?mode=full';
+    const itemPath = API_URL + '/creature-types/' + item.slug;
     const response = await store.get({ key: itemPath }) as CreatureTypeApiResponse;
     selectedItem.value = createCreatureType(response);
 }
@@ -52,7 +52,7 @@ async function handleSelect(item: CreatureType) {
             <BaseCard>
                 <DndList v-if="items" ref="dndListComponent">
                     <DndListItem v-for="item in items" :key="item.id" :item="item">
-                        <a :href="`/creatures/${item.slug}`" class="group-hover:text-black">
+                        <a :href="`/creature-types/${item.slug}`" class="group-hover:text-black">
                             {{ item.name }}
                         </a>
                     </DndListItem>
