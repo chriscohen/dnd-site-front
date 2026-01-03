@@ -14,11 +14,9 @@ const props = defineProps({
 </template>
 
 <style scoped lang="scss">
-@use '~/assets/css/default/colors';
-@use '_fonts.css';
 
 aside.label {
-    background-color: colors.$white-10;
+    @apply text-white;
 }
 .first-line {
     display: block;

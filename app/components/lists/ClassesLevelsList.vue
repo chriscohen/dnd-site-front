@@ -20,11 +20,8 @@ const props = defineProps<{
 </template>
 
 <style scoped lang="scss">
-@use '~/assets/css/default/colors';
-@use '_fonts.css';
 
 .classes-levels-page {
-    background: colors.$black-80;
     border-radius: 0.5rem;
     display: grid;
     font-size: 125%;
@@ -32,7 +29,6 @@ const props = defineProps<{
     padding: 0.5rem 1rem;
 
     > span {
-        color: colors.$text;
         display: inline-block;
 
         &:nth-child(even) {
