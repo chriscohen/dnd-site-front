@@ -1,52 +1,62 @@
 ﻿<script setup lang="ts">
-import type {ActorAbilityScores} from "dnd5e-ts";
 
-interface Props {
-    abilities?: ActorAbilityScores
-}
+import type {AbilityScore} from "~/classes/abilities/abilityScore";
 
-const props = defineProps<Props>();
-console.log(props.abilities);
+const props = defineProps<{
+    abilities?: Record<string, AbilityScore>
+}>();
 </script>
 
 <template>
-    <ul>
+    <ul class="font-scaly text-lg flex flex-row justify-evenly w-full py-2 px-4">
         <li title="Strength">
-            <span>str</span>
+            <span class="font-bold block text-center uppercase">str</span>
             <span>
-                {{ abilities?.str.format() }}
+                {{ abilities?.str?.value }}
+                ({{ abilities?.str?.modifierLabel() }})
             </span>
         </li>
         <li title="Dexterity">
-            <span>dex</span>
-            <span>{{ abilities?.dex.format() }}</span>
+            <span class="font-bold block text-center uppercase">dex</span>
+            <span>
+                {{ abilities?.dex?.value }}
+                ({{ abilities?.dex?.modifierLabel() }})
+            </span>
         </li>
         <li title="Constitution">
-            <span>con</span>
-            <span>{{ abilities?.con.format() }}</span>
+            <span class="font-bold block text-center uppercase">con</span>
+            <span>
+                {{ abilities?.con?.value }}
+                ({{ abilities?.con?.modifierLabel() }})
+            </span>
         </li>
         <li title="Intelligence">
-            <span>int</span>
-            <span>{{ abilities?.int.format() }}</span>
+            <span class="font-bold block text-center uppercase">int</span>
+            <span>
+                {{ abilities?.int?.value }}
+                ({{ abilities?.int?.modifierLabel() }})
+            </span>
         </li>
         <li title="Wisdom">
-            <span>wis</span>
-            <span>{{ abilities?.wis.format() }}</span>
+            <span class="font-bold block text-center uppercase">wis</span>
+            <span>
+                {{ abilities?.wis?.value }}
+                ({{ abilities?.wis?.modifierLabel() }})
+            </span>
         </li>
         <li title="Charisma">
-            <span>cha</span>
-            <span>{{ abilities?.cha.format() }}</span>
+            <span class="font-bold block text-center uppercase">cha</span>
+            <span>
+                {{ abilities?.cha?.value }}
+                ({{ abilities?.cha?.modifierLabel() }})
+            </span>
         </li>
     </ul>
 </template>
 
 <style scoped lang="scss">
-@use '~/assets/css/default/colors';
-@use '~/assets/css/default/fonts';
 
 ul {
-    @include fonts.scala-sans;
-    color: colors.$dnd-red-text;
     display: flex;
     width: 100%;
     justify-content: space-evenly;
@@ -57,11 +67,6 @@ ul {
             display: block;
             text-align: center;
             width: 100%;
-            text-transform: uppercase;
-
-            &:first-child {
-                font-weight: 700;
-            }
         }
 
     }

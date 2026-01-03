@@ -1,8 +1,9 @@
 ﻿<script setup lang="ts">
 import SpellTeaserTile from "~/components/teasers/SpellTeaserTile.vue";
+import type {Spell} from "~/classes/spells/spell";
 
 interface Props {
-    data?: ISpellTeaser,
+    data?: Spell,
     variant?: string
 }
 

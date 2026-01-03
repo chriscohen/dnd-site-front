@@ -1,23 +1,24 @@
 ﻿<script setup lang="ts">
-import { formatEdition } from "~/utils/utils";
 
 const props = defineProps<{
     edition: string
+    vertical?: boolean
 }>();
-
-const className = ['bg-' + editionToClass(props.edition) + '-active'];
+const className: string = 'bg-' + editionToClass(props.edition);
+const classNameActive: string = className + '-active';
 </script>
 
 <template>
-    <aside class="edition-strip" :class="className"/>
+    <aside v-if="!vertical" class="block mt-auto h-2 absolute bottom-0 left-0 w-full" :class="classNameActive"/>
+
+        <div v-else class="top-0 left-1/2 w-2 h-12" :class="classNameActive"/>
 </template>
 
 <style lang="scss">
 @use '~/assets/css/default/backgrounds';
 
-.edition-strip {
-    display: block;
-    height: 0.375rem;
-    margin-top: auto;
+.sideways {
+    writing-mode: vertical-lr;
+    transform: scale(-1, -1);
 }
 </style>

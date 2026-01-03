@@ -1,7 +1,9 @@
 ﻿<script setup lang="ts">
 
+import type {Category} from "~/classes/category";
+
 const props = defineProps<{
-    category: ICategory
+    category: Category
     color?: string
 }>();
 </script>
@@ -9,13 +11,8 @@ const props = defineProps<{
 <template>
     <a
         :href="'/category/' + category.slug"
-        class="category-badge badge"
-        :class="[color ? 'badge-' + color : 'badge-white']"
+        class="category-badge badge rounded-full text-sm"
     >
         {{ category.name }}
     </a>
 </template>
-
-<style lang="scss">
-@use '~/assets/css/default/badges';
-</style>

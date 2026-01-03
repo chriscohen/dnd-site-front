@@ -2,19 +2,15 @@
 import {useRoute} from "#app";
 import {useCharacterClassCache} from "~/stores/Store";
 import PageTitle from "~/components/labels/PageTitle.vue";
+import {type CharacterClassApiResponse, createCharacterClass} from "~/classes/characterClasses/characterClass";
 
 const route = useRoute();
-const path = API_URL + '/class/' + route.params.slug + '?mode=full';
 const store = useCharacterClassCache();
-await store.fetch(path);
-const item: ComputedRef<ICharacterClass> = computed(() => store.get(path));
+const data: CharacterClassApiResponse = await store.get(route.params.slug as string) as CharacterClassApiResponse;
+const item = createCharacterClass(data);
 
-useHead({
-    title: item.value?.name ?? 'Loading'
-});
-definePageMeta({
-    layout: false
-});
+useHead({ title: item?.name ?? 'Loading' });
+definePageMeta({ layout: false });
 </script>
 
 <template>

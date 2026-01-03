@@ -1,26 +1,19 @@
 ﻿@use 'colors';
 
 a {
-    color: colors.$text;
     text-decoration: none;
-}
 
-.text-active {
-    color: colors.$text-active;
-}
-.text-dark {
-    color: colors.$text-dark;
+    &.link {
+        text-decoration: dotted underline;
 
-    &.active {
-        color: colors.$text-dark-active;
-    }
-    &:hover {
-        color: colors.$text-dark-hover;
+        &:hover {
+            text-decoration: underline;
+        }
     }
 }
 
 .prose {
-    > p {
+    > p:not(:first-child) {
         margin-top: 1rem;
     }
 

@@ -1,12 +1,14 @@
 ﻿<script setup lang="ts">
+import type {SpellCharacterClassLevel} from "~/classes/spells/SpellCharacterClassLevel";
+
 const props = defineProps<{
-    data?: ISpellEditionCharacterClassLevel[]
+    data?: SpellCharacterClassLevel[]
 }>();
 </script>
 
 <template>
-    <aside v-if="data" class="classes-levels-list">
-        <template v-for="item in props.data" :key="item.id">
+    <aside v-if="data" class="classes-levels-page font[mrs-eaves]">
+        <template v-for="item in props.data" :key="item.name">
             <span>
                 <NuxtLink :to="'/' + (item.type == 'feat' ? 'feats/' : 'classes/') + item.slug" class="link">
                     {{ item.name }}
@@ -19,14 +21,13 @@ const props = defineProps<{
 
 <style scoped lang="scss">
 @use '~/assets/css/default/colors';
-@use '~/assets/css/default/fonts';
+@use '_fonts.css';
 
-.classes-levels-list {
+.classes-levels-page {
     background: colors.$black-80;
     border-radius: 0.5rem;
     display: grid;
     font-size: 125%;
-    @include fonts.mrs-eaves;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     padding: 0.5rem 1rem;
 

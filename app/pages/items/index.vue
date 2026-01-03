@@ -1,26 +1,19 @@
 <script setup lang="ts">
-import type {TableColumn} from "#ui/components/Table.vue";
 import CategoryBadge from "~/components/badges/CategoryBadge.vue";
-import {useRuntimeConfig} from "#app";
 import GameEditionBadge from "~/components/badges/GameEditionBadge.vue";
 import BadgeContainer from "~/components/badges/BadgeContainer.vue";
+import {useItemCache} from "~/stores/Store";
+import {createItem, type Item} from "~/classes/items/item";
+import type {Media} from "~/classes/media";
+import type {ItemEdition} from "~/classes/items/itemEdition";
+import type {Category} from "~/classes/category";
 
-const store = useItemStore();
-const cache = useCacheStore();
-const runtimeConfig = useRuntimeConfig();
+const store = useItemCache();
+await callOnce(() => store.loadMore());
 
-const url = runtimeConfig.public.apiUrl + '/items?mode=full';
+const items: Item[] = computed(() => store.listItems.map(createItem));
 
-const { data, error, status } = await useAsyncData('items', () => $fetch(
-    url, {
-        method: 'GET',
-        headers: {
-            "Access-Control-Allow-Origin": "*"
-        }
-    }
-));
-
-const columns: TableColumn<IItem>[] = [
+const columns = [
     {
         accessorKey: 'slug',
         name: 'slug'
@@ -52,26 +45,26 @@ const columnVisibility = ref({ slug: false });
             <UTable
                 v-model:column-visibility="columnVisibility"
                 :columns="columns"
-                :data="data"
+                :data="items"
             >
                 <template #image-cell="{ row }">
                     <NuxtLink :to="'/items/' + row.getValue('slug')">
                         <NuxtImg
                             v-if="row.getValue('image')"
-                            :src="row.getValue('image').url"
+                            :src="(row.getValue('image') as Media)?.url"
                             :alt="row.getValue('name') + ' icon'"
                             class="thumbnail"
                         />
                     </NuxtLink>
                 </template>
                 <template #name-cell="{ row }">
-                    <NuxtLink :to="'/items/' + row.getValue('slug')" class="link">
+                    <NuxtLink :to="'/items/' + row.getValue('slug')" class="link font[mrs-eaves]">
                         {{ row.getValue('name') }}
                     </NuxtLink>
                 </template>
                 <template #categories-cell="{ row }">
                     <CategoryBadge
-                        v-for="category in row.getValue('categories')"
+                        v-for="category in row.getValue('categories') as Category[]"
                         :key="category.id"
                         :category="category"
                     />
@@ -79,9 +72,9 @@ const columnVisibility = ref({ slug: false });
                 <template #editions-cell="{ row }">
                     <BadgeContainer>
                         <GameEditionBadge
-                            v-for="edition in row.getValue('editions')"
-                            :key="edition.game_edition"
-                            :edition="edition.game_edition"
+                            v-for="edition in (row.getValue('editions') as ItemEdition[])"
+                            :key="edition.gameEdition"
+                            :edition="edition.gameEdition"
                         />
                     </BadgeContainer>
                 </template>
@@ -89,17 +82,3 @@ const columnVisibility = ref({ slug: false });
         </div>
     </div>
 </template>
-
-<style lang="scss">
-@use '~/assets/css/default/links';
-@use '~/assets/css/default/media';
-@use '~/assets/css/default/tables';
-</style>
-
-<style scoped lang="scss">
-@use '~/assets/css/default/fonts';
-
-.link {
-    @include fonts.mrs-eaves;
-}
-</style>

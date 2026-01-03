@@ -1,7 +1,10 @@
 ﻿<script setup lang="ts">
+import type {Spell} from "~/classes/spells/spell";
+import type {SpellEdition} from "~/classes/spells/spellEdition";
+
 const props = defineProps<{
-    spell?: ISpell
-    edition?: ISpellEdition
+    spell?: Spell
+    edition?: SpellEdition
 }>();
 </script>
 
@@ -10,7 +13,3 @@ const props = defineProps<{
         dasflkjklj
     </div>
 </template>
-
-<style scoped lang="scss">
-@use '~/assets/css/default/books';
-</style>

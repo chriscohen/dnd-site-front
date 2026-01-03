@@ -1,14 +1,15 @@
 ﻿<script setup lang="ts">
 import ClassesLevelsList from "~/components/lists/ClassesLevelsList.vue";
-import MagicSchoolSpellbookLabel from "~/components/labels/MagicSchoolSpellbookLabel.vue";
-import ReferenceList from "~/components/references/ReferenceList.vue";
+import ReferenceList from "~/components/lists/references/ReferenceList.vue";
 import SavingThrowLabel from "~/components/labels/SavingThrowLabel.vue";
-import PageTitle from "~/components/labels/PageTitle.vue";
-import MagicSchoolLabel from "~/components/labels/MagicSchoolLabel.vue";
+import SpellComponentsLabel from "~/components/labels/SpellComponentsLabel.vue";
+import HorizontalDivider from "~/components/dividers/HorizontalDivider.vue";
+import type {Spell} from "~/classes/spells/spell";
+import type {SpellEdition} from "~/classes/spells/spellEdition";
 
 const props = defineProps<{
-    spell?: ISpell
-    edition?: ISpellEdition
+    spell?: Spell
+    edition?: SpellEdition
 }>();
 
 const editionsWithSavingThrow = [
@@ -19,11 +20,13 @@ const editionsWithSavingThrow = [
 </script>
 
 <template>
-    <div class="container scrollbar">
-        <div v-if="edition" class="spellbook-upper">
-            <div class="spell-attributes">
+    <div>
+        <div v-if="edition" class="spellbook-upper flex flex-col-reverse sm:flex-row gap-4">
+            <div class="spell-attributes font[mrs-eaves]">
                 <span>Components</span>
-                <span>{{ edition.spellComponents }}</span>
+                <div class="flex gap-2">
+                    <SpellComponentsLabel v-if="edition.spellComponents" :components="edition.spellComponents"/>
+                </div>
 
                 <span>Range</span>
                 <span>{{ edition.range?.string }}</span>
@@ -36,7 +39,7 @@ const editionsWithSavingThrow = [
                 <span>Casting Time</span>
                 <span>{{ edition.castingTime }}</span>
 
-                <template v-if="editionsWithSavingThrow.includes(edition.gameEdition)">
+                <template v-if="editionsWithSavingThrow.includes(edition?.gameEdition ?? '')">
                     <span>Saving Throw</span>
                     <SavingThrowLabel :edition="edition"/>
                 </template>
@@ -44,9 +47,9 @@ const editionsWithSavingThrow = [
             <ClassesLevelsList :data="edition.levels" />
         </div>
 
-        <DividersHorizontalDivider/>
-        <div v-html="edition?.description ?? ''" class="spellbook-description"/>
-        <DividersHorizontalDivider/>
+        <HorizontalDivider/>
+        <div class="spellbook-description mt-2 mb-4" v-html="edition?.description ?? ''"/>
+        <HorizontalDivider/>
 
         <div class="spellbook-lower">
             <ReferenceList :references="edition?.references ?? []" :show-title="true"/>
@@ -55,11 +58,8 @@ const editionsWithSavingThrow = [
 </template>
 
 <style scoped lang="scss">
-@use '~/assets/css/default/animations';
-@use '~/assets/css/default/books';
-@use '~/assets/css/default/fonts';
+@use '_fonts.css';
 @use '~/assets/css/default/colors';
-@use '~/assets/css/default/layout';
 @use '~/assets/css/default/variables';
 @use '~/assets/css/default/mixins';
 
@@ -74,12 +74,11 @@ const editionsWithSavingThrow = [
     margin-top: 1.5rem;
 }
 
-.classes-levels-list {
+.classes-levels-page {
     margin-left: auto;
 }
 
 .spell-attributes {
-    @include fonts.mrs-eaves;
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0 2rem;

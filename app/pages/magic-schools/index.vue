@@ -1,14 +1,14 @@
 ﻿<script setup lang="ts">
 import {useMagicSchoolCache} from "~/stores/Store";
-import {computed, type ComputedRef} from "vue";
-import type { IMagicSchool } from "#imports";
+import {createMagicSchool, type MagicSchoolApiResponse} from "~/classes/magic/magicSchool";
 
 const path = API_URL + '/schools?mode=full';
 const store = useMagicSchoolCache();
 await store.get(path);
-const item: ComputedRef<IMagicSchool> = computed(() => store.get(path));
+const data: MagicSchoolApiResponse = store.get(path) as MagicSchoolApiResponse;
+const item = createMagicSchool(data);
 </script>
 
 <template>
-    not implemented
+    <span>not implemented</span>
 </template>

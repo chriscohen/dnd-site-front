@@ -10,6 +10,7 @@ watch(
 type RouteData = {
     name: string
     path?: string
+    icon?: string
     children?: RouteData[]
 };
 
@@ -18,8 +19,8 @@ const routeData = ref<RouteData[]>([
     {
         name: 'Spells',
         path: '/spells',
+        icon: 'spell',
         children: [
-            { name: 'Spells', path: '/spells' },
             { name: 'Magic Schools', path: '/magic-schools' }
         ]
     },
@@ -28,22 +29,18 @@ const routeData = ref<RouteData[]>([
         name: 'Classes',
         path: '/classes',
         children: [
-            { name: 'Classes', path: '/classes' },
             { name: 'Feats', path: '/' },
             { name: 'Skills', path: '/'}
         ]
     },
     {
-        name: 'Species',
-        children: [
-            { name: 'Species', path: '/species' }
-        ]
+        name: 'Creatures',
+        path: '/creature-types',
     },
     {
         name: 'Sources',
         path: '/sources',
         children: [
-            { name: 'Sourcebooks', path: '/sources' },
             { name: 'Magazines', path: '/' },
             { name: 'Websites', path: '/' }
         ]
@@ -66,14 +63,13 @@ const menuOpen: Ref<boolean> = ref<boolean>(false);
 <template>
     <nav role="navigation" class="relative flex space-between">
         <!-- Main navigation, full width -->
-        <ul id="main-navigation" class="navigation-menu text-3xl hidden lg:flex">
+        <ul id="main-navigation" class="font-eaves pt-4 mb-4 text-xl hidden lg:flex">
             <li
                 v-for="item in routeData"
                 :key="item.name"
-                class="group cursor-pointer hover:bg-slate-600 hover:text-gray-50 transition-bg-color duration-500 ease-in-out"
+                class="group cursor-pointer hover:bg-highlight hover:text-gray-900 transition-bg-color duration-500 ease-in-out"
             >
                 <NuxtLink
-                    v-if="!item.children"
                     :to="item.path"
                     :class="getActive(item) ? 'active' : ''"
                     class="text-nowrap px-4 py-2"
@@ -81,14 +77,15 @@ const menuOpen: Ref<boolean> = ref<boolean>(false);
                     {{ item.name }}
                 </NuxtLink>
 
-                <template v-else-if="item.children">
-                    <span class="px-4 py-2">{{ item.name }}</span>
-
-                    <ul class="absolute min-w-64 bg-slate-800 transition-colors duration-500 ease-in-out">
+                <template v-if="item.children">
+                    <ul
+                        class="absolute min-w-64 bg-slate-800 hidden
+                            group-hover:block group-hover:text-white z-50"
+                    >
                         <li
                             v-for="inner in item.children"
                             :key="inner.name"
-                            class="block"
+                            class="block hover:bg-highlight hover:text-gray-900"
                         >
                             <NuxtLink
                                 v-if="inner.path"
@@ -131,6 +128,7 @@ const menuOpen: Ref<boolean> = ref<boolean>(false);
                         class="block text-nowrap uppercase text-3xl font-[mrs-eaves] px-8 py-4 hover:bg-slate-700"
                         @click="menuOpen = false"
                     >
+                        <UIcon v-if="item.icon" :name="'i-dnd-spellbook'" class="text-white mr-2"/>
                         {{ item.name }}
                     </NuxtLink>
                 </li>
@@ -138,46 +136,3 @@ const menuOpen: Ref<boolean> = ref<boolean>(false);
         </div>
     </nav>
 </template>
-
-<style scoped lang="scss">
-@use '~/assets/css/default/colors';
-@use '~/assets/css/default/fonts';
-@use '~/assets/css/default/mixins';
-@use '~/assets/css/default/variables';
-
-.navigation-menu {
-    color: colors.$gray-400;
-
-    padding-top: 1rem;
-    margin-bottom: 1rem;
-
-    @include fonts.mrs-eaves;
-
-    > li {
-
-        > ul {
-            position: absolute;
-            @include mixins.lightShadow;
-
-            opacity: 0;
-            visibility: hidden;
-
-            transition: opacity variables.$default-delay ease-in-out;
-        }
-        &:hover > ul {
-            opacity: 1;
-            visibility: visible;
-            z-index: 1;
-
-            > li {
-                > a {
-                    &:hover {
-                        background-color: colors.$bg-active;
-                        color: colors.$text-dark;
-                    }
-                }
-            }
-        }
-    }
-}
-</style>

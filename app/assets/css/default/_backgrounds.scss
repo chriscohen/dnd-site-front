@@ -1,14 +1,5 @@
 ﻿@use 'colors';
 @use 'variables';
-@use 'mixins';
-
-.bg-default {
-    background: none;
-}
-
-.bg-black20 {
-    background-color: rgba(0, 0, 0, 0.2);
-}
 
 /**
  * Edition colors and backgrounds.
@@ -32,16 +23,5 @@
     .bg-#{$edition}-hover {
         background-color: $hover;
         color: colors.$white;
-    }
-}
-
-.bg-yellowed.active {
-
-}
-.bg-yellowed {
-    @include mixins.backgroundYellowedDisabled;
-
-    &.active {
-        @include mixins.backgroundYellowed;
     }
 }

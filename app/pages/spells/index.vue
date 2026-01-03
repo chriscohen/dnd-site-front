@@ -2,12 +2,18 @@
 import SpellTeaser from "~/components/teasers/SpellTeaser.vue";
 import {useSpellCache} from "~/stores/Store";
 import PageTitle from "~/components/labels/PageTitle.vue";
+import TeaserGrid from "~/components/teasers/TeaserGrid.vue";
+import {createSpell, type Spell} from "~/classes/spells/spell";
 
-const path = API_URL + '/spells?mode=teaser';
 const store = useSpellCache();
-await store.fetch(path);
+const containerRef = ref<HTMLElement | null>(null);
 
-const items: ISpellTeaser[] = computed(() => store.get(path));
+const items = computed<Spell[]>(() => store.listItems.map(createSpell));
+
+onMounted(() => store.loadMore());
+
+useHead({ title: 'Spells' });
+definePageMeta({ layout: false });
 </script>
 
 <template>
@@ -16,12 +22,12 @@ const items: ISpellTeaser[] = computed(() => store.get(path));
             <PageTitle title="Spells" back-to="/" :underline="true"/>
         </template>
 
-        <div v-if="items" class="teaser-container grid-flow-col-dense">
+        <TeaserGrid v-if="items.length > 0" ref="containerRef">
             <SpellTeaser
                 v-for="item in items"
                 :key="item.id"
                 :data="item"
             />
-        </div>
+        </TeaserGrid>
     </NuxtLayout>
 </template>

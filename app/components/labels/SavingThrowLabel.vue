@@ -1,13 +1,15 @@
 ﻿<script setup lang="ts">
+import type {SpellEdition} from "~/classes/spells/spellEdition";
+
 const props = defineProps<{
-    edition?: ISpellEdition
+    edition?: SpellEdition
 }>();
 </script>
 
 <template>
     <span v-if="edition">
-        <template v-if="!edition.has_saving_throw">None</template>
+        <template v-if="!edition.hasSavingThrow">None</template>
 
-        <template v-else>{{ edition.saving_throw_type }} {{ edition.saving_throw_multiplier }}</template>
+        <template v-else>{{ edition.savingThrow?.type }} {{ edition.savingThrow?.multiplier }}</template>
     </span>
 </template>

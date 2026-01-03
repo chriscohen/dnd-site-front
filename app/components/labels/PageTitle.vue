@@ -3,21 +3,28 @@ import BackButton from "~/components/buttons/BackButton.vue";
 import HorizontalDivider from "~/components/dividers/HorizontalDivider.vue";
 
 const props = defineProps<{
-    title?: string
     backTo?: string
+    loading?: boolean
+    title?: string
 }>();
 </script>
 
 <template>
-    <div id="page-title" class="w-full flex justify-between mb-4 border-b-1 bg-gray-900">
-        <UButtonGroup v-if="backTo" class="buttons mt-4 mr-4">
-            <BackButton :to="backTo" size="5rem"/>
-        </UButtonGroup>
+    <div
+        id="page-title"
+        class="flex justify-between items-center border-b-2 border-red-800 backdrop-blur-md pr-64
+            bg-linear-to-r from-black/80 from-50% to-black/0"
+    >
+        <UFieldGroup v-if="backTo" class="mr-4">
+            <BackButton :to="backTo" size="3rem"/>
+        </UFieldGroup>
 
         <div class="w-full mb-2">
-            <h1 class="font-[Modesto] overflow-ellipsis text-4xl md:text-6xl mt-1 md:mt-2">
+            <h1 v-if="!loading" class="font-[Modesto] overflow-ellipsis text-4xl md:text-6xl mt-1 md:mt-2">
                 {{ title }}
             </h1>
+            <USkeleton v-else class="h-16 md:h-24 w-lg"/>
+
             <h3 v-if="$slots.subtitle" class="text-sm sm:text-md lg:text-xl font-[mrs eaves] uppercase">
                 <slot name="subtitle"/>
             </h3>
@@ -30,13 +37,3 @@ const props = defineProps<{
         <HorizontalDivider/>
     </div>
 </template>
-
-<style scoped lang="scss">
-@use '~/assets/css/default/colors';
-@use '~/assets/css/default/fonts';
-@use '~/assets/css/default/mixins';
-
-.loading {
-    height: 3rem;
-}
-</style>

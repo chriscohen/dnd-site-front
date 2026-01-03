@@ -1,5 +1,6 @@
 ﻿<script setup lang="ts">
-
+useHead({ title: 'Home' });
+definePageMeta({ layout: false });
 </script>
 
 <template>

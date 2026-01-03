@@ -1,13 +1,13 @@
 ﻿<script setup lang="ts">
 import PageTitle from "~/components/labels/PageTitle.vue";
 import {API_URL} from "#imports";
-import {computed} from "vue";
+import {createMagicSchool, type MagicSchoolApiResponse} from "~/classes/magic/magicSchool";
 
 const route = useRoute();
 const path = API_URL + '/school/' + route.params.slug + '?mode=full';
 const store = useMagicSchoolCache();
-await store.fetch(path);
-const item: ComputedRef<IMagicSchool> = computed(() => store.get(path));
+const data: MagicSchoolApiResponse = store.get(path) as MagicSchoolApiResponse;
+const item = createMagicSchool(data);
 </script>
 
 <template>
@@ -18,12 +18,3 @@ const item: ComputedRef<IMagicSchool> = computed(() => store.get(path));
         </div>
     </div>
 </template>
-
-<style lang="scss" scoped>
-@use '~/assets/css/default/layout';
-
-.prose {
-    margin-top: 1rem;
-    margin-bottom: 2rem;
-}
-</style>

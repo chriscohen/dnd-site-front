@@ -12,18 +12,44 @@ export default defineNuxtConfig({
             viewport: 'width=device-width, initial-scale=1, maximum-scale=1',
         }
     },
-    compatibilityDate: '2025-07-15',
-    devtools: { enabled: true },
-    fonts: {
-        defaults: {
-            weights: [400, 700],
-            styles: ['normal', 'italic'],
-            subsets: ['latin', 'latin-ext'],
-        },
-        families: [
-            { name: 'Roboto', provider: 'google', weights: [400, 700], styles: ['normal'] },
-        ]
+    appConfig: {
+        ui: {
+            colors: {
+                primary: 'red'
+            },
+            commandPalette: {
+                slots: {
+                    content: 'absolute top-full left-0 bg-gray-950',
+                    input: 'text-lg',
+                    item: 'text-lg',
+                    label: 'hidden',
+                    root: 'relative'
+                }
+            },
+            link: {
+                variants: {
+                    disabled: {
+                        true: 'text-dimmed'
+                    }
+                }
+            },
+            popover: {
+                slots: {
+                    content: 'bg-yellow-100 px-4 py-2 rounded-lg text-gray-900 max-w-128'
+                }
+            },
+            tooltip: {
+                slots: {
+                    content: 'text-base max-w-128 bg-yellow-100 px-4 py-2 rounded-lg text-gray-800'
+                }
+            }
+        }
     },
+    compatibilityDate: '2025-07-15',
+    css: [
+        '~/assets/css/main.css',
+    ],
+    devtools: { enabled: false },
     icon: {
         customCollections: [
             {
@@ -47,6 +73,15 @@ export default defineNuxtConfig({
         '@pinia/nuxt',
         'pinia-plugin-persistedstate'
     ],
+    nitro: {
+        devProxy: {
+            '/api-proxy': {
+                changeOrigin: true,
+                cookieDomainRewrite: 'localhost',
+                target: 'http://localhost:8080'
+            }
+        }
+    },
     postcss: {
         plugins: {
             autoprefixer: {},
@@ -55,18 +90,14 @@ export default defineNuxtConfig({
     },
     runtimeConfig: {
         public: {
+            apiBase: '/api-proxy',
             apiUrl: 'http://localhost:8080/api'
         }
     },
     typescript: {
         strict: true
     },
-    ui: {
-    },
     vite: {
-        optimizeDeps: {
-            include: ['dnd5e-ts']
-        },
         build: {
             commonjsOptions: {
                 include: [/dnd5e-ts/, /node_modules/]

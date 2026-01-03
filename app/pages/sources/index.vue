@@ -1,19 +1,36 @@
 <script setup lang="ts">
-import SourcebookTeaser from "~/components/teasers/SourcebookTeaser.vue";
+import SourceTeaser from "~/components/sources/SourceTeaser.vue";
 import PageTitle from "~/components/labels/PageTitle.vue";
-import {useSourcebookCache} from "~/stores/Store";
+import {useSourceCache} from "~/stores/Store";
 import {definePageMeta} from "#imports";
+import TeaserGrid from "~/components/teasers/TeaserGrid.vue";
+import {createSource, type Source} from "~/classes/sources/source";
+import {useInfiniteScroll} from "@vueuse/core";
+import {useUiStore} from "~/stores/uiStore";
 
-const sourcePath = 'http://localhost:8080/api/sources?mode=teaser';
-const store = useSourcebookCache();
-await store.fetch(sourcePath);
+const store = useSourceCache();
+const uiStore = useUiStore();
+uiStore.setBackgroundImage('tower.avif');
 
-const items: ISourcebook[] = computed(() => store.get(sourcePath));
+const sourceMoreRef = ref<HTMLElement | null>(null);
+
+const items = computed<Source[]>(() => store.pagedItems.map(createSource));
+
+const { reset } = useInfiniteScroll(
+    sourceMoreRef,
+    () => {
+        store.page();
+    },
+    {
+        distance: 10,
+        canLoadMore: () => !store.isFinished
+    }
+);
+
+callOnce(() => store.page());
 
 useHead({ title: 'Sourcebooks' });
-definePageMeta({
-    layout: false
-})
+definePageMeta({ layout: false });
 </script>
 
 <template>
@@ -22,12 +39,11 @@ definePageMeta({
             <PageTitle title="Sourcebooks" back-to="/" :underline="true"/>
         </template>
 
-        <div class="teaser-container grid grid-cols-[repeat(auto-fit,minmax(16rem,1fr))] gap-4 gap-y-8">
-            <SourcebookTeaser v-for="item in items" :key="item.id" :data="item"/>
+        <div class="h-full overflow-y-scroll">
+            <TeaserGrid v-if="items.length > 0">
+                <SourceTeaser v-for="item in items" :key="item.id" :source="item"/>
+            </TeaserGrid>
         </div>
+        <div ref="sourceMoreRef"/>
     </NuxtLayout>
 </template>
-
-<style scoped lang="scss">
-@use '~/assets/css/default/teasers';
-</style>

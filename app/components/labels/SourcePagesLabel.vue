@@ -8,21 +8,20 @@ const props = defineProps({
 
 <template>
     <LabelBase label-type="pages-label" color="gray" opacity="10">
-        <span class="first-line">{{ props.pages }}</span>
+        <span class="first-line font[mrs-eaves]">{{ props.pages }}</span>
         <span class="second-line">Pages</span>
     </LabelBase>
 </template>
 
 <style scoped lang="scss">
 @use '~/assets/css/default/colors';
-@use '~/assets/css/default/fonts';
+@use '_fonts.css';
 
 aside.label {
     background-color: colors.$white-10;
 }
 .first-line {
     display: block;
-    @include fonts.mrs-eaves;
     font-size: 3rem;
     text-align: center;
 }

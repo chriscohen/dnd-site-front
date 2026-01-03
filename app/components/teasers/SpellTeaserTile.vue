@@ -1,30 +1,26 @@
 ﻿<script setup lang="ts">
 import TeaserTitle from "~/components/teasers/TeaserTitle.vue";
+import TeaserTile from "~/components/teasers/TeaserTile.vue";
+import type {Spell} from "~/classes/spells/spell";
 
-interface Props {
-    data?: ISpellTeaser
-}
-
-const { data = undefined } = defineProps<Props>();
+const props = defineProps<{
+    data?: Spell
+}>();
 
 const getSubtitle = computed(() => {
     return [
-        toOrdinal(data?.lowestLevel.toString() ?? ''),
+        toOrdinal(props?.data?.lowestLevel?.toString() ?? ''),
         'level',
-        data?.school
+        props?.data?.school
     ].join(' ');
 });
 </script>
 
 <template>
-    <NuxtLink
-        v-if="data"
-        :to="'/spells/' + data?.slug"
-        class="shrink teaser spell-teaser w-48 md:w-64 h-48 md:h-64"
-    >
+    <TeaserTile :href="'/spells/' + data?.slug">
         <NuxtImg
-            v-if="data.image?.url"
-            :src="data.image.url"
+            v-if="data?.image?.url"
+            :src="data?.image?.url"
             class="absolute top-0 left-0"
         />
         <TeaserTitle :title="data?.name" :subtitle="getSubtitle" :rarity="data?.rarity"/>
@@ -32,9 +28,9 @@ const getSubtitle = computed(() => {
             <BadgesGameEditionBadge
                 v-for="edition in data?.editions"
                 :key="edition.id"
-                :edition="edition.game_edition"
+                :edition="edition.gameEdition"
                 rounded-corners="left"
             />
         </BadgesBadgeContainer>
-    </NuxtLink>
+    </TeaserTile>
 </template>

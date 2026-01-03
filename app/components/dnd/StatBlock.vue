@@ -1,80 +1,83 @@
 ﻿<script setup lang="ts">
 import AbilitiesBlock from "~/components/dnd/AbilitiesBlock.vue";
-import type {ActorType} from "dnd5e-ts";
+import DndHeading from "~/components/headings/DndHeading.vue";
+import DndHr from "~/components/DndHr.vue";
+import DefinitionList from "~/components/lists/DefinitionList.vue";
+import DefinitionListItem from "~/components/lists/DefinitionListItem.vue";
+import type {CreatureType} from "~/classes/creatures/creatureType";
+import type {CreatureTypeEdition} from "~/classes/creatures/creatureTypeEdition";
+import type {Language} from "~/classes/language";
+import InlineLabel from "~/components/labels/InlineLabel.vue";
+import {orList} from "~/utils/utils";
+import PopoverCreatureType from "~/components/popovers/PopoverCreatureType.vue";
+import AlignmentLabel from "~/components/labels/AlignmentLabel.vue";
+import MovementSpeedsLabel from "~/components/movement/MovementSpeedsLabel.vue";
 
 const props = defineProps<{
-    creature: ActorType
+    creature?: CreatureType
+    edition?: CreatureTypeEdition
+    showTitle?: boolean
 }>();
-console.log(props.creature);
+
 </script>
 
 <template>
-    <div>
-        <aside class="stat-block">
-            <header>
-                <h2>{{ creature?.name }}</h2>
-                <span>
-                    {{ creature.size?.getName() ?? 'Size' }}
-                    {{ creature.type?.name ?? 'Type' }}
-                    (Yugoloth)
-                    , {{ creature.getAlignment() ?? 'Unknown Alignment' }}
-                </span>
-            </header>
-            <hr>
-            <dl>
-                <dt>Armor Class</dt>
-                <dd>15 (natural armor)</dd>
+    <aside v-if="creature && edition" class="stat-block p-4 bg-black/50 max-w-5xl md:rounded-xl flex flex-col gap-2">
+        <header>
+            <DndHeading v-if="showTitle" size="2">{{ creature?.name }}</DndHeading>
+            <span class="font-light italic">
+                {{ ucFirst(orList(edition.sizes.map((size) => size.toString()))) }}
 
-                <dt>Hit Points</dt>
-                <dd>
-                    {{ creature.hitPoints?.average }}
-                    ({{ creature.hitPoints?.formula?.toString() }})
-                </dd>
+                <PopoverCreatureType :slug="edition?.type?.mainType?.slug">
+                    {{ ucFirst(edition?.type?.toString() ?? '') }}
+                </PopoverCreatureType>,
+                <AlignmentLabel v-for="alignment in edition?.alignment ?? []" :key="alignment.alignment" :alignment="alignment"/>
+            </span>
+        </header>
+        <DndHr/>
+        <DefinitionList>
+            <DefinitionListItem>
+                <template #label>Armor Class</template>
+                <template #content>
+                    {{ edition.getArmorClass()?.total(edition?.abilities?.dex?.modifier) }}
+                    (from )
+                </template>
+            </DefinitionListItem>
 
-                <dt>Speed</dt>
-                <dd>{{ creature.movementSpeeds?.toString() }}</dd>
-            </dl>
-            <hr>
-            <AbilitiesBlock :abilities="creature.abilities"/>
-            <hr>
-            <dl>
-                <dt>Languages</dt>
-                <dd>{{ creature.languages?.toString() ?? 'unknown' }}</dd>
+            <DefinitionListItem>
+                <template #label>Hit Points</template>
+                <template #content>
+                    {{ edition.hitPoints?.average}}
+                    ({{ edition.hitPoints?.formula }})
+                </template>
+            </DefinitionListItem>
 
-                <dt>Challenge</dt>
-                <dd>{{ creature.challengeRating }} ({{ creature.getXp() }} XP)</dd>
-            </dl>
-        </aside>
-    </div>
+            <DefinitionListItem>
+                <template #label>Speed</template>
+                <template #content>
+                    <MovementSpeedsLabel :movement-speeds="edition.movementSpeeds"/>
+                </template>
+            </DefinitionListItem>
+        </DefinitionList>
+        <DndHr/>
+        <AbilitiesBlock :abilities="edition.abilities"/>
+        <DndHr/>
+        <DefinitionList>
+            <DefinitionListItem>
+                <template #label>Languages</template>
+                <template #content>
+                    {{ edition.languages?.map((item: Language) => item.name ).join(', ') }}
+                </template>
+            </DefinitionListItem>
+
+            <DefinitionListItem>
+                <template #label>Challenge</template>
+                <template #content>
+                    {{ edition?.challengeRating }}
+                    ({{ edition.xp() }} XP)
+                </template>
+            </DefinitionListItem>
+        </DefinitionList>
+    </aside>
 </template>
 
-<style scoped lang="scss">
-@use '~/assets/css/default/colors';
-@use '~/assets/css/default/fonts';
-
-hr {
-    border-top: 0.5rem double colors.$dnd-red-500;
-}
-
-dl {
-    color: colors.$dnd-red-200;
-    @include fonts.scala-sans;
-}
-
-.stat-block {
-    color: colors.$black;
-    padding: 1rem;
-    background: radial-gradient(colors.$dnd-bg-to, colors.$dnd-bg-from);
-    @include fonts.bookmania;
-    font-size: 125%;
-
-    > header {
-        h2 {
-            @include fonts.mrs-eaves;
-            font-size: 2.5rem;
-            color: colors.$dnd-red-500;
-            font-weight: 700;
-        }
-    }
-}
-</style>

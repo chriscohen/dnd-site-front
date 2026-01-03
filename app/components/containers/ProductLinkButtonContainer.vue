@@ -1,29 +1,18 @@
 ﻿<script setup lang="ts">
 import ProductLinkButton from "~/components/buttons/ProductLinkButton.vue";
+import type {Source} from "~/classes/sources/source";
 
-const props = defineProps({
-    sourcebook: { type: Object as () => ISourcebook, default: null },
-});
+const props = defineProps<{
+    source: Source
+}>();
 </script>
 
 <template>
-    <aside class="product-link-button-container default-padding">
+    <aside class="product-link-button-container px-4 py-2 flex gap-4 justify-center">
         <ProductLinkButton
-            v-for="productId in props.sourcebook.product_ids"
+            v-for="productId in source.productIds"
             :key="productId.id"
             :product-id="productId"
         />
     </aside>
 </template>
-
-<style scoped lang="scss">
-@use '../../assets/css/default/mixins';
-
-.product-link-button-container {
-    @include mixins.backgroundBlack(0.2);
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    padding: 1rem;
-}
-</style>

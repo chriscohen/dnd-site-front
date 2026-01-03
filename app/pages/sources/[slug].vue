@@ -1,21 +1,28 @@
 ﻿<script setup lang="ts">
 import GameEditionBadge from "~/components/badges/GameEditionBadge.vue";
 import PublicationTypeBadge from "~/components/badges/PublicationTypeBadge.vue";
-import SourcebookDetailsList from "~/components/lists/SourcebookDetailsList.vue";
-import MediaLarge from "~/components/media/MediaLarge.vue";
+import SourceDetailsList from "~/components/sources/SourceDetailsList.vue";
 import ProductLinkButtonContainer from "~/components/containers/ProductLinkButtonContainer.vue";
 import PageTitle from "~/components/labels/PageTitle.vue";
-import SourcebookContents from "~/components/sourcebooks/SourcebookContents.vue";
+import SourcebookContents from "~/components/sources/SourcebookContents.vue";
 import ProseContainer from "~/components/text/ProseContainer.vue";
+import BottomNavigation from "~/components/navigation/BottomNavigation.vue";
+import SourceCredits from "~/components/sources/SourceCredits.vue";
+import MediaImage from "~/components/media/MediaImage.vue";
+import {createSource, type SourceApiResponse} from "~/classes/sources/source";
+import BaseCard from "~/components/cards/BaseCard.vue";
 
 const route = useRoute();
-const store = useSourcebookCache();
-const path = `http://localhost:8080/api/source/${route.params.slug}?mode=full`;
-await store.fetch(path);
+const store = useSourceCache();
 
-const item: ComputedRef<ISourcebook> = computed(() => store.get(path));
+const { pending, data } = useLazyAsyncData(
+    'source',
+    async () => await store.get({ key: route.params.slug as string }) as Promise<SourceApiResponse|undefined>
+);
+const item = computed(() => createSource(data.value));
 
-useHead({ title: item?.value.name });
+const pageTitle = computed(() => (pending ? 'Loading' : item.value?.name) + ' | ' + SITE_NAME);
+useHead({ title: pageTitle });
 definePageMeta({ layout: false });
 </script>
 
@@ -24,52 +31,90 @@ definePageMeta({ layout: false });
         <template #pageTitle>
             <!-- Heading -->
             <PageTitle
+                :loading="pending"
                 :title="item?.name ?? ''"
                 back-to="/sources"
                 :underline="true"
             >
                 <template #labels>
-                    <GameEditionBadge :edition="item?.gameEdition as string"/>
-                    <PublicationTypeBadge :type="item?.publicationType as string" />
+                    <GameEditionBadge v-if="item?.gameEdition" :edition="item?.gameEdition as string"/>
+                    <PublicationTypeBadge v-if="item?.publicationType" :type="item?.publicationType as string" />
                 </template>
                 <template #subtitle>
-                    {{ item?.sourcebookTypes?.join(' • ') }}
+                    {{ item?.sourceType }}
                 </template>
             </PageTitle>
             <!-- /Heading -->
         </template>
 
-        <div class="overflow-y-scroll flex flex-col items-start sm:flex-row gap-4 mx-2 my-4 h-full">
-            <!-- Left: Cover Art -->
-            <MediaLarge :media="item.coverImage" :name="item.name"/>
-            <!-- /Left: Cover Art -->
+        <div
+            class="grid grid-cols-1 sm:grid-cols-2 sm:grid-rows-1 items-start lg:grid-cols-3 gap-4 mx-2 sm:h-full
+                overflow-y-scroll sm:overflow-y-hidden"
+        >
+            <div id="column-left" class="gap-4 sm:h-full">
+                <a id="overview"/>
+                <MediaImage :loading="pending" :media="item.coverImage" :name="item.name" rounded/>
+                <SourceDetailsList :loading="pending" :source="item" class="mt-4"/>
+                <ProductLinkButtonContainer
+                    v-if="(item?.productIds?.length ?? 0) > 1"
+                    :source="item"
+                />
+            </div>
 
-            <!-- Right Side -->
-            <div class="flex flex-col lg:flex-row gap-2 xl:gap-8">
-                <!-- Under Heading -->
-                <!-- Left of "Under Heading" -->
-                <div class="sourcebook-details">
-                    <SourcebookDetailsList
-                        :sourcebook="item"
-                    />
-                    <ProductLinkButtonContainer
-                        v-if="item.productIds?.length > 1"
-                        :sourcebook="item"
-                    />
-                </div>
-                <!-- Left of "Under Heading" -->
+            <div id="column-mid" class="h-full">
+                <a id="description"/>
+                <ProseContainer
+                    v-if="item.description"
+                    class="sm:max-h-full flex flex-col"
+                    :loading="pending"
+                    :markdown="item.description"
+                    size="xl"
+                />
+            </div>
 
-                <!-- Right of "Under Heading -->
-                <section class="flex flex-col gap-4">
-                    <ProseContainer v-if="item.description" :prose="item.description"/>
+            <div id="column-right" class="flex flex-col w-full gap-4 sm:h-full">
+                <BaseCard>
+                    <SourceCredits :source="item?.slug"/>
+                </BaseCard>
 
-                    <SourcebookContents :contents="item.editions[0]?.contents"/>
-                </section>
-                <!-- Right of "Under Heading -->
-                <!-- /Under Heading -->
+                <a id="contents"/>
+                <BaseCard v-if="item?.editions?.[0]?.contents?.length">
+                    <SourcebookContents :source="item.slug"/>
+                </BaseCard>
+                <!-- /Right Side -->
             </div>
             <!-- /Right Side -->
         </div>
+
+        <template #bottomNav>
+            <BottomNavigation
+                :items="[
+                    {
+                        anchor: 'overview',
+                        icon: 'image',
+                        name: 'Overview'
+                    },
+                    {
+                        anchor: 'description',
+                        icon: 'notebook-text',
+                        name: 'Description',
+                        disabled: !item.description
+                    },
+                    {
+                        anchor: 'contents',
+                        icon: 'list',
+                        name: 'Contents',
+                        disabled: !item.editions?.[0]?.contents?.length
+                    },
+                    {
+                        anchor: 'credits',
+                        icon: 'users',
+                        name: 'Credits',
+                        disabled: !item.editions?.[0]?.credits?.length
+                    }
+                ]"
+            />
+        </template>
     </NuxtLayout>
 </template>
 
