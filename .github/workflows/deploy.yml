@@ -25,6 +25,10 @@ jobs:
             - name: Install dependencies
               run: npm install
 
+            # 3.5 Prepare
+            - name: Nuxt Prepare
+              run: npx nuxi prepare
+
             # 4. Build the Static Site
             - name: Generate Static Site
               run: npm run generate
