@@ -21,7 +21,6 @@ const props = defineProps<{
 </template>
 
 <style scoped lang="scss">
-@use '_fonts.css';
 
 .reference-page {
     margin-top: 0.5rem;

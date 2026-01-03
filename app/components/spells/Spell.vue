@@ -58,10 +58,6 @@ const editionsWithSavingThrow = [
 </template>
 
 <style scoped lang="scss">
-@use '_fonts.css';
-@use '~/assets/css/default/colors';
-@use '~/assets/css/default/variables';
-@use '~/assets/css/default/mixins';
 
 .spellbook-upper {
     display: flex;
