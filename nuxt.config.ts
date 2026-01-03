@@ -51,6 +51,11 @@ export default defineNuxtConfig({
     ],
     devtools: { enabled: false },
     icon: {
+        clientBundle: {
+            // Disable scanning to stop the module from generating build errors.
+            scan: false,
+            sizeLimitKb: 0
+        },
         customCollections: [
             {
                 prefix: 'dnd',
@@ -59,6 +64,12 @@ export default defineNuxtConfig({
         ],
         serverBundle: {
             collections: ['lucide']
+        }
+    },
+    image: {
+        provider: 'imagekit',
+        imagekit: {
+            baseURL: 'https://ik.imagekit.io/fw190a8/images',
         }
     },
     imports: {
