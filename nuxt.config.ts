@@ -96,15 +96,15 @@ export default defineNuxtConfig({
     ssr: true,
     runtimeConfig: {
         public: {
-            apiUrl: 'http://localhost:8080/api',
-            cdnUrl: 'https://dnd001.s3.eu-west-2.amazonaws.com',
+            apiUrl: process.env.NUXT_PUBLIC_API_URL || 'http://localhost:8080/api',
+            cdnUrl: process.env.NUXT_PUBLIC_CDN_URL || 'https://dnd001.s3.eu-west-2.amazonaws.com',
             baseArmorClass: 10,
             defaultAbilityScore: 10,
             // The number of pixels from the bottom of the list before triggering the next page load.
             infiniteScrollDistance: 10,
             // This is the minimum time in milliseconds between API requests for the infinite scroll elements.
             infiniteScrollInterval: 500,
-            siteName: 'Everything D&D'
+            siteName: process.env.NUXT_PUBLIC_SITE_NAME || 'Everything D&D'
         }
     },
     typescript: {
