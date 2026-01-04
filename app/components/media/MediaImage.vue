@@ -31,7 +31,6 @@ const modifiers = props.transform ? { named: props.transform } : {};
             provider="imagekit"
             :src="media?.url"
             :alt="(name ?? media?.name ?? 'image') + ' cover image'"
-            class="max-w-full h-auto"
             :class="classes"
             :modifiers="modifiers"
         />
