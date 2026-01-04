@@ -21,7 +21,7 @@ const { pending, data } = useLazyAsyncData(
 );
 const item = computed(() => createSource(data.value));
 
-const pageTitle = computed(() => (pending ? 'Loading' : item.value?.name) + ' | ' + SITE_NAME);
+const pageTitle = computed(() => ((!item.value || store.isLoading) ? 'Loading' : item.value?.name) + ' | ' + SITE_NAME);
 useHead({ title: pageTitle });
 definePageMeta({ layout: false });
 </script>
@@ -73,12 +73,12 @@ definePageMeta({ layout: false });
             </div>
 
             <div id="column-right" class="flex flex-col w-full gap-4 sm:h-full">
-                <BaseCard>
+                <BaseCard v-if="item?.editions?.[0]?.hasCredits">
                     <SourceCredits :source="item?.slug"/>
                 </BaseCard>
 
                 <a id="contents"/>
-                <BaseCard v-if="item?.editions?.[0]?.contents?.length">
+                <BaseCard v-if="item?.editions?.[0]?.hasContents">
                     <SourcebookContents :source="item.slug"/>
                 </BaseCard>
                 <!-- /Right Side -->
@@ -104,13 +104,13 @@ definePageMeta({ layout: false });
                         anchor: 'contents',
                         icon: 'list',
                         name: 'Contents',
-                        disabled: !item.editions?.[0]?.contents?.length
+                        disabled: !item.editions?.[0]?.hasContents
                     },
                     {
                         anchor: 'credits',
                         icon: 'users',
                         name: 'Credits',
-                        disabled: !item.editions?.[0]?.credits?.length
+                        disabled: !item.editions?.[0]?.hasCredits
                     }
                 ]"
             />

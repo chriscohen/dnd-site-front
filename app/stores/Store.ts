@@ -36,6 +36,7 @@ export function createCacheStore<T>(
     useListPath?: string
 ) {
     return defineStore(storeId, () => {
+        const runtime = useRuntimeConfig();
         const getPath = useGetPath;
         const getResponses = ref({}) as Ref<Record<string, T>>;
         const listResponses = ref({}) as Ref<Record<string, T[]>>;
@@ -143,7 +144,7 @@ export function createCacheStore<T>(
          */
         function getUrl(path: string, key?: string, params: Record<string, string> = {}): string {
             const myPath = path.replace('{key}', key ?? '');
-            return API_URL + '/' + myPath + '?' + Object.entries(params).map(([key, value]) => {
+            return runtime.public.apiUrl + '/' + myPath + '?' + Object.entries(params).map(([key, value]) => {
                 return key + '=' + value;
             }).join('&');
         }

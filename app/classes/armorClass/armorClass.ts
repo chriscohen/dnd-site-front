@@ -4,7 +4,6 @@
     type ArmorClassItemState,
     createArmorClassItem
 } from "~/classes/armorClass/armorClassItem";
-import {BASE_ARMOR_CLASS} from "~/utils/constants";
 
 export interface ArmorClassApiResponse {
     id: string,
@@ -36,7 +35,7 @@ export const withArmorClass = (state: ArmorClassState) => ({
         return output.join(', ');
     },
     total: (dexModifier?: number): number => {
-        return BASE_ARMOR_CLASS + (state.items?.reduce(
+        return 10 + (state.items?.reduce(
             (total: number, item: ArmorClassItem) => total + (item?.value ?? 0), 0
         ) ?? 0) + (dexModifier ?? 0);
     }

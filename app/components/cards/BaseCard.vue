@@ -1,13 +1,17 @@
 ﻿<script setup lang="ts">
 const props = defineProps<{
     class?: string
+    shadow?: 'none' | 'sm' | 'md' | 'lg' | 'xl'
     tabs?: boolean
 }>();
 
-const classes = props.class + ' ' + (props.tabs ?
-    'rounded-b-xl rounded-tr-xl' :
-    'rounded-xl'
-);
+const shadow = props.shadow ?? 'lg';
+
+const classes = [
+    props.class,
+    props.tabs ? 'rounded-b-xl rounded-tr-xl' : 'rounded-xl',
+    `shadow-${shadow}`,
+].join(' ');
 </script>
 
 <template>

@@ -16,7 +16,7 @@ export const useSearchStore = defineStore('search', () => {
         isLoading.value = true;
 
         try {
-            const { data } = await useFetch(API_URL + '/search', {
+            const { data } = await useFetch(useRuntimeConfig().public.apiUrl + '/search', {
                 params: { q: query.value }
             });
             results.value = data.value as SearchResult[];
