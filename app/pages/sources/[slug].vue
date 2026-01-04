@@ -14,6 +14,7 @@ import BaseCard from "~/components/cards/BaseCard.vue";
 
 const route = useRoute();
 const store = useSourceCache();
+const runtime = useRuntimeConfig();
 
 const { pending, data } = useLazyAsyncData(
     'source',
@@ -21,7 +22,9 @@ const { pending, data } = useLazyAsyncData(
 );
 const item = computed(() => createSource(data.value));
 
-const pageTitle = computed(() => ((!item.value || store.isLoading) ? 'Loading' : item.value?.name) + ' | ' + SITE_NAME);
+const pageTitle = computed(() => ((!item.value || store.isLoading) ?
+    'Loading' :
+    item.value?.name) + ' | ' + runtime.public.siteName);
 useHead({ title: pageTitle });
 definePageMeta({ layout: false });
 </script>
