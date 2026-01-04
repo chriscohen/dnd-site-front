@@ -5,10 +5,10 @@ import {createCreatureType, type CreatureType, type CreatureTypeApiResponse} fro
 import {useInfiniteScroll} from "@vueuse/core";
 import DndList from "~/components/lists/DndList.vue";
 import DndListItem from "~/components/lists/DndListItem.vue";
-import {INFINITE_SCROLL_DISTANCE, INFINITE_SCROLL_INTERVAL} from "~/utils/constants";
 import {useUiStore} from "~/stores/uiStore";
 import BaseCard from "~/components/cards/BaseCard.vue";
 
+const runtime = useRuntimeConfig();
 const store = useCreatureTypeCache();
 const uiStore = useUiStore();
 uiStore.setBackgroundImage('demon.avif');
@@ -29,14 +29,17 @@ const items = computed(() => store.pagedItems.map((item: CreatureTypeApiResponse
 useInfiniteScroll(
     () => dndListComponent.value?.dndListMoreRef,
     () => store.page(),
-    { distance: INFINITE_SCROLL_DISTANCE, interval: INFINITE_SCROLL_INTERVAL }
+    {
+        distance: runtime.public.infiniteScrollDistance as number,
+        interval: runtime.public.infiniteScrollInterval as number
+    }
 );
 
 onMounted(() => store.page());
 
 async function handleSelect(item: CreatureType) {
     itemSelected.value = true;
-    const itemPath = API_URL + '/creature-types/' + item.slug;
+    const itemPath = runtime.public.apiUrl + '/creature-types/' + item.slug;
     const response = await store.get({ key: itemPath }) as CreatureTypeApiResponse;
     selectedItem.value = createCreatureType(response);
 }

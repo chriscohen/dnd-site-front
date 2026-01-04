@@ -4,8 +4,7 @@ import {createItem, type ItemApiResponse} from "~/classes/items/item";
 
 const route = useRoute();
 const store = useItemCache();
-const path = API_URL + '/item/' + route.params.slug;
-const data: ItemApiResponse = await store.get(path) as ItemApiResponse;
+const data: ItemApiResponse = await store.get({ key: route.params.slug as string }) as ItemApiResponse;
 const item = createItem(data);
 </script>
 

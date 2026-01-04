@@ -24,6 +24,7 @@ const props = defineProps<{
                 v-if="media"
                 :media="media"
                 class="m-auto"
+                transform="thumbnail"
             />
             <TeaserTitle :title="name" hide/>
         </template>

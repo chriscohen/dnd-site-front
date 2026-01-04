@@ -1,20 +1,18 @@
 ﻿<script setup lang="ts">
 import MainNavigation from "~/components/navigation/MainNavigation.vue";
 import DndSearch from "~/components/search/DndSearch.vue";
-import EditionSelector from "~/components/EditionSelector.vue";
 import {useUiStore} from "~/stores/uiStore";
 
 const store = useUiStore();
+const runtime = useRuntimeConfig();
 
-useHead({
-    bodyAttrs: { class: 'text-md md:text-lg' }
-});
+useHead({ bodyAttrs: { class: 'text-md md:text-lg' }});
 </script>
 
 <template>
     <div id="outer" class="flex flex-col h-dvh w-full overflow-hidden relative">
         <img
-            :src="CDN_URL + '/backgrounds/' + store.backgroundImage"
+            :src="runtime.public.cdnUrl + '/backgrounds/' + store.backgroundImage"
             class="absolute inset-0 w-full h-full object-cover object-center saturate-25 brightness-50 -z-10"
             alt="Background iamge"
             >
@@ -22,7 +20,6 @@ useHead({
             <slot name="header">
                 <MainNavigation/>
                 <DndSearch/>
-                <EditionSelector/>
             </slot>
         </header>
         <section class="flex justify-start">
