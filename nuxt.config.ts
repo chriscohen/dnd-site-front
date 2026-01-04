@@ -85,13 +85,7 @@ export default defineNuxtConfig({
         'pinia-plugin-persistedstate'
     ],
     nitro: {
-        devProxy: {
-            '/api-proxy': {
-                changeOrigin: true,
-                cookieDomainRewrite: 'localhost',
-                target: 'http://localhost:8080'
-            }
-        }
+        preset: 'aws-amplify'
     },
     postcss: {
         plugins: {
@@ -99,6 +93,7 @@ export default defineNuxtConfig({
             '@tailwindcss/postcss': {}
         }
     },
+    ssr: true,
     runtimeConfig: {
         public: {
             apiBase: '/api-proxy',
