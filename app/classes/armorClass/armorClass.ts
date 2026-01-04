@@ -5,8 +5,6 @@
     createArmorClassItem
 } from "~/classes/armorClass/armorClassItem";
 
-const runtime = useRuntimeConfig();
-
 export interface ArmorClassApiResponse {
     id: string,
     items: ArmorClassItemApiResponse[]
