@@ -1,8 +1,6 @@
 ﻿import { useDebounceFn } from '@vueuse/core';
 import type {SearchResult} from "~/utils/types";
 
-const runtime = useRuntimeConfig();
-
 export const useSearchStore = defineStore('search', () => {
     const query: Ref<string> = ref('');
     const results: Ref<SearchResult[]> = ref<SearchResult[]>([]);
@@ -18,7 +16,7 @@ export const useSearchStore = defineStore('search', () => {
         isLoading.value = true;
 
         try {
-            const { data } = await useFetch(runtime.public.apiUrl + '/search', {
+            const { data } = await useFetch(useRuntimeConfig().public.apiUrl + '/search', {
                 params: { q: query.value }
             });
             results.value = data.value as SearchResult[];

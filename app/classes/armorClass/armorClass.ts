@@ -37,7 +37,7 @@ export const withArmorClass = (state: ArmorClassState) => ({
         return output.join(', ');
     },
     total: (dexModifier?: number): number => {
-        return (runtime.public.baseArmorClass as number) + (state.items?.reduce(
+        return 10 + (state.items?.reduce(
             (total: number, item: ArmorClassItem) => total + (item?.value ?? 0), 0
         ) ?? 0) + (dexModifier ?? 0);
     }
