@@ -32,7 +32,10 @@ const pageTitle = computed(() => (
         item.value?.name + ' Campaign Setting') + ' | ' + runtime.public.siteName
 );
 useHead({ title: pageTitle });
-definePageMeta({ layout: false });
+definePageMeta({
+    key: (route) => route.fullPath,
+    layout: false
+});
 
 // Get products for this campaign setting.
 const productsData = await sourceStore.page({
