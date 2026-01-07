@@ -35,27 +35,46 @@ export function createCacheStore<T>(
     useGetPath: string,
     useListPath?: string
 ) {
+    interface StoredApiResponse {
+        currentPage?: number
+        lastUrl?: string
+        nextUrl?: string | null
+        type: 'get' | 'list' | 'pager'
+        item?: T
+        items?: T[]
+    }
+
     return defineStore(storeId, () => {
         const runtime = useRuntimeConfig();
-        const getPath = useGetPath;
-        const getResponses = ref({}) as Ref<Record<string, T>>;
-        const listResponses = ref({}) as Ref<Record<string, T[]>>;
-        const isLoading = computed(() => pendingUrls.value.size > 0);
-        const pagedItems: Ref<T[]> = ref([]) as Ref<T[]>;
-        const lastUrl = ref<string>('');
-        const nextUrl = ref<string | null>(null);
+        const items: Ref<Record<string, StoredApiResponse>> = ref({});
 
         const pendingUrls = ref(new Set<string>());
 
-        const hasItems = computed(() => pagedItems.value.length > 0);
-        const isFinished = computed(() => nextUrl.value === null);
+        const empty = computed(() => Object.keys(items.value).length === 0);
+        const isLoading = computed(() => pendingUrls.value.size > 0);
+
+        function clear() {
+            items.value = {};
+        }
+
+        function getItem(key: string): T | undefined {
+            return items.value?.[key]?.item;
+        }
+
+        function getItems(key: string): T[] | undefined {
+            return hasUrl(key) ? items.value?.[key]?.items : undefined;
+        }
+
+        function getPage(key: string): StoredApiResponse | undefined {
+            return items.value?.[key];
+        }
 
         async function get(props: GetProps = { key: '' }): Promise<T | undefined> {
             if (props.disableSSR && !import.meta.client) return; // Force client-side only.
             const url = getUrl(props.path ?? useGetPath, props.key, props.params);
 
             // If we have it cached, return it immediately.
-            if (hasGetResponse(url)) return getResponses.value[url];
+            if (hasUrl(url)) return items.value?.[url]?.item;
 
             // Don't allow a second request for an item we're already fetching.
             if (pendingUrls.value.has(url)) return undefined;
@@ -65,8 +84,12 @@ export function createCacheStore<T>(
                 const data = await $fetch<T>(url);
 
                 // Success - store and return.
-                getResponses.value[url] = data as T;
-                return getResponses.value[url];
+                items.value[url] = {
+                    type: 'get',
+                    item: data
+                };
+
+                return items.value[url].item;
             } catch (error: any) {
                 console.error(`Failed to fetch ${url}`, error.value);
                 return undefined;
@@ -82,19 +105,21 @@ export function createCacheStore<T>(
         async function list(props: ListProps = {}): Promise<T[] | undefined> {
             if (props.disableSSR && !import.meta.client) return; // Force client-side only.
             const url = getUrl(props.path ?? useListPath ?? '', props.key, props.params);
-            console.log(url);
 
             // Check if it's already cached.
-            if (hasListResponse(url)) return listResponses.value[url];
+            if (hasUrl(url)) return items.value?.[url]?.items;
 
-            // Don't allow a second reuqest for an item we're already fetching.
+            // Don't allow a second request for an item we're already fetching.
             if (pendingUrls.value.has(url)) return undefined;
             pendingUrls.value.add(url);
 
             try {
+                const page = getPage(url) ?? { type: 'list', items: [] };
                 const data = await $fetch<T[]>(url);
-                listResponses.value[url] = data as T[];
-                return listResponses.value[url];
+                if (!page.items) page.items = [];
+                page.items.push(...data);
+                items.value[url] = page;
+                return page.items;
             } catch (error: any) {
                 console.error(`Failed to fetch ${url}`, error.value);
                 return undefined;
@@ -106,32 +131,46 @@ export function createCacheStore<T>(
         /**
          * Call an API method that returns a PaginatedApiResponse.
          */
-        async function page(props: ListProps = {}) {
+        async function page(props: ListProps = {}): Promise<T[] | undefined> {
             if (props.disableSSR && !import.meta.client) return; // Force client-side only.
-            if (!useListPath) throw new Error('Cannot use page() with no list URL (useListPath)');
+            const url = getUrl(props.path ?? useListPath ?? '', props.key, props.params);
 
-            if (nextUrl.value === null) {
-                nextUrl.value = getUrl(useListPath, props.key, props.params);
-            }
+            // Is there another page available?
+            const page = getPage(url) ?? {
+                type: 'pager',
+                currentPage: 0,
+                lastUrl: url,
+                nextUrl: url,
+                items: []
+            };
+            if (page.nextUrl === null) return page.items;
 
             // Don't allow a second request for an item we're already fetching.
-            if (pendingUrls.value.has(nextUrl.value)) return;
-            pendingUrls.value.add(nextUrl.value);
+            if (pendingUrls.value.has(url)) return;
+            pendingUrls.value.add(url);
+
+            // Do we already have an entry for this URL? If not, create one.
+            if (page.currentPage) page.currentPage++; else page.currentPage = 1;
 
             try {
-                const data = await $fetch<PaginatedApiResponse<T>>(nextUrl.value);
+                const data = await $fetch<PaginatedApiResponse<T>>(page.nextUrl ?? '');
 
                 // Success - append data.
-                pagedItems.value.push(...data.data as T[]);
+                if (!page.items) page.items = [];
+                page.items.push(...(data.data as T[]));
 
                 // Update the pointer URL to the next page.
-                lastUrl.value = nextUrl.value;
-                nextUrl.value = data.next_page_url;
+                page.lastUrl = page.nextUrl ?? '';
+                page.nextUrl = data.next_page_url;
+
+                // Assign the page back into the store.
+                items.value[url] = page;
+                return page.items ?? [];
             } catch (error) {
-                console.error(`Failed to fetch ${nextUrl.value}`, error);
+                console.error(`Failed to fetch ${page.nextUrl}`, error);
             } finally {
                 // Make sure to always remove the URL from the pending page.
-                pendingUrls.value.delete(lastUrl.value);
+                pendingUrls.value.delete(page.lastUrl ?? '');
             }
         }
 
@@ -149,37 +188,27 @@ export function createCacheStore<T>(
             }).join('&');
         }
 
-        function hasGetResponse(key: string): boolean {
-            return !!getResponses.value[key];
-        }
-
-        function hasListResponse(key: string): boolean {
-            return !!listResponses.value[key];
-        }
-
-        function clear() {
-            getResponses.value = {};
-            listResponses.value = {};
-            pagedItems.value = [];
+        function hasUrl(url: string): boolean {
+            return !!items.value[url];
         }
 
         return {
-            getPath,
-            getResponses,
-            isFinished,
+            empty,
+            items,
             isLoading,
-            listResponses,
-            pagedItems,
-            nextUrl,
             // Don't allow the server to hydrate the pending URLs, because this could happen after the server initiated
             // a request, but before it received a response, leading to a "stuck" pendingUrl on the client with no
             // request being made.
             pendingUrls: skipHydrate(pendingUrls),
 
-            hasGetResponse,
-            hasListResponse,
-            hasItems,
+            // Functions for store management.
+            hasUrl,
+            clear,
+            getItem,
+            getItems,
+            getPage,
 
+            // Make API requests.
             get,
             list,
             page

@@ -1,5 +1,4 @@
 ﻿<script setup lang="ts">
-import DndSection from "~/components/containers/DndSection.vue";
 import ProseSkeleton from "~/components/loading/ProseSkeleton.vue";
 import DndHeading from "~/components/headings/DndHeading.vue";
 import type {CampaignSetting} from "~/classes/campaignSetting";
@@ -8,6 +7,7 @@ import BaseCard from "~/components/cards/BaseCard.vue";
 const props = defineProps<{
     class?: string
     item?: CampaignSetting
+    loading?: boolean
 }>();
 
 const { render } = useMarkdown();
@@ -18,11 +18,11 @@ const mdDescription = computed(() => render(props.item?.description));
 <template>
     <BaseCard :class="props.class" class="animate-fade">
         <DndHeading size="2" underline>
-            <USkeleton v-if="!item" class="w-full h-8 mb-2"/>
+            <USkeleton v-if="loading || !item" class="w-full h-8 mb-2"/>
             <template v-else>{{ item.name }}</template>
 
             <template v-if="item?.publisher" #subtitle>
-                <NuxtLink :to="'/company/' + item.publisher?.slug" class="italic">{{ item.publisher?.name }}</NuxtLink>
+                <NuxtLink :to="'/companies/' + item.publisher?.slug" class="italic">{{ item.publisher?.name }}</NuxtLink>
             </template>
         </DndHeading>
 

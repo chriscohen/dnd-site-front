@@ -56,7 +56,7 @@ definePageMeta({ layout: false });
         >
             <div id="column-left" class="gap-4 sm:h-full">
                 <a id="overview"/>
-                <MediaImage :loading="pending" :media="item.coverImage" :name="item.name" rounded/>
+                <MediaImage :loading="pending" :media="item.coverImage" :name="item.name" rounded class="w-full"/>
                 <SourceDetailsList :loading="pending" :source="item" class="mt-4"/>
                 <ProductLinkButtonContainer
                     v-if="(item?.productIds?.length ?? 0) > 1"

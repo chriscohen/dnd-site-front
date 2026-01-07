@@ -3,6 +3,7 @@ import type {Media} from "~/classes/media";
 import MediaPlaceholder from "~/components/media/MediaPlaceholder.vue";
 
 const props = defineProps<{
+    alt?: string
     class?: string
     loading?: boolean
     media?: Media
@@ -30,8 +31,7 @@ const modifiers = props.transform ? { named: props.transform } : {};
             v-if="media"
             provider="imagekit"
             :src="media?.url"
-            :alt="(name ?? media?.name ?? 'image') + ' cover image'"
-            class="max-w-full h-auto"
+            :alt="alt ?? 'Image'"
             :class="classes"
             :modifiers="modifiers"
         />

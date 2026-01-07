@@ -13,7 +13,8 @@ const gameEdition = getGameEdition(props?.edition ?? '');
 <template>
     <BadgeBase
         type="edition"
-        :class="'rounded-lg ' + gameEdition?.className"
+        :class="gameEdition?.className"
+        rounded
         :extra-text="gameEdition?.name"
         :label="gameEdition?.shortName"
         :bg-color="gameEdition?.className"
