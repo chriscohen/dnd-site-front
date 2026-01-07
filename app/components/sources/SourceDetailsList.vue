@@ -3,6 +3,7 @@ import type {Source} from "~/classes/sources/source";
 import SourceFormatLabel from "~/components/labels/SourceFormatLabel.vue";
 import {format, parseISO} from "date-fns";
 import BaseCard from "~/components/cards/BaseCard.vue";
+import MediaImage from "~/components/media/MediaImage.vue";
 
 const props = defineProps<{
     class?: string
@@ -84,11 +85,12 @@ const parsed = parseISO(edition?.releaseDate ?? '');
         <NuxtLink
             v-if="source?.campaignSetting?.logo"
             :to="'/campaign-settings/' + source?.campaignSetting?.slug">
-            <img
+            <MediaImage
                 v-if="source?.campaignSetting?.logo?.url"
                 class="max-w-[50%] mx-auto"
-                :src="source?.campaignSetting?.logo?.url"
-                :alt="source?.campaignSetting?.name + ' logo'">
+                :media="source?.campaignSetting?.logo"
+                :alt="source?.campaignSetting?.name + ' logo'"
+            />
         </NuxtLink>
         <!-- /Campaign Setting logo -->
     </BaseCard>

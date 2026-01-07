@@ -1,14 +1,15 @@
 ﻿<script setup lang="ts">
 const props = defineProps<{
-    to?: string
+    active?: boolean
 }>();
 </script>
 
 <template>
     <li
-        class="flex hover:bg-gray-50 group cursor-pointer h-12 items-center px-4 py-1 duration-100 ease-in-out"
+        class="flex hover:bg-gray-50 hover:text-dark group cursor-pointer h-12 items-center px-4 py-1 duration-200
+            ease-in-out"
+        :class="active ? 'bg-highlight text-dark' : ''"
     >
-        <NuxtLink v-if="to" :to="to"><slot/></NuxtLink>
-        <slot v-else/>
+        <slot/>
     </li>
 </template>

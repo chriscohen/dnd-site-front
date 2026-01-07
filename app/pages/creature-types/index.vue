@@ -3,7 +3,7 @@ import {useCreatureTypeCache} from "~/stores/Store";
 import PageTitle from "~/components/labels/PageTitle.vue";
 import {createCreatureType, type CreatureType, type CreatureTypeApiResponse} from "~/classes/creatures/creatureType";
 import {useInfiniteScroll} from "@vueuse/core";
-import DndList from "~/components/lists/DndList.vue";
+import SinglePageList from "~/components/lists/SinglePageList.vue";
 import DndListItem from "~/components/lists/DndListItem.vue";
 import {useUiStore} from "~/stores/uiStore";
 import BaseCard from "~/components/cards/BaseCard.vue";
@@ -53,13 +53,13 @@ async function handleSelect(item: CreatureType) {
 
         <div class="flex flex-col-reverse sm:flex-row mt-4 gap-4 overflow-hidden h-full">
             <BaseCard>
-                <DndList v-if="items" ref="dndListComponent">
+                <SinglePageList v-if="items" ref="dndListComponent">
                     <DndListItem v-for="item in items" :key="item.id" :item="item">
                         <a :href="`/creature-types/${item.slug}`" class="group-hover:text-black">
                             {{ item.name }}
                         </a>
                     </DndListItem>
-                </DndList>
+                </SinglePageList>
             </BaseCard>
         </div>
     </NuxtLayout>

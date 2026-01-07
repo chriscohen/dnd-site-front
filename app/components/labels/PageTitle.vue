@@ -12,10 +12,10 @@ const props = defineProps<{
 <template>
     <div
         id="page-title"
-        class="flex justify-between items-center border-b-2 border-red-800 backdrop-blur-md pr-64
-            bg-linear-to-r from-black/80 from-50% to-black/0"
+        class="flex gap-4 justify-between items-center border-b-2 border-red-800 pr-64 pl-4
+            bg-linear-to-r from-black/80 from-75% to-black/0"
     >
-        <UFieldGroup v-if="backTo" class="mr-4">
+        <UFieldGroup v-if="backTo">
             <BackButton :to="backTo" size="3rem"/>
         </UFieldGroup>
 
@@ -29,7 +29,8 @@ const props = defineProps<{
                 <slot name="subtitle"/>
             </h3>
         </div>
-        <div class="page-title-labels hidden sm:block">
+
+        <div class="hidden sm:block">
             <slot name="labels"/>
         </div>
 

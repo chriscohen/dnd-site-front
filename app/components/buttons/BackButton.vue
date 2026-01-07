@@ -13,26 +13,10 @@ const linkStyle = {
 <template>
     <NuxtLink
         :to="to"
-        class="back-button text-neutral-200 block hover:bg-gray-100 transition-colors delay-200 ease-in-out"
+        class="block back-button text-neutral-200 block hover:bg-gray-100 transition-colors delay-200 ease-in-out
+            border-none rounded-full text-dark"
         :style="linkStyle"
     >
         <Icon name="lucide:chevron-left" :size="size" />
     </NuxtLink>
 </template>
-
-<style lang="scss">
-@use '~/assets/css/default/colors';
-@use '~/assets/css/default/variables';
-
-.back-button {
-    display: block;
-    color: colors.$text;
-    border-radius: 50vh;
-    transition: background variables.$default-delay ease-in-out;
-
-    &:hover {
-        background-color: colors.$gray-100;
-        color: colors.$text-dark;
-    }
-}
-</style>

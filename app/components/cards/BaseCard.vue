@@ -15,7 +15,7 @@ const classes = [
 </script>
 
 <template>
-    <div class="card bg-black/80 px-4 py-2" :class="classes">
+    <div class="card bg-black/70 px-4 py-2" :class="classes">
         <slot/>
     </div>
 </template>
