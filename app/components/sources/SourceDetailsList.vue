@@ -12,7 +12,7 @@ const props = defineProps<{
 }>();
 
 const edition = props.source?.editions?.[0];
-const parsed = parseISO(edition?.releaseDate ?? '');
+const parsed = edition?.releaseDate ? parseISO(edition.releaseDate) : undefined;
 
 </script>
 
@@ -20,11 +20,11 @@ const parsed = parseISO(edition?.releaseDate ?? '');
     <BaseCard :class="props.class">
         <div class="sourcebook-editions-tab">
             <dl class="grid grid-cols-[auto_1fr] gap-x-8 gap-y-2 text-md md:text-lg mx-2">
-                <template v-if="source?.publisher">
+                <template v-if="source?.primaryEdition()?.publisher">
                     <dt class="text-right">Publisher</dt>
                     <dd>
-                        <NuxtLink v-if="!loading" :to="'/companies/' + source?.publisher?.slug" class="link">
-                            {{ source?.publisher?.name }}
+                        <NuxtLink v-if="!loading" :to="'/companies/' + source?.primaryEdition()?.publisher?.slug" class="link">
+                            {{ source?.primaryEdition()?.publisher?.name }}
                         </NuxtLink>
                         <USkeleton v-else class="h-4 w-full"/>
                     </dd>
@@ -56,12 +56,14 @@ const parsed = parseISO(edition?.releaseDate ?? '');
                     </dd>
                 </template>
 
-                <dt class="text-right">First Released</dt>
-                <dd>
-                    <template v-if="!edition?.releaseDateMonthOnly">{{ format(parsed, 'dd') }}</template>
-                    {{ format(parsed, 'MMMM') }}
-                    {{ format(parsed, 'y') }}
-                </dd>
+                <template v-if="parsed">
+                    <dt class="text-right">First Released</dt>
+                    <dd>
+                        <template v-if="!edition?.releaseDateMonthOnly">{{ format(parsed, 'dd') }}</template>
+                        {{ format(parsed, 'MMMM') }}
+                        {{ format(parsed, 'y') }}
+                    </dd>
+                </template>
 
                 <template v-if="edition?.binding">
                     <dt class="text-right">Binding</dt>

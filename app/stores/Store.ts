@@ -63,8 +63,9 @@ export function createCacheStore<T>(
             return items.value?.[key]?.item;
         }
 
-        function getItems(key: string): T[] | undefined {
-            return hasUrl(key) ? items.value?.[key]?.items : undefined;
+        function getItems(key?: string): T[] {
+            const keyToUse = key ?? activePage.value ?? '';
+            return hasUrl(keyToUse) ? (items.value?.[keyToUse]?.items ?? []) : [];
         }
 
         function getPage(key?: string): StoredApiResponse | undefined {

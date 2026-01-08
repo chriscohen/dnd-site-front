@@ -59,7 +59,7 @@ definePageMeta({ layout: false });
                 <MediaImage :loading="pending" :media="item.coverImage" :name="item.name" rounded class="w-full"/>
                 <SourceDetailsList :loading="pending" :source="item" class="mt-4"/>
                 <ProductLinkButtonContainer
-                    v-if="(item?.productIds?.length ?? 0) > 1"
+                    v-if="(item?.primaryEdition()?.productIds?.length ?? 0) > 1"
                     :source="item"
                 />
             </div>

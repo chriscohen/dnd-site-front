@@ -18,7 +18,7 @@ const { data } = await useLazyAsyncData(
     'sources',
     async () => await store.page()
 );
-const items = computed(() => data.value?.map(createSource));
+const items = computed(() => store.getItems().map(createSource));
 
 const { reset } = useInfiniteScroll(
     sourceMoreRef,
