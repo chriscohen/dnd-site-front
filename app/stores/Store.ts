@@ -182,7 +182,7 @@ export function createCacheStore<T>(
                 items.value[url] = page;
             } finally {
                 // Make sure to always remove the URL from the pending page.
-                pendingUrls.value.delete(page.lastUrl ?? '');
+                pendingUrls.value.delete(url);
             }
         }
 
