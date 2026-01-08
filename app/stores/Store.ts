@@ -37,6 +37,7 @@ export function createCacheStore<T>(
 ) {
     interface StoredApiResponse {
         currentPage?: number
+        hasMore?: boolean
         lastUrl?: string
         nextUrl?: string | null
         type: 'get' | 'list' | 'pager'
@@ -52,6 +53,7 @@ export function createCacheStore<T>(
 
         const empty = computed(() => Object.keys(items.value).length === 0);
         const isLoading = computed(() => pendingUrls.value.size > 0);
+        const activePage = ref<string | undefined>();
 
         function clear() {
             items.value = {};
@@ -65,8 +67,9 @@ export function createCacheStore<T>(
             return hasUrl(key) ? items.value?.[key]?.items : undefined;
         }
 
-        function getPage(key: string): StoredApiResponse | undefined {
-            return items.value?.[key];
+        function getPage(key?: string): StoredApiResponse | undefined {
+            const keyToUse = key ?? activePage.value ?? '';
+            return items.value?.[keyToUse];
         }
 
         async function get(props: GetProps = { key: '' }): Promise<T | undefined> {
@@ -139,11 +142,12 @@ export function createCacheStore<T>(
             const page = getPage(url) ?? {
                 type: 'pager',
                 currentPage: 0,
+                hasMore: true,
                 lastUrl: url,
                 nextUrl: url,
                 items: []
             };
-            if (page.nextUrl === null) return page.items;
+            if (!page.hasMore) return page.items;
 
             // Don't allow a second request for an item we're already fetching.
             if (pendingUrls.value.has(url)) return;
@@ -151,6 +155,9 @@ export function createCacheStore<T>(
 
             // Do we already have an entry for this URL? If not, create one.
             if (page.currentPage) page.currentPage++; else page.currentPage = 1;
+
+            // Set this as the active page.
+            activePage.value = url;
 
             try {
                 const data = await $fetch<PaginatedApiResponse<T>>(page.nextUrl ?? '');
@@ -163,11 +170,16 @@ export function createCacheStore<T>(
                 page.lastUrl = page.nextUrl ?? '';
                 page.nextUrl = data.next_page_url;
 
+                // If there's no next URL, we're done.
+                if (page.nextUrl === null) page.hasMore = false;
+
                 // Assign the page back into the store.
                 items.value[url] = page;
                 return page.items ?? [];
             } catch (error) {
                 console.error(`Failed to fetch ${page.nextUrl}`, error);
+                page.hasMore = false;
+                items.value[url] = page;
             } finally {
                 // Make sure to always remove the URL from the pending page.
                 pendingUrls.value.delete(page.lastUrl ?? '');
@@ -193,6 +205,7 @@ export function createCacheStore<T>(
         }
 
         return {
+            activePage,
             empty,
             items,
             isLoading,
