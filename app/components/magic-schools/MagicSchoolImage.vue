@@ -1,5 +1,6 @@
 ﻿<script setup lang="ts">
 const props = defineProps<{
+    color?: string
     school: string
 }>();
 
@@ -16,5 +17,6 @@ const data: Record<string, string> = {
 </script>
 
 <template>
-    <div v-html="data[school]"/>
+    <div v-if="color" :class="color" class="rounded-full" v-html="data[school]"/>
+    <div v-else v-html="data[school]"/>
 </template>

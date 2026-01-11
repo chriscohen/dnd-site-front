@@ -4,6 +4,7 @@ export interface MagicSchoolApiResponse {
     id?: string
     name?: string
     children?: MagicSchoolApiResponse[]
+    color?: string
     description?: string
     image?: MediaApiResponse
     parent?: MagicSchoolApiResponse
@@ -14,6 +15,7 @@ export type MagicSchoolState = {
     id?: string
     name?: string
     children?: MagicSchoolState[]
+    color?: string
     description?: string
     image?: Media
     parent?: MagicSchoolState
@@ -25,6 +27,7 @@ export const createMagicSchool = (data?: MagicSchoolApiResponse) => {
         id: data?.id,
         name: data?.name,
         children: data?.children?.map(createMagicSchool),
+        color: data?.color,
         description: data?.description,
         image: data?.image ? createMedia(data?.image) : undefined,
         parent: data?.parent ? createMagicSchool(data?.parent) : undefined,

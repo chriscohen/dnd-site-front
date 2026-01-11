@@ -22,16 +22,3 @@ const props = defineProps<{
         <TeaserTitle :title="data?.name"/>
     </NuxtLink>
 </template>
-
-<style lang="scss">
-@use '~/assets/css/default/colors';
-@use '~/assets/css/default/mixins';
-
-.character-class-teaser {
-    display: block;
-    width: 15rem;
-    height: 15rem;
-    overflow: hidden;
-    @include mixins.heavyShadow
-}
-</style>

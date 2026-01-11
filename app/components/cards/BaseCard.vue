@@ -4,6 +4,7 @@ const props = defineProps<{
     opacity?: string
     shadow?: 'none' | 'sm' | 'md' | 'lg' | 'xl'
     tabs?: boolean
+    to?: string
 }>();
 
 const shadow = props.shadow ?? 'lg';
@@ -17,7 +18,11 @@ const classes = [
 </script>
 
 <template>
-    <div class="card px-4 py-2" :class="classes">
+    <component
+        :is="to ? 'NuxtLink' : 'div'"
+        class="card px-4 py-2"
+        :class="classes"
+    >
         <slot/>
-    </div>
+    </component>
 </template>
