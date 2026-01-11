@@ -10,6 +10,7 @@ import type {CampaignSettingApiResponse} from "~/classes/campaignSetting";
 import type {CharacterClass} from "~/classes/characterClasses/characterClass";
 import type {CreatureMainTypeApiResponse} from "~/classes/creatures/creatureMainType";
 import type {PersonApiResponse} from "~/classes/person";
+import type {MagicSchoolApiResponse} from "~/classes/magic/magicSchool";
 
 interface GetProps {
     disableSSR?: boolean
@@ -270,7 +271,7 @@ export const useLanguageCache = createCacheStore<LanguageApiResponse>(
     'language/{key}',
     'languages'
 );
-export const useMagicSchoolCache = createCacheStore(
+export const useMagicSchoolCache = createCacheStore<MagicSchoolApiResponse>(
     'magic-school',
     'magic-school/{key}',
     'magic-schools'

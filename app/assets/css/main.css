@@ -99,6 +99,7 @@
 @theme {
     --font-bookmania: 'Bookmania', serif;
     --font-eaves: 'Mrs Eaves', sans-serif;
+    --font-modesto: 'Modesto', sans-serif;
     --font-scaly: 'Scaly Sans', sans-serif;
 
     --color-active: var(--color-gray-50);
