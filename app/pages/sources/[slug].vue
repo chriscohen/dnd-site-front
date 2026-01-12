@@ -16,6 +16,9 @@ const route = useRoute();
 const store = useSourceCache();
 const runtime = useRuntimeConfig();
 
+const uiStore = useUiStore();
+uiStore.setBackgroundImage('library.avif');
+
 const { pending, data } = useLazyAsyncData(
     'source',
     async () => await store.get({ key: route.params.slug as string }) as Promise<SourceApiResponse|undefined>

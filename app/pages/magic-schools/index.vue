@@ -1,7 +1,6 @@
 ﻿<script setup lang="ts">
 import {useMagicSchoolCache} from "~/stores/Store";
 import {createMagicSchool} from "~/classes/magic/magicSchool";
-import TeaserGrid from "~/components/teasers/TeaserGrid.vue";
 import MagicSchoolTeaser from "~/components/magic-schools/MagicSchoolTeaser.vue";
 import PageTitle from "~/components/labels/PageTitle.vue";
 
@@ -11,7 +10,7 @@ const { data } = useLazyAsyncData(
     'magic-schools',
     async () => await store.page()
 );
-const items = data.value?.map(createMagicSchool);
+const items = computed(() => data.value?.map(createMagicSchool));
 
 useHead({ title: 'Magic Schools' });
 definePageMeta({ layout: false });

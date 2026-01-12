@@ -20,11 +20,11 @@ const selectedItem: Ref<CreatureType | undefined> = ref(undefined);
 const itemSelected: Ref<boolean> = ref(false);
 const dndListComponent = ref(null);
 
-await useLazyAsyncData(
+const { data } = useLazyAsyncData(
     'creature-types',
     async () => await store.page()
 );
-const items = computed(() => store.pagedItems.map((item: CreatureTypeApiResponse) => createCreatureType(item)) ?? []);
+const items = computed(() => data.value?.map(createCreatureType));
 
 useInfiniteScroll(
     () => dndListComponent.value?.dndListMoreRef,

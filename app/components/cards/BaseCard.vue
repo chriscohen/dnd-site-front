@@ -12,7 +12,7 @@ const shadow = props.shadow ?? 'lg';
 const classes = [
     props.class,
     'bg-black/' + (props.opacity ?? '75'),
-    props.tabs ? 'rounded-b-xl rounded-tr-xl' : 'rounded-xl',
+    props.tabs ? 'sm:rounded-b-xl sm:rounded-tr-xl' : 'sm:rounded-xl',
     `shadow-${shadow}`,
 ].join(' ');
 </script>

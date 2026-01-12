@@ -13,8 +13,7 @@ const classes = [
 
 <template>
     <section
-        class="teaser-grid grid w-full gap-4 overflow-scroll"
-        :class="classes"
+        class="teaser-grid grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] w-full gap-4 overflow-scroll"
     >
         <slot/>
     </section>

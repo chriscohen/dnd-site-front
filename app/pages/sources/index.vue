@@ -4,13 +4,13 @@ import PageTitle from "~/components/labels/PageTitle.vue";
 import {useSourceCache} from "~/stores/Store";
 import {definePageMeta} from "#imports";
 import TeaserGrid from "~/components/teasers/TeaserGrid.vue";
-import {createSource, type Source} from "~/classes/sources/source";
+import {createSource} from "~/classes/sources/source";
 import {useInfiniteScroll} from "@vueuse/core";
 import {useUiStore} from "~/stores/uiStore";
 
 const store = useSourceCache();
 const uiStore = useUiStore();
-uiStore.setBackgroundImage('tower.avif');
+uiStore.setBackgroundImage('library.avif');
 
 const sourceMoreRef = ref<HTMLElement | null>(null);
 
