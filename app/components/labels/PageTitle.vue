@@ -1,6 +1,5 @@
 ﻿<script setup lang="ts">
 import BackButton from "~/components/buttons/BackButton.vue";
-import HorizontalDivider from "~/components/dividers/HorizontalDivider.vue";
 
 const props = defineProps<{
     backTo?: string
@@ -35,6 +34,6 @@ const props = defineProps<{
         </div>
 
         <slot name="side"/>
-        <HorizontalDivider/>
+        <hr/>
     </div>
 </template>

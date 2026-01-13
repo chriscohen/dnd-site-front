@@ -46,9 +46,7 @@ export default defineNuxtConfig({
         }
     },
     compatibilityDate: '2025-07-15',
-    css: [
-        '~/assets/css/main.css',
-    ],
+    css: ['~/assets/css/main.css',],
     devtools: { enabled: false },
     icon: {
         clientBundle: {
@@ -60,6 +58,10 @@ export default defineNuxtConfig({
             {
                 prefix: 'dnd',
                 dir: './app/assets/icons/dnd'
+            },
+            {
+                prefix: 'magic-school',
+                dir: './app/assets/icons/magic-schools'
             }
         ],
         serverBundle: {
@@ -89,9 +91,8 @@ export default defineNuxtConfig({
     },
     postcss: {
         plugins: {
-            autoprefixer: {},
-            '@tailwindcss/postcss': {}
-        }
+            '@tailwindcss/postcss': {},
+        },
     },
     ssr: true,
     runtimeConfig: {

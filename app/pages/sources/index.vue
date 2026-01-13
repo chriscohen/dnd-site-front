@@ -4,17 +4,21 @@ import PageTitle from "~/components/labels/PageTitle.vue";
 import {useSourceCache} from "~/stores/Store";
 import {definePageMeta} from "#imports";
 import TeaserGrid from "~/components/teasers/TeaserGrid.vue";
-import {createSource, type Source} from "~/classes/sources/source";
+import {createSource} from "~/classes/sources/source";
 import {useInfiniteScroll} from "@vueuse/core";
 import {useUiStore} from "~/stores/uiStore";
 
 const store = useSourceCache();
 const uiStore = useUiStore();
-uiStore.setBackgroundImage('tower.avif');
+uiStore.setBackgroundImage('library.avif');
 
 const sourceMoreRef = ref<HTMLElement | null>(null);
 
-const items = computed<Source[]>(() => store.pagedItems.map(createSource));
+const { data } = await useLazyAsyncData(
+    'sources',
+    async () => await store.page()
+);
+const items = computed(() => store.getItems().map(createSource));
 
 const { reset } = useInfiniteScroll(
     sourceMoreRef,
@@ -23,11 +27,9 @@ const { reset } = useInfiniteScroll(
     },
     {
         distance: 10,
-        canLoadMore: () => !store.isFinished
+        canLoadMore: () => { console.log(store.getPage()?.hasMore ? 'hasMore' : 'hasNoMore'); return store.getPage()?.hasMore ?? false; }
     }
 );
-
-callOnce(() => store.page());
 
 useHead({ title: 'Sourcebooks' });
 definePageMeta({ layout: false });
@@ -40,7 +42,7 @@ definePageMeta({ layout: false });
         </template>
 
         <div class="h-full overflow-y-scroll">
-            <TeaserGrid v-if="items.length > 0">
+            <TeaserGrid v-if="items">
                 <SourceTeaser v-for="item in items" :key="item.id" :source="item"/>
             </TeaserGrid>
         </div>

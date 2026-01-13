@@ -11,7 +11,7 @@ const props = defineProps<{
 <template>
     <ULink
         :to="'/sources/' + product.slug"
-        class="flex flex-row gap-4 items-center hover:bg-highlight hover:text-gray-900 transition-colors
+        class="flex flex-row gap-2 items-center hover:bg-highlight hover:text-gray-900 transition-colors
             duration-200 ease-in-out p-2"
         :class="props.class"
     >
@@ -22,6 +22,6 @@ const props = defineProps<{
             :alt="product.name + ' cover image'"
             class="h-12"
         />
-        <span class="text-base md:text-lg">{{ product.name }}</span>
+        <span class="text-base ml-2 md:text-lg">{{ product.name }}</span>
     </ULink>
 </template>

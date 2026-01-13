@@ -22,6 +22,6 @@
     }
     .bg-#{$edition}-hover {
         background-color: $hover;
-        color: colors.$white;
+        color: var(--color-white);
     }
 }
