@@ -17,7 +17,7 @@ definePageMeta({ layout: false });
 <template>
     <NuxtLayout name="default">
         <template #pageTitle>
-            <PageTitle :title="item.name ?? 'Loading'" back-to="/creatures">
+            <PageTitle :title="item.name ?? 'Loading'" back-to="/creature-types">
                 <template #subtitle>{{ item?.editions?.[0]?.type?.mainType?.name }}</template>
             </PageTitle>
         </template>
