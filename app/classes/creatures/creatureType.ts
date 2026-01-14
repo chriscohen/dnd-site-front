@@ -28,6 +28,17 @@ export const createCreatureType = (data?: CreatureTypeApiResponse) => {
         editions: data?.editions?.map(createCreatureTypeEdition)
     }
 
+    const defaultEdition = (): CreatureTypeEdition | undefined => state.editions?.[0];
+
+    const hasEditions = (): boolean => (state.editions?.length ?? 0) > 0;
+
+    const sizeAndType = (): string | undefined => {
+        const edition = defaultEdition();
+
+        if (!edition) return;
+        return edition.getSizes() + ' ' + edition.getType();
+    };
+
     const toTabs = (): TabsItem[] => {
         const tabs: TabsItem[] = [];
 
@@ -61,6 +72,9 @@ export const createCreatureType = (data?: CreatureTypeApiResponse) => {
     return {
         ...state,
 
+        defaultEdition,
+        hasEditions,
+        sizeAndType,
         toTabs,
     }
 }

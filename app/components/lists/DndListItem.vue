@@ -1,6 +1,8 @@
 ﻿<script setup lang="ts">
 const props = defineProps<{
     active?: boolean
+    id?: string
+    label?: string
 }>();
 </script>
 
@@ -10,6 +12,7 @@ const props = defineProps<{
             ease-in-out"
         :class="active ? 'bg-highlight text-dark' : ''"
     >
+        <template v-if="label">{{ label }}</template>
         <slot/>
     </li>
 </template>

@@ -130,10 +130,15 @@ export const createCreatureTypeEdition = (data?: CreatureTypeEditionApiResponse)
         return state.armorClass?.[0];
     }
 
+    const getSizes = (): string | undefined => state.sizes?.join(', ');
+    const getType = (): string | undefined => state.type?.toString();
+
     return {
         ...state,
 
         getArmorClass,
+        getSizes,
+        getType,
         ...withChallengeRating(state)
     };
 }

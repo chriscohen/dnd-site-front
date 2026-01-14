@@ -3,11 +3,12 @@ import DndListItem from "~/components/lists/DndListItem.vue";
 
 const emit = defineEmits(['selected']);
 
-interface ListItem {
+export interface ListItem {
     label?: string
     name?: string
     slug?: string
     to?: string
+    template?: HTMLElement
 }
 
 const props = defineProps<{
@@ -19,18 +20,28 @@ const props = defineProps<{
 
 const route = useRoute();
 const router = useRouter();
-const dndListMoreRef = ref<HTMLElement | null>(null);
+
+// Expose the ref to the parent.
+const singlePageListRef = ref(null);
+defineExpose({ singlePageListRef });
 
 const selected = computed(() => route.query?.[props.routeParam] as string | undefined);
 const filterText = ref<string>('');
+
+const filteredItems = computed(() => {
+    if (!props.items) return [];
+
+    if (props.filter && filterText.value.length > 0) {
+        return props.items.filter(item => item.name?.toLowerCase().includes(filterText.value.toLowerCase()))
+    }
+
+    return props.items;
+});
 
 function handleSelect(item: ListItem) {
     router.replace({ query: { ...route.query, s: item.slug } });
     emit('selected', item);
 }
-
-// Allow parent elements to access the ref.
-defineExpose({ dndListMoreRef });
 </script>
 
 <template>
@@ -53,11 +64,9 @@ defineExpose({ dndListMoreRef });
         </template>
     </UInput>
 
-    <ul ref="dndListMoreRef" class="overflow-scroll h-full mb-4" :class="props.class">
+    <ul ref="singlePageListRef" class="overflow-scroll h-full mb-4" :class="props.class">
         <DndListItem
-            v-for="item in items?.filter(item =>
-                filterText.length === 0 ? true : item.name?.toLowerCase().includes(filterText.toLowerCase())
-            ) ?? []"
+            v-for="item in filteredItems"
             :id="item.slug ?? ''"
             :key="item.slug"
             :label="item.name"
@@ -65,4 +74,5 @@ defineExpose({ dndListMoreRef });
             @click="handleSelect(item)"
         />
     </ul>
+    <slot/>
 </template>

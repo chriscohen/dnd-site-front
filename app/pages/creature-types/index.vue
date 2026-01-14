@@ -1,12 +1,11 @@
 ﻿<script setup lang="ts">
 import {useCreatureTypeCache} from "~/stores/Store";
 import PageTitle from "~/components/labels/PageTitle.vue";
-import {createCreatureType, type CreatureType, type CreatureTypeApiResponse} from "~/classes/creatures/creatureType";
+import {createCreatureType, type CreatureType} from "~/classes/creatures/creatureType";
 import {useInfiniteScroll} from "@vueuse/core";
-import SinglePageList from "~/components/lists/SinglePageList.vue";
-import DndListItem from "~/components/lists/DndListItem.vue";
 import {useUiStore} from "~/stores/uiStore";
 import BaseCard from "~/components/cards/BaseCard.vue";
+import CreatureTypeListItem from "~/components/creature-types/CreatureTypeListItem.vue";
 
 const runtime = useRuntimeConfig();
 const store = useCreatureTypeCache();
@@ -16,33 +15,40 @@ uiStore.setBackgroundImage('demon.avif');
 useHead({ title: 'Creatures' });
 definePageMeta({ layout: false });
 
-const selectedItem: Ref<CreatureType | undefined> = ref(undefined);
-const itemSelected: Ref<boolean> = ref(false);
-const dndListComponent = ref(null);
+const items = ref<CreatureType[]>([]);
 
-const { data } = useLazyAsyncData(
+const { data, execute, status } = useLazyAsyncData(
     'creature-types',
-    async () => await store.page()
-);
-const items = computed(() => data.value?.map(createCreatureType));
-
-useInfiniteScroll(
-    () => dndListComponent.value?.dndListMoreRef,
-    () => store.page(),
+    async () => await store.page(),
     {
-        distance: runtime.public.infiniteScrollDistance as number,
-        interval: runtime.public.infiniteScrollInterval as number
+        immediate: false
     }
 );
+const loadMore = async () => {
+    if (status.value === 'pending') return;
 
-onMounted(() => store.page());
+    await execute();
 
-async function handleSelect(item: CreatureType) {
-    itemSelected.value = true;
-    const itemPath = runtime.public.apiUrl + '/creature-types/' + item.slug;
-    const response = await store.get({ key: itemPath }) as CreatureTypeApiResponse;
-    selectedItem.value = createCreatureType(response);
+    if (data.value) {
+        items.value = [...data.value.map(createCreatureType)];
+    }
 }
+
+loadMore();
+
+onMounted(() => {
+    useInfiniteScroll(
+        loadMoreRef,
+        () => loadMore(),
+        {
+            canLoadMore: () => store.getPage()?.hasMore ?? false,
+            distance: runtime.public.infiniteScrollDistance as number,
+            interval: runtime.public.infiniteScrollInterval as number
+        }
+    );
+});
+
+const loadMoreRef = useTemplateRef('loadMoreRef');
 </script>
 
 <template>
@@ -51,15 +57,18 @@ async function handleSelect(item: CreatureType) {
             <PageTitle title="Creatures" back-to="/"/>
         </template>
 
-        <div class="flex flex-col-reverse sm:flex-row mt-4 gap-4 overflow-hidden h-full">
-            <BaseCard>
-                <SinglePageList v-if="items" ref="dndListComponent">
-                    <DndListItem v-for="item in items" :key="item.id" :item="item">
-                        <a :href="`/creature-types/${item.slug}`" class="group-hover:text-black">
-                            {{ item.name }}
-                        </a>
-                    </DndListItem>
-                </SinglePageList>
+        <div class="flex flex-col gap-4 overflow-hidden h-full">
+            <BaseCard class="max-h-full">
+                <ClientOnly>
+                    <ul class="h-full overflow-y-scroll">
+                        <CreatureTypeListItem
+                            v-for="item in items"
+                            :key="item.slug"
+                            :item="item"
+                        />
+                        <li ref="loadMoreRef"/>
+                    </ul>
+                </ClientOnly>
             </BaseCard>
         </div>
     </NuxtLayout>
