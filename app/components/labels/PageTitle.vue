@@ -1,11 +1,15 @@
 ﻿<script setup lang="ts">
 import BackButton from "~/components/buttons/BackButton.vue";
+import type {DropdownMenuItem} from "#ui/components/DropdownMenu.vue";
 
 const props = defineProps<{
     backTo?: string
     loading?: boolean
+    switcherItems?: DropdownMenuItem[]
     title?: string
 }>();
+
+const switcherOpen = ref<boolean>(false);
 </script>
 
 <template>
@@ -27,6 +31,23 @@ const props = defineProps<{
             <h3 v-if="$slots.subtitle" class="text-sm sm:text-md lg:text-xl font-[mrs eaves] uppercase">
                 <slot name="subtitle"/>
             </h3>
+        </div>
+
+        <div v-if="switcherItems">
+            <UDropdownMenu
+                :items="switcherItems"
+                :ui="{
+                    content: 'bg-black/80',
+                    item: 'font-eaves text-2xl hover:bg-gray-300 hover:text-gray-900'
+                }"
+            >
+                <UButton
+                    variant="ghost"
+                    icon="i-lucide-chevron-down"
+                    class="inline-block ml-2 text-4xl text-white hover:text-gray-950 hover:bg-gray-300"
+                    @click="switcherOpen = !switcherOpen"
+                />
+            </UDropdownMenu>
         </div>
 
         <div class="hidden sm:block">
