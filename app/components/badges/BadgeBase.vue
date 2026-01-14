@@ -18,7 +18,14 @@ const classes = [
 </script>
 
 <template>
-    <UTooltip :disabled="!extraText" :text="extraText" :ui="{ content: 'text-gray-800' }">
+    <UTooltip
+        :disabled="!extraText"
+        :text="extraText"
+        :content="{ side: 'top' }"
+        :ui="{
+            content: 'bg-black text-gray-300'
+        }"
+    >
         <span
             :class="classes"
             class="text-sm px-2 uppercase text-nowrap cursor-pointer"
