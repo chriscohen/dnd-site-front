@@ -27,12 +27,12 @@
 }
 
 @layer base {
-    h1 { @apply font-eaves text-6xl; }
-    h2 { @apply font-eaves text-4xl; }
-    h3 { @apply font-eaves text-2xl; }
-    h4 { @apply font-eaves text-lg; }
-    h5 { @apply font-eaves text-base; }
-    h6 { @apply font-eaves text-sm; }
+    body h1 { @apply font-eaves text-6xl; }
+    body h2 { @apply font-eaves text-4xl; }
+    body h3 { @apply font-eaves text-2xl; }
+    body h4 { @apply font-eaves text-lg; }
+    body h5 { @apply font-eaves text-base; }
+    body h6 { @apply font-eaves text-sm; }
 }
 
 :root {
