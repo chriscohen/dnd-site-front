@@ -1,7 +1,7 @@
 ﻿export interface SpellMaterialComponentApiResponse {
     id: string
+    consumption?: string
     description?: string
-    isConsumed: boolean
     isFocus: boolean
     isPlural: boolean
     itemEditionId?: string
@@ -15,8 +15,8 @@
 
 export type SpellMaterialComponentState = {
     id?: string,
+    consumption?: string
     description?: string,
-    isConsumed?: boolean,
     isFocus?: boolean,
     isPlural?: boolean,
     itemEditionId?: string,
@@ -31,8 +31,8 @@ export type SpellMaterialComponentState = {
 export const createSpellMaterialComponent = (data?: SpellMaterialComponentApiResponse) => {
     const state: SpellMaterialComponentState = {
         id: data?.id,
+        consumption: data?.consumption,
         description: data?.description,
-        isConsumed: data?.isConsumed,
         isFocus: data?.isFocus,
         isPlural: data?.isPlural,
         itemEditionId: data?.itemEditionId,

@@ -71,3 +71,9 @@ export enum SenseType {
     ULTRAVISION = 'ultravision',
     XRAY_VISION = 'xray vision'
 }
+
+export enum SpellMaterialComponentConsumption {
+    CONSUMED = 'consumed',
+    NOT_CONSUMED = 'not consumed',
+    OPTIONAL = 'optional'
+}
