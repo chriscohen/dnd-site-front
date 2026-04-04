@@ -69,6 +69,9 @@ const tabData = ref<TabsItem[]>([
             <PageTitle :title="item?.name ?? 'Title'" back-to="/spells" :underline="true"/>
         </template>
 
+        <div class="">
+
+        </div>
 
         <DndSection v-if="item" class="book-container spellbook">
             <EditionTabs
@@ -92,32 +95,3 @@ const tabData = ref<TabsItem[]>([
     </NuxtLayout>
 </template>
 
-<style scoped lang="scss">
-@use '~/assets/css/default/mixins';
-
-.spell-container {
-    display: flex;
-    justify-content: stretch;
-    height: 100%;
-    width: 100%;
-
-    > .edition-tabs {
-        margin-top: 2rem;
-    }
-    > .spellbook {
-        width: 40%;
-
-        > .book {
-            @include mixins.heavyShadow;
-        }
-    }
-    > .spellbook-extras {
-        margin-left: auto;
-        width: 35%;
-
-        > .book {
-            @include mixins.heavyShadowLeft;
-        }
-    }
-}
-</style>

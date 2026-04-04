@@ -13,9 +13,3 @@ const { data = undefined, variant = 'tile' } = defineProps<Props>();
 <template>
     <SpellTeaserTile v-if="variant == 'tile'" :data="data"/>
 </template>
-
-<style scoped lang="scss">
-.spell-teaser {
-    display: inline-block;
-}
-</style>

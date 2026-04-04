@@ -6,11 +6,18 @@ import TeaserGrid from "~/components/teasers/TeaserGrid.vue";
 import {createSpell, type Spell} from "~/classes/spells/spell";
 
 const store = useSpellCache();
-const containerRef = ref<HTMLElement | null>(null);
+const spellMoreRef = ref<HTMLElement | null>(null);
 
-const items = computed<Spell[]>(() => store.listItems.map(createSpell));
+const { data, execute } = await useLazyAsyncData(
+    'spells',
+    async () => await store.page(),
+    {
+        immediate: false
+    }
+);
+const items = computed(() => data.value?.map(createSpell));
 
-onMounted(() => store.loadMore());
+onMounted(() => execute());
 
 useHead({ title: 'Spells' });
 definePageMeta({ layout: false });
@@ -22,12 +29,13 @@ definePageMeta({ layout: false });
             <PageTitle title="Spells" back-to="/" :underline="true"/>
         </template>
 
-        <TeaserGrid v-if="items.length > 0" ref="containerRef">
+        <TeaserGrid v-if="items">
             <SpellTeaser
                 v-for="item in items"
                 :key="item.id"
                 :data="item"
             />
+            <a ref="spellMoreRef"/>
         </TeaserGrid>
     </NuxtLayout>
 </template>

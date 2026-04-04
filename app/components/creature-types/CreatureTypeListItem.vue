@@ -16,7 +16,7 @@ const props = defineProps<{
             class="group-hover:bg-highlight px-4 py-2 flex flex-row"
         >
             <div class="flex flex-col">
-                <h2 class="font-modesto group-hover:text-dark">{{ item.name }}</h2>
+                <h3 class="font-modesto group-hover:text-dark">{{ item.name }}</h3>
 
                 <span class="italic group-hover:text-dark">{{ item.sizeAndType() }}</span>
 

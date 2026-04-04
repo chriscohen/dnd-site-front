@@ -3,7 +3,6 @@ import ClassesLevelsList from "~/components/lists/ClassesLevelsList.vue";
 import ReferenceList from "~/components/lists/references/ReferenceList.vue";
 import SavingThrowLabel from "~/components/labels/SavingThrowLabel.vue";
 import SpellComponentsLabel from "~/components/labels/SpellComponentsLabel.vue";
-import HorizontalDivider from "~/components/dividers/HorizontalDivider.vue";
 import type {Spell} from "~/classes/spells/spell";
 import type {SpellEdition} from "~/classes/spells/spellEdition";
 
@@ -21,8 +20,8 @@ const editionsWithSavingThrow = [
 
 <template>
     <div>
-        <div v-if="edition" class="spellbook-upper flex flex-col-reverse sm:flex-row gap-4">
-            <div class="spell-attributes font[mrs-eaves]">
+        <div v-if="edition" class="spellbook-upper flex flex-col-reverse sm:flex-row gap-4 mb-4 items-start">
+            <div class="font-eaves grid grid-cols[repeat(2, minmax(0, 1fr))]">
                 <span>Components</span>
                 <div class="flex gap-2">
                     <SpellComponentsLabel v-if="edition.spellComponents" :components="edition.spellComponents"/>
@@ -47,40 +46,12 @@ const editionsWithSavingThrow = [
             <ClassesLevelsList :data="edition.levels" />
         </div>
 
-        <HorizontalDivider/>
-        <div class="spellbook-description mt-2 mb-4" v-html="edition?.description ?? ''"/>
-        <HorizontalDivider/>
+        <hr/>
+        <div class="mt-2 mb-4" v-html="edition?.description ?? ''"/>
+        <hr/>
 
         <div class="spellbook-lower">
             <ReferenceList :references="edition?.references ?? []" :show-title="true"/>
         </div>
     </div>
 </template>
-
-<style scoped lang="scss">
-
-.spellbook-upper {
-    display: flex;
-    margin-bottom: 1rem;
-    align-items: start;
-    font-size: 1.25rem;
-}
-
-.spellbook-description {
-    margin-top: 1.5rem;
-}
-
-.classes-levels-page {
-    margin-left: auto;
-}
-
-.spell-attributes {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0 2rem;
-
-    > span:nth-of-type(even) {
-        font-weight: 700;
-    }
-}
-</style>
